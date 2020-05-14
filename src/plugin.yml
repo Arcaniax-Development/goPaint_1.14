@@ -1,0 +1,11 @@
+name: goPaint
+main: gc.arcaniax.gopaint.Main
+version: 2.3.0-dev
+depend: [WorldEdit]
+api-version: 1.13
+
+commands:
+    gopaint:
+        usage: /<command>
+        aliases: [gp]
+        description: GoPaint command

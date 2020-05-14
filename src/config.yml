@@ -1,0 +1,32 @@
+size:
+    default: 10
+    max: 100
+
+chance:
+    default: 50
+
+thickness:
+    default: 1
+    max: 5
+
+fractureDistance:
+    default: 2
+    max: 5    
+
+angleDistance:
+    default: 2
+    max: 5
+    
+angleHeightDifference:
+    min: 10.0
+    default: 40.0
+    max: 85.0
+
+toggles:
+    enabledByDefault: false
+    maskEnabled: true
+    surfaceModeEnabled: false
+    
+
+disabledWorlds:
+    - "add disabled worlds here"
