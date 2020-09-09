@@ -1,3 +1,30 @@
+/*
+ *                             _____      _       _
+ *                            |  __ \    (_)     | |
+ *                  __ _  ___ | |__) |_ _ _ _ __ | |_
+ *                 / _` |/ _ \|  ___/ _` | | '_ \| __|
+ *                | (_| | (_) | |  | (_| | | | | | |_
+ *                 \__, |\___/|_|   \__,_|_|_| |_|\__|
+ *                  __/ |
+ *                 |___/
+ *
+ *    goPaint is designed to simplify painting inside of Minecraft.
+ *                     Copyright (C) 2020 Arcaniax
+ *
+ *     This program is free software: you can redistribute it and/or modify
+ *     it under the terms of the GNU General Public License as published by
+ *     the Free Software Foundation, either version 3 of the License, or
+ *     (at your option) any later version.
+ *
+ *     This program is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU General Public License for more details.
+ *
+ *     You should have received a copy of the GNU General Public License
+ *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 package net.arcaniax.gopaint.utils.curve;
 
 import org.bukkit.Location;
@@ -8,7 +35,7 @@ public class BezierSplineSegment {
     private Double xFlat, yFlat, zFlat;
     private Location r;
     private double curveLength;
-    private double[] lengths;
+    private final double[] lengths;
 
     public BezierSplineSegment(Location p0, Location p3) {
         this.p0 = p0;
@@ -28,7 +55,7 @@ public class BezierSplineSegment {
         p1.setX(xflat2);
         p2.setX(xflat2);
         p3.setX(xflat2);
-        xFlat = (double) xflat2;
+        xFlat = xflat2;
     }
 
     public void setY(Double yflat2) {
@@ -36,7 +63,7 @@ public class BezierSplineSegment {
         p1.setY(yflat2);
         p2.setY(yflat2);
         p3.setY(yflat2);
-        yFlat = (double) yflat2;
+        yFlat = yflat2;
     }
 
     public void setZ(Double zflat2) {
@@ -44,7 +71,7 @@ public class BezierSplineSegment {
         p1.setZ(zflat2);
         p2.setZ(zflat2);
         p3.setZ(zflat2);
-        zFlat = (double) zflat2;
+        zFlat = zflat2;
     }
 
     public void calculateCurveLength() {
@@ -157,64 +184,64 @@ public class BezierSplineSegment {
         return p0.distance(p3);
     }
 
-    public void setP0(Location p0) {
-        this.p0 = p0;
-    }
-
     public Location getP0() {
         return p0;
     }
 
-    public void setP1(Location p1) {
-        this.p1 = p1;
+    public void setP0(Location p0) {
+        this.p0 = p0;
     }
 
     public Location getP1() {
         return p1;
     }
 
-    public void setP2(Location p2) {
-        this.p2 = p2;
+    public void setP1(Location p1) {
+        this.p1 = p1;
     }
 
     public Location getP2() {
         return p2;
     }
 
-    public void setP3(Location p3) {
-        this.p3 = p3;
+    public void setP2(Location p2) {
+        this.p2 = p2;
     }
 
     public Location getP3() {
         return p3;
     }
 
+    public void setP3(Location p3) {
+        this.p3 = p3;
+    }
+
     public float getA() {
         return a;
-    }
-
-    public float getB() {
-        return b;
-    }
-
-    public float getC() {
-        return c;
-    }
-
-    public Location getR() {
-        return r;
     }
 
     public void setA(float a) {
         this.a = a;
     }
 
+    public float getB() {
+        return b;
+    }
+
     public void setB(float b) {
         this.b = b;
     }
 
+    public float getC() {
+        return c;
+    }
+
     public void setC(float c) {
         this.c = c;
+    }
+
+    public Location getR() {
+        return r;
     }
 
     public void setR(Location r) {
