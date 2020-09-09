@@ -1,0 +1,13 @@
+name: goPaint
+main: net.arcaniax.gopaint.Main
+version: "${version}"
+depend: [WorldEdit]
+api-version: 1.13
+author: Arcaniax
+website: "https://www.spigotmc.org/resources/27717/"
+
+commands:
+    gopaint:
+        usage: /<command>
+        aliases: [gp]
+        description: GoPaint command
