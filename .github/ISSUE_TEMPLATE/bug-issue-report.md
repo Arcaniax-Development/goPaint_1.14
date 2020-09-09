@@ -51,7 +51,7 @@ for short (20 lines or less) text blobs, or a paste service for large blobs -->
 # AFFIRMATION OF COMPLETION:
 <!-- Make sure you have completed the following steps (put an "X" between of brackets): -->
 - [] I included all information required in the sections above
-- [] I made sure there are no duplicates of this report [(Use Search)](https://github.com/Brennian/goPaint/issues?utf8=%E2%9C%93&q=is%3Aissue)
+- [] I made sure there are no duplicates of this report [(Use Search)](https://github.com/Brennian/goPaint_1.14/issues?utf8=%E2%9C%93&q=is%3Aissue)
 - [] I made sure I am using an up-to-date version of goPaint
 - [] I made sure the bug/error is not caused by any other plugin
 - [x] I didn't read but checked everything above.

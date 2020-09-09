@@ -13,10 +13,10 @@ but with a revolutionary Surface Mode which lets you paint only the viewable blo
 * [Download](https://www.spigotmc.org/resources/gopaint.27717/)
 * [Development Builds](https://ci.athion.net/job/goPaint-1.14+/)
 * [Discord](https://discord.gg/jpRVrjd)
-* [Issues](https://github.com/Brennian/goPaint/issues)
+* [Issues](https://github.com/Brennian/goPaint_1.14/issues)
 
 # Building
 Gradle is the recommended way to build the project. Use `./gradlew build` in the main project directory to build the project.
 
 ## Suggestions
-Suggestions are welcome! We have a separate issue form for suggestions, that can be found [here](https://github.com/Brennian/goPaint/issues).
+Suggestions are welcome! We have a separate issue form for suggestions, that can be found [here](https://github.com/Brennian/goPaint_1.14/issues).

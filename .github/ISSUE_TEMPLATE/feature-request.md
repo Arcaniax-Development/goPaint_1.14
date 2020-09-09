@@ -18,5 +18,5 @@ assignees: ''
 
 **Checklist**:
 <!--- Make sure you've completed the following steps (put an "X" between of brackets): -->
-- [] I made sure there are no duplicates of my suggestion [(Use search)](https://github.com/Brennian/goPaint/issues?utf8=%E2%9C%93&q=is%3Aissue+is%3Aopen+)
+- [] I made sure there are no duplicates of my suggestion [(Use search)](https://github.com/Brennian/goPaint_1.14/issues?utf8=%E2%9C%93&q=is%3Aissue+is%3Aopen+)
 - [] I made sure my suggestion is useful for the majority of goPaint users
