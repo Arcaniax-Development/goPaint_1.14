@@ -10,6 +10,10 @@ configure<JavaPluginConvention> {
     targetCompatibility = JavaVersion.VERSION_1_8
 }
 
+tasks.withType<JavaCompile> {
+    options.encoding = "UTF-8"
+}
+
 repositories {
     mavenCentral()
     jcenter()
@@ -34,7 +38,7 @@ dependencies {
     "implementation"("com.sk89q.worldedit:worldedit-bukkit:7.1.0")
 }
 
-version = "3.0.0"
+version = "1.14-3.0.0"
 
 configure<LicenseExtension> {
     header = rootProject.file("HEADER")
