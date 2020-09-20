@@ -9,7 +9,7 @@ website: "https://www.spigotmc.org/resources/27717/"
 commands:
   gopaint:
     usage: /<command>
-    aliases: [gp]
+    aliases: [ gp ]
     description: GoPaint command
 
 permissions:

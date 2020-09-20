@@ -67,7 +67,7 @@ public class Settings {
         defaultAngleHeightDifference = 40.0;
         maxAngleHeightDifference = 85.0;
         maxHistory = 100;
-        prefix = "§bgoPaint> ";
+        prefix = "§bgoPaint > ";
         disabledWorldNames = new ArrayList<>();
         enabledByDefault = false;
         maskEnabled = true;
