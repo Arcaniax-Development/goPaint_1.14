@@ -93,7 +93,7 @@ public class InteractListener implements Listener {
             if (pb.isEnabled()) {
                 pb.getBrush().paint(loc, p);
             } else {
-                p.sendMessage(Main.getSettings().getPrefix() + "§cyour brush is disabled, left click to enable the brush.");
+                p.sendMessage(Main.getSettings().getPrefix() + "§cYour brush is disabled, left click to enable the brush.");
             }
         }
         if (e.getPlayer().getItemInHand().getType() == XMaterial.FEATHER.parseMaterial() && (e.getAction().equals(Action.LEFT_CLICK_AIR) || e.getAction().equals(Action.LEFT_CLICK_BLOCK))) {
