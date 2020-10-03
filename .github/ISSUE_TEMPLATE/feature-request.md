@@ -7,7 +7,7 @@ assignees: ''
 
 ---
 
-**BuildersUtilities Feature Suggestion:**
+**goPaint Feature Suggestion:**
 <!-- Please be as specific as possible -->
 
 **How should it be implemented?**
