@@ -38,9 +38,13 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
+
+
 import org.bukkit.entity.Player;
-import net.arcaniax.gopaint.other.BlockPlace;
+import net.arcaniax.gopaint.objects.other.BlockPlace;
 import net.arcaniax.gopaint.Main;
+
+import java.util.Collection;
 
 public class BlockPlacer {
 
