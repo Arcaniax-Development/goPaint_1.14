@@ -35,7 +35,7 @@ dependencies {
     "compileOnly"("org.spigotmc:spigot-api:1.16.2-R0.1-SNAPSHOT")
     "implementation"("com.mojang:authlib:1.5.25")
     "implementation"("com.sk89q.worldedit:worldedit-core:7.2.0")
-    "implementation"("com.sk89q.worldedit:worldedit-bukkit:7.2.0")
+    "implementation"("com.sk89q.worldedit:worldedit-bukkit:7.2.1")
 }
 
 version = "3.0.0"
