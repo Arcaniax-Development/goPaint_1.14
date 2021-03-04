@@ -1,7 +1,7 @@
 name: goPaint
 main: net.arcaniax.gopaint.Main
 version: "${version}"
-depend: [ WorldEdit ]
+depend: [WorldEdit]
 api-version: "1.13"
 author: Arcaniax
 website: "https://www.spigotmc.org/resources/27717/"
