@@ -35,6 +35,9 @@ import net.arcaniax.gopaint.objects.other.NmsManager;
 import net.arcaniax.gopaint.objects.other.Settings;
 import net.arcaniax.gopaint.objects.player.PlayerBrushManager;
 import net.arcaniax.gopaint.utils.DisabledBlocks;
+import org.bstats.bukkit.Metrics;
+import org.bstats.charts.SimplePie;
+import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -51,6 +54,8 @@ public class Main extends JavaPlugin implements Listener {
     public InteractListener interactListener;
     public InventoryListener inventoryListener;
     public Handler cmdHandler;
+
+    private static final int BSTATS_ID = 10557;
 
     public static Main getMain() {
         return main;
@@ -95,5 +100,9 @@ public class Main extends JavaPlugin implements Listener {
         DisabledBlocks.addBlocks();
         // Check if we are in a safe environment
         ServerLib.checkUnsafeForks();
+
+        Metrics metrics = new Metrics(this, BSTATS_ID);
+
+        new SimplePie("worldeditImplementation", () -> Bukkit.getPluginManager().getPlugin("FastAsyncWorldEdit") != null ? "FastAsyncWorldEdit" : "WorldEdit");
     }
 }

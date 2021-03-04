@@ -44,15 +44,21 @@ dependencies {
     compileOnlyApi("com.sk89q.worldedit:worldedit-core:7.2.3")
     compileOnly("com.sk89q.worldedit:worldedit-bukkit:7.2.3")
     implementation("de.notmyfault:serverlib:1.0.1")
+    implementation("org.bstats:bstats-bukkit:2.2.1")
+    implementation("org.bstats:bstats-base:2.2.1")
 }
 
-version = "3.0.0"
+version = "3.0.1"
 
 tasks.named<ShadowJar>("shadowJar") {
     archiveClassifier.set(null as String?)
     dependencies {
-        relocate("de.notmyfault", "net.arcaniax.gopaint") {
+        relocate("de.notmyfault", "net.arcaniax") {
             include(dependency("de.notmyfault:serverlib:1.0.1"))
+        }
+        relocate("org.bstats", "net.arcaniax.metrics") {
+            include(dependency("org.bstats:bstats-base"))
+            include(dependency("org.bstats:bstats-bukkit"))
         }
     }
 }
