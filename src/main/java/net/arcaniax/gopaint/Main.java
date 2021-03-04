@@ -24,9 +24,9 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-
 package net.arcaniax.gopaint;
 
+import de.notmyfault.serverlib.ServerLib;
 import net.arcaniax.gopaint.command.Handler;
 import net.arcaniax.gopaint.listeners.ConnectListener;
 import net.arcaniax.gopaint.listeners.InteractListener;
@@ -93,5 +93,7 @@ public class Main extends JavaPlugin implements Listener {
         getCommand("gopaint").setExecutor(cmdHandler);
         nmsManager = new NmsManager();
         DisabledBlocks.addBlocks();
+        // Check if we are in a safe environment
+        ServerLib.checkUnsafeForks();
     }
 }

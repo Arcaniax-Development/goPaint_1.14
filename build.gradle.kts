@@ -1,13 +1,16 @@
-import net.minecrell.gradle.licenser.LicenseExtension
+import org.cadixdev.gradle.licenser.LicenseExtension
+import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 
 plugins {
     id("java")
-    id("net.minecrell.licenser") version "0.4.1"
+    id("java-library")
+    id("org.cadixdev.licenser") version "0.5.0"
+    id("com.github.johnrengelman.shadow") version "6.1.0"
 }
 
 configure<JavaPluginConvention> {
     sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = sourceCompatibility
 }
 
 tasks.withType<JavaCompile> {
@@ -29,26 +32,44 @@ repositories {
         name = "WorldEdit"
         url = uri("https://maven.enginehub.org/repo/")
     }
+    maven {
+        name = "IntellectualSites 3rd Party"
+        url = uri("https://mvn.intellectualsites.com/content/repositories/thirdparty")
+    }
 }
 
 dependencies {
-    "compileOnly"("org.spigotmc:spigot-api:1.16.2-R0.1-SNAPSHOT")
-    "implementation"("com.mojang:authlib:1.5.25")
-    "implementation"("com.sk89q.worldedit:worldedit-core:7.2.2")
-    "implementation"("com.sk89q.worldedit:worldedit-bukkit:7.2.2")
+    compileOnlyApi("org.spigotmc:spigot-api:1.16.5-R0.1-SNAPSHOT")
+    compileOnly("com.mojang:authlib:1.5.25")
+    compileOnlyApi("com.sk89q.worldedit:worldedit-core:7.2.3")
+    compileOnly("com.sk89q.worldedit:worldedit-bukkit:7.2.3")
+    implementation("de.notmyfault:serverlib:1.0.1")
 }
 
 version = "3.0.0"
+
+tasks.named<ShadowJar>("shadowJar") {
+    archiveClassifier.set(null as String?)
+    dependencies {
+        relocate("de.notmyfault", "net.arcaniax.gopaint") {
+            include(dependency("de.notmyfault:serverlib:1.0.1"))
+        }
+    }
+}
 
 configure<LicenseExtension> {
     header = rootProject.file("HEADER")
     include("**/*.java")
     exclude("**/XMaterial.java")
-
+    newLine = false
 }
 
 tasks.named<Copy>("processResources") {
     filesMatching("plugin.yml") {
         expand("version" to project.version)
     }
+}
+
+tasks.named("build").configure {
+    dependsOn("shadowJar")
 }
