@@ -26,7 +26,7 @@
  */
 package net.arcaniax.gopaint.utils;
 
-import net.arcaniax.gopaint.Main;
+import net.arcaniax.gopaint.GoPaintPlugin;
 import net.arcaniax.gopaint.objects.brush.*;
 import net.arcaniax.gopaint.objects.other.BlockType;
 import net.arcaniax.gopaint.objects.player.PlayerBrush;
@@ -61,7 +61,7 @@ public class GUI {
             inv.setItem(x, item.create(XMaterial.GRAY_STAINED_GLASS_PANE.parseMaterial(), (short) XMaterial.GRAY_STAINED_GLASS_PANE.data, 1, "&7", ""));
         }
         int x = 0;
-        for (Brush b : Main.getBrushManager().getBrushes()) {
+        for (Brush b : GoPaintPlugin.getBrushManager().getBrushes()) {
             if (b instanceof SphereBrush) {
                 inv.setItem(x, item.createHead(headSphere, 1, "&6" + b.getName(), "___&7Click to select______" + "&8Regular sphere brush"));
             } else if (b instanceof SprayBrush) {
@@ -114,25 +114,25 @@ public class GUI {
 
         String clicks = "___&7Middle click to select___&7Click to cycle brush______";
         if (b instanceof SphereBrush) {
-            inv.setItem(11, item.createHead(headSphere, 1, "&6Selected Brush type", clicks + Main.getBrushManager().getBrushLore(b.getName())));
+            inv.setItem(11, item.createHead(headSphere, 1, "&6Selected Brush type", clicks + GoPaintPlugin.getBrushManager().getBrushLore(b.getName())));
         } else if (b instanceof SprayBrush) {
-            inv.setItem(11, item.createHead(headSpray, 1, "&6Selected Brush type", clicks + Main.getBrushManager().getBrushLore(b.getName())));
+            inv.setItem(11, item.createHead(headSpray, 1, "&6Selected Brush type", clicks + GoPaintPlugin.getBrushManager().getBrushLore(b.getName())));
         } else if (b instanceof SplatterBrush) {
-            inv.setItem(11, item.createHead(headSplatter, 1, "&6Selected Brush type", clicks + Main.getBrushManager().getBrushLore(b.getName())));
+            inv.setItem(11, item.createHead(headSplatter, 1, "&6Selected Brush type", clicks + GoPaintPlugin.getBrushManager().getBrushLore(b.getName())));
         } else if (b instanceof DiscBrush) {
-            inv.setItem(11, item.createHead(headDisc, 1, "&6Selected Brush type", clicks + Main.getBrushManager().getBrushLore(b.getName())));
+            inv.setItem(11, item.createHead(headDisc, 1, "&6Selected Brush type", clicks + GoPaintPlugin.getBrushManager().getBrushLore(b.getName())));
         } else if (b instanceof BucketBrush) {
-            inv.setItem(11, item.createHead(headBucket, 1, "&6Selected Brush type", clicks + Main.getBrushManager().getBrushLore(b.getName())));
+            inv.setItem(11, item.createHead(headBucket, 1, "&6Selected Brush type", clicks + GoPaintPlugin.getBrushManager().getBrushLore(b.getName())));
         } else if (b instanceof AngleBrush) {
-            inv.setItem(11, item.createHead(headAngle, 1, "&6Selected Brush type", clicks + Main.getBrushManager().getBrushLore(b.getName())));
+            inv.setItem(11, item.createHead(headAngle, 1, "&6Selected Brush type", clicks + GoPaintPlugin.getBrushManager().getBrushLore(b.getName())));
         } else if (b instanceof OverlayBrush) {
-            inv.setItem(11, item.createHead(headOverlay, 1, "&6Selected Brush type", clicks + Main.getBrushManager().getBrushLore(b.getName())));
+            inv.setItem(11, item.createHead(headOverlay, 1, "&6Selected Brush type", clicks + GoPaintPlugin.getBrushManager().getBrushLore(b.getName())));
         } else if (b instanceof FractureBrush) {
-            inv.setItem(11, item.createHead(headFracture, 1, "&6Selected Brush type", clicks + Main.getBrushManager().getBrushLore(b.getName())));
+            inv.setItem(11, item.createHead(headFracture, 1, "&6Selected Brush type", clicks + GoPaintPlugin.getBrushManager().getBrushLore(b.getName())));
         } else if (b instanceof GradientBrush) {
-            inv.setItem(11, item.createHead(headGradient, 1, "&6Selected Brush type", clicks + Main.getBrushManager().getBrushLore(b.getName())));
+            inv.setItem(11, item.createHead(headGradient, 1, "&6Selected Brush type", clicks + GoPaintPlugin.getBrushManager().getBrushLore(b.getName())));
         } else if (b instanceof PaintBrush) {
-            inv.setItem(11, item.createHead(headPaint, 1, "&6Selected Brush type", clicks + Main.getBrushManager().getBrushLore(b.getName())));
+            inv.setItem(11, item.createHead(headPaint, 1, "&6Selected Brush type", clicks + GoPaintPlugin.getBrushManager().getBrushLore(b.getName())));
         }
         inv.setItem(20, item.create(XMaterial.ORANGE_STAINED_GLASS_PANE.parseMaterial(), (short) XMaterial.ORANGE_STAINED_GLASS_PANE.data, 1, "&7", ""));
 

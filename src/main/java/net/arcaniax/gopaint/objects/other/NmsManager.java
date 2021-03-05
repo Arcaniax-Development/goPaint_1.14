@@ -26,13 +26,13 @@
  */
 package net.arcaniax.gopaint.objects.other;
 
-import net.arcaniax.gopaint.Main;
+import net.arcaniax.gopaint.GoPaintPlugin;
 
 public class NmsManager {
     String version;
 
     public NmsManager() {
-        String a = Main.getMain().getServer().getClass().getPackage().getName();
+        String a = GoPaintPlugin.getGoPaintPlugin().getServer().getClass().getPackage().getName();
         version = a.substring(a.lastIndexOf('.') + 1);
     }
 

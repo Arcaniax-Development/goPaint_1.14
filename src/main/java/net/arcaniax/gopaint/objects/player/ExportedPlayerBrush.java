@@ -26,7 +26,7 @@
  */
 package net.arcaniax.gopaint.objects.player;
 
-import net.arcaniax.gopaint.Main;
+import net.arcaniax.gopaint.GoPaintPlugin;
 import net.arcaniax.gopaint.objects.brush.Brush;
 import net.arcaniax.gopaint.objects.other.BlockType;
 import org.bukkit.Material;
@@ -52,7 +52,7 @@ public class ExportedPlayerBrush {
     BlockType mask;
 
     public ExportedPlayerBrush(String name, List<String> lore) {
-        b = Main.getBrushManager().getBrush(name.replaceAll(" §b♦ ", ""));
+        b = GoPaintPlugin.getBrushManager().getBrush(name.replaceAll(" §b♦ ", ""));
         blocks = new ArrayList<>();
         for (String s : lore) {
             if (s.startsWith("§8Size: ")) {

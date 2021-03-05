@@ -26,7 +26,7 @@
  */
 package net.arcaniax.gopaint.command;
 
-import net.arcaniax.gopaint.Main;
+import net.arcaniax.gopaint.GoPaintPlugin;
 import net.arcaniax.gopaint.objects.player.PlayerBrush;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.ClickEvent;
@@ -38,9 +38,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 
 public class Handler implements Listener, CommandExecutor {
-    public static Main plugin;
+    public static GoPaintPlugin plugin;
 
-    public Handler(Main main) {
+    public Handler(GoPaintPlugin main) {
         plugin = main;
     }
 
@@ -51,8 +51,8 @@ public class Handler implements Listener, CommandExecutor {
                 return false;
             }
             Player p = (Player) sender;
-            PlayerBrush pb = Main.getBrushManager().getPlayerBrush(p);
-            String prefix = Main.getSettings().getPrefix();
+            PlayerBrush pb = GoPaintPlugin.getBrushManager().getPlayerBrush(p);
+            String prefix = GoPaintPlugin.getSettings().getPrefix();
             if (!p.hasPermission("gopaint.use")) {
                 p.sendMessage(prefix + "§cYou are lacking the permission gopaint.use");
                 return true;
@@ -78,7 +78,7 @@ public class Handler implements Listener, CommandExecutor {
                     }
                     return true;
                 } else if ((args[0].equalsIgnoreCase("reload") || args[0].equalsIgnoreCase("r")) && p.hasPermission("gobrush.admin")) {
-                    Main.reload();
+                    GoPaintPlugin.reload();
                     p.sendMessage(prefix + "§aReloaded");
                     return true;
                 } else if (args[0].equalsIgnoreCase("info") || args[0].equalsIgnoreCase("i")) {

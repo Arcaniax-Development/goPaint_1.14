@@ -30,6 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import net.arcaniax.gopaint.GoPaintPlugin;
 import net.arcaniax.gopaint.utils.XMaterial;
 import net.arcaniax.gopaint.objects.other.BlockPlace;
 import net.arcaniax.gopaint.objects.other.BlockPlacer;
@@ -42,20 +43,17 @@ import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
-import net.arcaniax.gopaint.Main;
-
-
 public class SphereBrush extends Brush{
 
 	@SuppressWarnings({"deprecation"})
 	@Override
 	public void paint(Location loc, Player p) {
-		PlayerBrush pb = Main.getBrushManager().getPlayerBrush(p);
+		PlayerBrush pb = GoPaintPlugin.getBrushManager().getPlayerBrush(p);
 		int size = pb.getBrushSize();
 		List<BlockType> pbBlocks = pb.getBlocks();
 		if (pbBlocks.isEmpty()){return;}
 		List<Block> blocks = Sphere.getBlocksInRadius(loc, size);
-		List<BlockPlace> placedBlocks = new ArrayList<BlockPlace>();
+		List<BlockPlace> placedBlocks = new ArrayList<>();
 		for (Block b : blocks){
 					if ((!pb.isSurfaceModeEnabled())|| Surface.isOnSurface(b.getLocation(), p.getLocation())){
 						if ((!pb.isMaskEnabled())||(b.getType().equals(pb.getMask().getMaterial())&&(XMaterial.isNewVersion()||b.getData()==pb.getMask().getData()))){

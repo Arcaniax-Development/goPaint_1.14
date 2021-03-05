@@ -26,7 +26,7 @@
  */
 package net.arcaniax.gopaint.objects.brush;
 
-import net.arcaniax.gopaint.Main;
+import net.arcaniax.gopaint.GoPaintPlugin;
 import net.arcaniax.gopaint.objects.other.BlockPlace;
 import net.arcaniax.gopaint.objects.other.BlockPlacer;
 import net.arcaniax.gopaint.objects.other.BlockType;
@@ -48,7 +48,7 @@ public class PaintBrush extends Brush {
 
     @Override
     public void paint(Location loc, Player p) {
-        String prefix = Main.getSettings().getPrefix();
+        String prefix = GoPaintPlugin.getSettings().getPrefix();
         if (!selectedPoints.containsKey(p.getName())) {
             List<Location> locs = new ArrayList<>();
             locs.add(loc);
@@ -65,7 +65,7 @@ public class PaintBrush extends Brush {
             List<Location> locs = selectedPoints.get(p.getName());
             locs.add(loc);
             selectedPoints.remove(p.getName());
-            PlayerBrush pb = Main.getBrushManager().getPlayerBrush(p);
+            PlayerBrush pb = GoPaintPlugin.getBrushManager().getPlayerBrush(p);
             int size = pb.getBrushSize();
             int falloff = pb.getFalloffStrength();
             List<BlockType> pbBlocks = pb.getBlocks();
@@ -118,7 +118,7 @@ public class PaintBrush extends Brush {
 
     @Override
     public void paint(Location loc, Player p, ExportedPlayerBrush epb) {
-        String prefix = Main.getSettings().getPrefix();
+        String prefix = GoPaintPlugin.getSettings().getPrefix();
         if (!selectedPoints.containsKey(p.getName())) {
             List<Location> locs = new ArrayList<>();
             locs.add(loc);

@@ -26,7 +26,7 @@
  */
 package net.arcaniax.gopaint.objects.brush;
 
-import net.arcaniax.gopaint.Main;
+import net.arcaniax.gopaint.GoPaintPlugin;
 import net.arcaniax.gopaint.objects.other.BlockPlace;
 import net.arcaniax.gopaint.objects.other.BlockPlacer;
 import net.arcaniax.gopaint.objects.other.BlockType;
@@ -49,7 +49,7 @@ public class FractureBrush extends Brush {
     @SuppressWarnings({"deprecation"})
     @Override
     public void paint(Location loc, Player p) {
-        PlayerBrush pb = Main.getBrushManager().getPlayerBrush(p);
+        PlayerBrush pb = GoPaintPlugin.getBrushManager().getPlayerBrush(p);
         int size = pb.getBrushSize();
         List<BlockType> pbBlocks = pb.getBlocks();
         if (pbBlocks.isEmpty()) {

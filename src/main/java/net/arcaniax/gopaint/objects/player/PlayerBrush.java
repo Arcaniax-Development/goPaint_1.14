@@ -26,7 +26,7 @@
  */
 package net.arcaniax.gopaint.objects.player;
 
-import net.arcaniax.gopaint.Main;
+import net.arcaniax.gopaint.GoPaintPlugin;
 import net.arcaniax.gopaint.objects.brush.*;
 import net.arcaniax.gopaint.objects.other.BlockType;
 import net.arcaniax.gopaint.utils.GUI;
@@ -61,19 +61,19 @@ public class PlayerBrush {
 
 
     public PlayerBrush() {
-        surfaceEnabled = Main.getSettings().isSurfaceModeEnabledDefault();
-        maskEnabled = Main.getSettings().isMaskEnabledDefault();
-        enabled = Main.getSettings().isEnabledDefault();
-        chance = Main.getSettings().getDefaultChance();
-        thickness = Main.getSettings().getDefaultThickness();
-        fractureDistance = Main.getSettings().getDefaultFractureDistance();
-        angleDistance = Main.getSettings().getDefaultAngleDistance();
-        minAngleHeightDifference = Main.getSettings().getDefaultAngleHeightDifference();
+        surfaceEnabled = GoPaintPlugin.getSettings().isSurfaceModeEnabledDefault();
+        maskEnabled = GoPaintPlugin.getSettings().isMaskEnabledDefault();
+        enabled = GoPaintPlugin.getSettings().isEnabledDefault();
+        chance = GoPaintPlugin.getSettings().getDefaultChance();
+        thickness = GoPaintPlugin.getSettings().getDefaultThickness();
+        fractureDistance = GoPaintPlugin.getSettings().getDefaultFractureDistance();
+        angleDistance = GoPaintPlugin.getSettings().getDefaultAngleDistance();
+        minAngleHeightDifference = GoPaintPlugin.getSettings().getDefaultAngleHeightDifference();
         falloffStrength = 50;
         mixingStrength = 50;
         axis = "y";
-        brush = Main.getBrushManager().cycle(brush);
-        brushSize = Main.getSettings().getDefaultSize();
+        brush = GoPaintPlugin.getBrushManager().cycle(brush);
+        brushSize = GoPaintPlugin.getSettings().getDefaultSize();
         blocks = new ArrayList<>();
         blocks.add(new BlockType(XMaterial.STONE.parseMaterial(), (short) 0));
         mask = new BlockType(XMaterial.SPONGE.parseMaterial(), (short) 0);
@@ -170,12 +170,12 @@ public class PlayerBrush {
     }
 
     public void cycleBrush() {
-        brush = Main.getBrushManager().cycle(brush);
+        brush = GoPaintPlugin.getBrushManager().cycle(brush);
         updateInventory();
     }
 
     public void cycleBrushBackwards() {
-        brush = Main.getBrushManager().cycleBack(brush);
+        brush = GoPaintPlugin.getBrushManager().cycleBack(brush);
         updateInventory();
     }
 
@@ -184,10 +184,10 @@ public class PlayerBrush {
     }
 
     public void setBrushSize(int size) {
-        if (size <= Main.getSettings().getMaxSize() && size > 0) {
+        if (size <= GoPaintPlugin.getSettings().getMaxSize() && size > 0) {
             brushSize = size;
-        } else if (size > Main.getSettings().getMaxSize()) {
-            brushSize = Main.getSettings().getMaxSize();
+        } else if (size > GoPaintPlugin.getSettings().getMaxSize()) {
+            brushSize = GoPaintPlugin.getSettings().getMaxSize();
         } else {
             brushSize = 1;
         }
@@ -200,13 +200,13 @@ public class PlayerBrush {
 
     public void increaseBrushSize(boolean x10) {
         if (x10) {
-            if (brushSize + 10 <= Main.getSettings().getMaxSize()) {
+            if (brushSize + 10 <= GoPaintPlugin.getSettings().getMaxSize()) {
                 brushSize += 10;
             } else {
-                brushSize = Main.getSettings().getMaxSize();
+                brushSize = GoPaintPlugin.getSettings().getMaxSize();
             }
         } else {
-            if (brushSize < Main.getSettings().getMaxSize()) {
+            if (brushSize < GoPaintPlugin.getSettings().getMaxSize()) {
                 brushSize += 1;
             }
         }
@@ -256,7 +256,7 @@ public class PlayerBrush {
     }
 
     public void increaseThickness() {
-        if (thickness < Main.getSettings().getMaxThickness()) {
+        if (thickness < GoPaintPlugin.getSettings().getMaxThickness()) {
             thickness += 1;
         }
         updateInventory();
@@ -270,7 +270,7 @@ public class PlayerBrush {
     }
 
     public void increaseAngleDistance() {
-        if (angleDistance < Main.getSettings().getMaxAngleDistance()) {
+        if (angleDistance < GoPaintPlugin.getSettings().getMaxAngleDistance()) {
             angleDistance += 1;
         }
         updateInventory();
@@ -284,7 +284,7 @@ public class PlayerBrush {
     }
 
     public void increaseFractureDistance() {
-        if (this.fractureDistance < Main.getSettings().getMaxFractureDistance()) {
+        if (this.fractureDistance < GoPaintPlugin.getSettings().getMaxFractureDistance()) {
             this.fractureDistance += 1;
         }
         updateInventory();
@@ -303,8 +303,8 @@ public class PlayerBrush {
         } else {
             minAngleHeightDifference += 5.0;
         }
-        if (minAngleHeightDifference > Main.getSettings().getMaxAngleHeightDifference()) {
-            minAngleHeightDifference = Main.getSettings().getMaxAngleHeightDifference();
+        if (minAngleHeightDifference > GoPaintPlugin.getSettings().getMaxAngleHeightDifference()) {
+            minAngleHeightDifference = GoPaintPlugin.getSettings().getMaxAngleHeightDifference();
         }
         updateInventory();
     }
@@ -315,8 +315,8 @@ public class PlayerBrush {
         } else {
             minAngleHeightDifference -= 5.0;
         }
-        if (minAngleHeightDifference < Main.getSettings().getMinAngleHeightDifference()) {
-            minAngleHeightDifference = Main.getSettings().getMinAngleHeightDifference();
+        if (minAngleHeightDifference < GoPaintPlugin.getSettings().getMinAngleHeightDifference()) {
+            minAngleHeightDifference = GoPaintPlugin.getSettings().getMinAngleHeightDifference();
         }
         updateInventory();
     }

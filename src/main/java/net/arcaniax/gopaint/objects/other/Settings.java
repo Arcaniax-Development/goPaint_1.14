@@ -26,7 +26,7 @@
  */
 package net.arcaniax.gopaint.objects.other;
 
-import net.arcaniax.gopaint.Main;
+import net.arcaniax.gopaint.GoPaintPlugin;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -74,44 +74,44 @@ public class Settings {
     }
 
     public void loadConfig() {
-        maxSize = Main.getMain().getConfig().getInt("size.max");
-        defaultSize = Main.getMain().getConfig().getInt("size.default");
-        int chance = Main.getMain().getConfig().getInt("chance.default");
+        maxSize = GoPaintPlugin.getGoPaintPlugin().getConfig().getInt("size.max");
+        defaultSize = GoPaintPlugin.getGoPaintPlugin().getConfig().getInt("size.default");
+        int chance = GoPaintPlugin.getGoPaintPlugin().getConfig().getInt("chance.default");
         if (chance > 0 && chance < 100 && chance % 10 == 0) {
             defaultChance = chance;
         }
-        defaultThickness = Main.getMain().getConfig().getInt("thickness.default");
+        defaultThickness = GoPaintPlugin.getGoPaintPlugin().getConfig().getInt("thickness.default");
 
-        defaultAngleDistance = Main.getMain().getConfig().getInt("angleDistance.default");
+        defaultAngleDistance = GoPaintPlugin.getGoPaintPlugin().getConfig().getInt("angleDistance.default");
 
-        maxAngleDistance = Main.getMain().getConfig().getInt("angleDistance.max");
+        maxAngleDistance = GoPaintPlugin.getGoPaintPlugin().getConfig().getInt("angleDistance.max");
 
-        defaultFractureDistance = Main.getMain().getConfig().getInt("fractureDistance.default");
+        defaultFractureDistance = GoPaintPlugin.getGoPaintPlugin().getConfig().getInt("fractureDistance.default");
 
-        maxFractureDistance = Main.getMain().getConfig().getInt("fractureDistance.max");
+        maxFractureDistance = GoPaintPlugin.getGoPaintPlugin().getConfig().getInt("fractureDistance.max");
 
-        double minAngle = Main.getMain().getConfig().getDouble("angleHeightDifference.min");
+        double minAngle = GoPaintPlugin.getGoPaintPlugin().getConfig().getDouble("angleHeightDifference.min");
         if (minAngle > 0 && minAngle < 90 && minAngle % 5 == 0) {
             minAngleHeightDifference = minAngle;
         }
 
-        double defaultAngle = Main.getMain().getConfig().getDouble("angleHeightDifference.default");
+        double defaultAngle = GoPaintPlugin.getGoPaintPlugin().getConfig().getDouble("angleHeightDifference.default");
         if (defaultAngle > 0 && defaultAngle < 90 && defaultAngle % 5 == 0) {
             defaultAngleHeightDifference = defaultAngle;
         }
-        double maxAngle = Main.getMain().getConfig().getDouble("angleHeightDifference.max");
+        double maxAngle = GoPaintPlugin.getGoPaintPlugin().getConfig().getDouble("angleHeightDifference.max");
         if (maxAngle > 0 && maxAngle < 90 && maxAngle % 5 == 0) {
             maxAngleHeightDifference = maxAngle;
         }
 
-        maxThickness = Main.getMain().getConfig().getInt("thickness.max");
-        maxHistory = Main.getMain().getConfig().getInt("history.max");
+        maxThickness = GoPaintPlugin.getGoPaintPlugin().getConfig().getInt("thickness.max");
+        maxHistory = GoPaintPlugin.getGoPaintPlugin().getConfig().getInt("history.max");
 
-        disabledWorldNames = Main.getMain().getConfig().getStringList("disabledWorlds");
-        enabledByDefault = Main.getMain().getConfig().getBoolean("toggles.enabledByDefault");
-        maskEnabled = Main.getMain().getConfig().getBoolean("toggles.maskEnabled");
-        boundingBoxEnabled = Main.getMain().getConfig().getBoolean("toggles.boundingBoxEnabled");
-        surfaceModeEnabled = Main.getMain().getConfig().getBoolean("toggles.surfaceModeEnabled");
+        disabledWorldNames = GoPaintPlugin.getGoPaintPlugin().getConfig().getStringList("disabledWorlds");
+        enabledByDefault = GoPaintPlugin.getGoPaintPlugin().getConfig().getBoolean("toggles.enabledByDefault");
+        maskEnabled = GoPaintPlugin.getGoPaintPlugin().getConfig().getBoolean("toggles.maskEnabled");
+        boundingBoxEnabled = GoPaintPlugin.getGoPaintPlugin().getConfig().getBoolean("toggles.boundingBoxEnabled");
+        surfaceModeEnabled = GoPaintPlugin.getGoPaintPlugin().getConfig().getBoolean("toggles.surfaceModeEnabled");
     }
 
     public int getDefaultSize() {

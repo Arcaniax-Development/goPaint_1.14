@@ -43,12 +43,12 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 
-public class Main extends JavaPlugin implements Listener {
+public class GoPaintPlugin extends JavaPlugin implements Listener {
 
     public static boolean plotSquaredEnabled;
     public static NmsManager nmsManager;
     private static PlayerBrushManager manager;
-    private static Main main;
+    private static GoPaintPlugin goPaintPlugin;
     private static Settings settings;
     public ConnectListener connectListener;
     public InteractListener interactListener;
@@ -57,8 +57,8 @@ public class Main extends JavaPlugin implements Listener {
 
     private static final int BSTATS_ID = 10557;
 
-    public static Main getMain() {
-        return main;
+    public static GoPaintPlugin getGoPaintPlugin() {
+        return goPaintPlugin;
     }
 
     public static Settings getSettings() {
@@ -74,7 +74,7 @@ public class Main extends JavaPlugin implements Listener {
     }
 
     public static void reload() {
-        Main.getMain().reloadConfig();
+        GoPaintPlugin.getGoPaintPlugin().reloadConfig();
         manager = new PlayerBrushManager();
         settings = new Settings();
         settings.loadConfig();
@@ -82,14 +82,14 @@ public class Main extends JavaPlugin implements Listener {
 
     public void onEnable() {
         this.saveDefaultConfig();
-        main = this;
+        goPaintPlugin = this;
         manager = new PlayerBrushManager();
         settings = new Settings();
         settings.loadConfig();
-        connectListener = new ConnectListener(main);
-        interactListener = new InteractListener(main);
-        inventoryListener = new InventoryListener(main);
-        cmdHandler = new Handler(main);
+        connectListener = new ConnectListener(goPaintPlugin);
+        interactListener = new InteractListener(goPaintPlugin);
+        inventoryListener = new InventoryListener(goPaintPlugin);
+        cmdHandler = new Handler(goPaintPlugin);
         PluginManager pm = getServer().getPluginManager();
         pm.registerEvents(connectListener, this);
         pm.registerEvents(interactListener, this);
@@ -103,6 +103,6 @@ public class Main extends JavaPlugin implements Listener {
 
         Metrics metrics = new Metrics(this, BSTATS_ID);
 
-        new SimplePie("worldeditImplementation", () -> Bukkit.getPluginManager().getPlugin("FastAsyncWorldEdit") != null ? "FastAsyncWorldEdit" : "WorldEdit");
+        metrics.addCustomChart(new SimplePie("worldeditImplementation", () -> Bukkit.getPluginManager().getPlugin("FastAsyncWorldEdit") != null ? "FastAsyncWorldEdit" : "WorldEdit"));
     }
 }

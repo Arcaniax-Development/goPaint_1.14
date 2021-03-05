@@ -26,7 +26,7 @@
  */
 package net.arcaniax.gopaint.listeners;
 
-import net.arcaniax.gopaint.Main;
+import net.arcaniax.gopaint.GoPaintPlugin;
 import net.arcaniax.gopaint.objects.brush.Brush;
 import net.arcaniax.gopaint.objects.brush.SprayBrush;
 import net.arcaniax.gopaint.objects.brush.OverlayBrush;
@@ -51,9 +51,9 @@ import org.bukkit.event.inventory.InventoryAction;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
 public class InventoryListener implements Listener {
-    public Main plugin;
+    public GoPaintPlugin plugin;
 
-    public InventoryListener(Main main) {
+    public InventoryListener(GoPaintPlugin main) {
         plugin = main;
     }
 
@@ -70,7 +70,7 @@ public class InventoryListener implements Listener {
                 }
                 return;
             }
-            PlayerBrush pb = Main.getBrushManager().getPlayerBrush(p);
+            PlayerBrush pb = GoPaintPlugin.getBrushManager().getPlayerBrush(p);
             if (e.getRawSlot() == 10 || e.getRawSlot() == 1 || e.getRawSlot() == 19) {
                 if (e.getClick().equals(ClickType.LEFT)) {
                     if (e.getCursor() != null) {
@@ -211,7 +211,7 @@ public class InventoryListener implements Listener {
                 }
                 return;
             }
-            PlayerBrush pb = Main.getBrushManager().getPlayerBrush(p);
+            PlayerBrush pb = GoPaintPlugin.getBrushManager().getPlayerBrush(p);
             boolean check = false;
             if (XMaterial.isNewVersion()) {
                 if (e.getCurrentItem().getType().equals(XMaterial.PLAYER_HEAD.parseMaterial())) {
@@ -223,7 +223,7 @@ public class InventoryListener implements Listener {
                 }
             }
             if (check) {
-                pb.setBrush(Main.getBrushManager().getBrush(e.getCurrentItem().getItemMeta().getDisplayName().replaceAll("§6", "")));
+                pb.setBrush(GoPaintPlugin.getBrushManager().getBrush(e.getCurrentItem().getItemMeta().getDisplayName().replaceAll("§6", "")));
                 pb.updateInventory();
                 p.openInventory(pb.getInventory());
                 e.setCancelled(true);

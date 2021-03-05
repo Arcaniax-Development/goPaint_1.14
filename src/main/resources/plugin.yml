@@ -1,5 +1,5 @@
 name: goPaint
-main: net.arcaniax.gopaint.Main
+main: net.arcaniax.gopaint.GoPaintPlugin
 version: "${version}"
 depend: [WorldEdit]
 api-version: "1.13"

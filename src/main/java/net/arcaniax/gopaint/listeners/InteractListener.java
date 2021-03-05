@@ -26,7 +26,7 @@
  */
 package net.arcaniax.gopaint.listeners;
 
-import net.arcaniax.gopaint.Main;
+import net.arcaniax.gopaint.GoPaintPlugin;
 import net.arcaniax.gopaint.objects.player.ExportedPlayerBrush;
 import net.arcaniax.gopaint.objects.player.PlayerBrush;
 import net.arcaniax.gopaint.utils.XMaterial;
@@ -43,16 +43,16 @@ import org.bukkit.inventory.EquipmentSlot;
 import java.util.Set;
 
 public class InteractListener implements Listener {
-    public Main plugin;
+    public GoPaintPlugin plugin;
 
-    public InteractListener(Main main) {
+    public InteractListener(GoPaintPlugin main) {
         plugin = main;
     }
 
     @SuppressWarnings("deprecation")
     @EventHandler(priority = EventPriority.LOWEST)
     public void onClick(PlayerInteractEvent e) {
-        if (Main.nmsManager.isAtLeastVersion(1, 9, 0)) {
+        if (GoPaintPlugin.nmsManager.isAtLeastVersion(1, 9, 0)) {
             if (e.getHand() == EquipmentSlot.OFF_HAND) {
                 return;
             }
@@ -82,23 +82,23 @@ public class InteractListener implements Listener {
             } else {
                 loc = e.getClickedBlock().getLocation().clone();
             }
-            if ((!e.getPlayer().hasPermission("gopaint.world.bypass")) && (Main.getSettings().getDisabledWorlds().contains(loc.getWorld().getName()))) {
+            if ((!e.getPlayer().hasPermission("gopaint.world.bypass")) && (GoPaintPlugin.getSettings().getDisabledWorlds().contains(loc.getWorld().getName()))) {
                 return;
             }
             if (loc.getBlock().getType().equals(XMaterial.AIR.parseMaterial())) {
                 return;
             }
-            final PlayerBrush pb = Main.getBrushManager().getPlayerBrush(p);
+            final PlayerBrush pb = GoPaintPlugin.getBrushManager().getPlayerBrush(p);
             if (pb.isEnabled()) {
                 pb.getBrush().paint(loc, p);
             } else {
-                p.sendMessage(Main.getSettings().getPrefix() + "§cYour brush is disabled, left click to enable the brush.");
+                p.sendMessage(GoPaintPlugin.getSettings().getPrefix() + "§cYour brush is disabled, left click to enable the brush.");
             }
         }
         if (e.getPlayer().getItemInHand().getType() == XMaterial.FEATHER.parseMaterial() && (e.getAction().equals(Action.LEFT_CLICK_AIR) || e.getAction().equals(Action.LEFT_CLICK_BLOCK))) {
             e.setCancelled(true);
             Player p = e.getPlayer();
-            PlayerBrush pb = Main.getBrushManager().getPlayerBrush(p);
+            PlayerBrush pb = GoPaintPlugin.getBrushManager().getPlayerBrush(p);
             p.openInventory(pb.getInventory());
         }
     }

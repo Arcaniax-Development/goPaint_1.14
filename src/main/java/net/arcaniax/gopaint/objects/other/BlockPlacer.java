@@ -33,15 +33,10 @@ import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldedit.bukkit.BukkitPlayer;
 import com.sk89q.worldedit.math.BlockVector3;
 import com.sk89q.worldedit.math.Vector3;
+import net.arcaniax.gopaint.GoPaintPlugin;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
-
-
-
-import org.bukkit.entity.Player;
-import net.arcaniax.gopaint.objects.other.BlockPlace;
-import net.arcaniax.gopaint.Main;
 
 import java.util.Collection;
 
@@ -56,26 +51,23 @@ public class BlockPlacer {
 	}
 
     public void placeBlocks(Collection<BlockPlace> blocks, final Player p) {
-        Bukkit.getScheduler().runTaskAsynchronously(Main.getMain(), new Runnable() {
-            @Override
-            public void run() {
-                LocalSession localSession = WorldEdit.getInstance().getSessionManager().get(new BukkitPlayer(p));
-                try (EditSession editsession = localSession.createEditSession(new BukkitPlayer(p))) {
-                    try {
-                        editsession.setFastMode(false);
-                        for (BlockPlace bp : blocks) {
-                            Location l = bp.getLocation();
-                            Vector3 v = Vector3.at(l.getBlockX(), l.getBlockY(), l.getBlockZ());
-                            if (isGmask(p, v.toBlockPoint())) {
-                                try {
-                                    editsession.setBlock(Vector3.at(l.getBlockX(), l.getBlockY(), l.getBlockZ()).toBlockPoint(), BukkitAdapter.asBlockType(bp.bt.getMaterial()).getDefaultState());
-                                } catch (Exception ignored) {
-                                }
+        Bukkit.getScheduler().runTaskAsynchronously(GoPaintPlugin.getGoPaintPlugin(), () -> {
+            LocalSession localSession = WorldEdit.getInstance().getSessionManager().get(new BukkitPlayer(p));
+            try (EditSession editsession = localSession.createEditSession(new BukkitPlayer(p))) {
+                try {
+                    editsession.setFastMode(false);
+                    for (BlockPlace bp : blocks) {
+                        Location l = bp.getLocation();
+                        Vector3 v = Vector3.at(l.getBlockX(), l.getBlockY(), l.getBlockZ());
+                        if (isGmask(p, v.toBlockPoint())) {
+                            try {
+                                editsession.setBlock(Vector3.at(l.getBlockX(), l.getBlockY(), l.getBlockZ()).toBlockPoint(), BukkitAdapter.asBlockType(bp.bt.getMaterial()).getDefaultState());
+                            } catch (Exception ignored) {
                             }
                         }
-                    } finally {
-                        localSession.remember(editsession);
                     }
+                } finally {
+                    localSession.remember(editsession);
                 }
             }
         });
