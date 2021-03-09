@@ -89,7 +89,7 @@ public class InventoryListener implements Listener {
                     pb.cycleBrush();
                 } else if (e.getClick().equals(ClickType.RIGHT)) {
                     pb.cycleBrushBackwards();
-                } else if (e.getClick().equals(ClickType.MIDDLE)) {
+                } else if (e.getClick().equals(ClickType.SHIFT_LEFT) || e.getClick().equals(ClickType.SHIFT_RIGHT)) {
                     p.openInventory(GUI.GenerateBrushes());
                 }
                 e.setCancelled(true);

@@ -112,7 +112,7 @@ public class GUI {
         inv.setItem(2, item.create(XMaterial.ORANGE_STAINED_GLASS_PANE.parseMaterial(), (short) XMaterial.ORANGE_STAINED_GLASS_PANE.data, 1, "&7", ""));
 
 
-        String clicks = "___&7Middle click to select___&7Click to cycle brush______";
+        String clicks = "___&7Shift click to select___&7Click to cycle brush______";
         if (b instanceof SphereBrush) {
             inv.setItem(11, item.createHead(headSphere, 1, "&6Selected Brush type", clicks + GoPaintPlugin.getBrushManager().getBrushLore(b.getName())));
         } else if (b instanceof SprayBrush) {
