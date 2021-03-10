@@ -53,10 +53,10 @@ version = "3.0.1"
 tasks.named<ShadowJar>("shadowJar") {
     archiveClassifier.set(null as String?)
     dependencies {
-        relocate("de.notmyfault", "net.arcaniax") {
+        relocate("de.notmyfault", "net.arcaniax.gopaint") {
             include(dependency("de.notmyfault:serverlib:1.0.1"))
         }
-        relocate("org.bstats", "net.arcaniax.metrics") {
+        relocate("org.bstats", "net.arcaniax.gopaint.metrics") {
             include(dependency("org.bstats:bstats-base"))
             include(dependency("org.bstats:bstats-bukkit"))
         }
