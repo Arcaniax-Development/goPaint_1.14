@@ -61,6 +61,7 @@ tasks.named<ShadowJar>("shadowJar") {
             include(dependency("org.bstats:bstats-bukkit"))
         }
     }
+    minimize()
 }
 
 configure<LicenseExtension> {
