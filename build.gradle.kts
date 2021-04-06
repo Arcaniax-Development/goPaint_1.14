@@ -48,7 +48,17 @@ dependencies {
     implementation("org.bstats:bstats-base:2.2.1")
 }
 
-version = "3.0.1"
+var rootVersion by extra("3.0.1")
+var buildNumber by extra("")
+
+if (project.hasProperty("buildnumber")) {
+    buildNumber = project.properties["buildnumber"] as String
+} else {
+    var index = "local"
+    buildNumber = index.toString()
+}
+
+version = String.format("%s-%s", rootVersion, buildNumber)
 
 tasks.named<ShadowJar>("shadowJar") {
     archiveClassifier.set(null as String?)
