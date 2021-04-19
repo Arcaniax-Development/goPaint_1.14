@@ -26,7 +26,7 @@
  */
 package net.arcaniax.gopaint;
 
-import de.notmyfault.serverlib.ServerLib;
+import io.papermc.lib.PaperLib;
 import net.arcaniax.gopaint.command.Handler;
 import net.arcaniax.gopaint.listeners.ConnectListener;
 import net.arcaniax.gopaint.listeners.InteractListener;
@@ -41,6 +41,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.incendo.serverlib.ServerLib;
 
 
 public class GoPaintPlugin extends JavaPlugin implements Listener {
@@ -100,6 +101,8 @@ public class GoPaintPlugin extends JavaPlugin implements Listener {
         DisabledBlocks.addBlocks();
         // Check if we are in a safe environment
         ServerLib.checkUnsafeForks();
+        ServerLib.checkJavaLTS();
+        PaperLib.suggestPaper(this);
 
         Metrics metrics = new Metrics(this, BSTATS_ID);
 
