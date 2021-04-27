@@ -6,7 +6,7 @@ plugins {
     id("java")
     id("java-library")
     id("org.cadixdev.licenser") version "0.5.1"
-    id("com.github.johnrengelman.shadow") version "6.1.0"
+    id("com.github.johnrengelman.shadow") version "7.0.0"
     id("org.ajoberstar.grgit") version "4.1.0"
 }
 
@@ -48,7 +48,7 @@ dependencies {
     compileOnly("com.mojang:authlib:1.5.25")
     compileOnlyApi("com.sk89q.worldedit:worldedit-core:7.2.5")
     compileOnly("com.sk89q.worldedit:worldedit-bukkit:7.2.5")
-    implementation("org.incendo.serverlib:ServerLib:2.0.0")
+    implementation("org.incendo.serverlib:ServerLib:2.1.0")
     implementation("org.bstats:bstats-bukkit:2.2.1")
     implementation("org.bstats:bstats-base:2.2.1")
     implementation("io.papermc:paperlib:1.0.6")
@@ -74,7 +74,7 @@ tasks.named<ShadowJar>("shadowJar") {
     archiveClassifier.set(null as String?)
     dependencies {
         relocate("org.incendo.serverlib", "net.arcaniax.gopaint.serverlib") {
-            include(dependency("org.incendo.serverlib:ServerLib:2.0.0"))
+            include(dependency("org.incendo.serverlib:ServerLib:2.1.0"))
         }
         relocate("org.bstats", "net.arcaniax.gopaint.metrics") {
             include(dependency("org.bstats:bstats-base"))
