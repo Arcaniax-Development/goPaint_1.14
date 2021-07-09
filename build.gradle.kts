@@ -10,9 +10,16 @@ plugins {
     id("org.ajoberstar.grgit") version "4.1.0"
 }
 
-configure<JavaPluginConvention> {
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = sourceCompatibility
+the<JavaPluginExtension>().toolchain {
+    languageVersion.set(JavaLanguageVersion.of(16))
+}
+
+tasks.compileJava.configure {
+    options.release.set(8)
+}
+
+configurations.all {
+    attributes.attribute(TargetJvmVersion.TARGET_JVM_VERSION_ATTRIBUTE, 16)
 }
 
 tasks.withType<JavaCompile> {
@@ -21,10 +28,6 @@ tasks.withType<JavaCompile> {
 
 repositories {
     mavenCentral()
-    maven {
-        name = "Spigot"
-        url = uri("https://hub.spigotmc.org/nexus/content/repositories/snapshots")
-    }
     maven {
         name = "Paper"
         url = uri("https://papermc.io/repo/repository/maven-public/")
@@ -38,23 +41,23 @@ repositories {
         url = uri("https://maven.enginehub.org/repo/")
     }
     maven {
-        name = "IntellectualSites 3rd Party"
-        url = uri("https://mvn.intellectualsites.com/content/repositories/thirdparty")
+        name = "IntellectualSites"
+        url = uri("https://mvn.intellectualsites.com/content/groups/public/")
     }
 }
 
 dependencies {
-    compileOnlyApi("org.spigotmc:spigot-api:1.16.5-R0.1-SNAPSHOT")
+    compileOnlyApi("io.papermc.paper:paper-api:1.17.1-R0.1-SNAPSHOT")
     compileOnly("com.mojang:authlib:1.5.25")
-    compileOnlyApi("com.sk89q.worldedit:worldedit-core:7.2.5")
-    compileOnly("com.sk89q.worldedit:worldedit-bukkit:7.2.5")
+    compileOnlyApi("com.sk89q.worldedit:worldedit-core:7.2.6-SNAPSHOT")
+    compileOnly("com.sk89q.worldedit:worldedit-bukkit:7.2.6-SNAPSHOT")
     implementation("org.incendo.serverlib:ServerLib:2.2.1")
     implementation("org.bstats:bstats-bukkit:2.2.1")
     implementation("org.bstats:bstats-base:2.2.1")
     implementation("io.papermc:paperlib:1.0.6")
 }
 
-var rootVersion by extra("3.0.1")
+var rootVersion by extra("3.1.0")
 var buildNumber by extra("")
 ext {
     val git: Grgit = Grgit.open {
