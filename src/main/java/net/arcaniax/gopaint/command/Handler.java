@@ -77,7 +77,7 @@ public class Handler implements Listener, CommandExecutor {
                         p.sendMessage(prefix + "§aEnabled brush");
                     }
                     return true;
-                } else if ((args[0].equalsIgnoreCase("reload") || args[0].equalsIgnoreCase("r")) && p.hasPermission("gobrush.admin")) {
+                } else if ((args[0].equalsIgnoreCase("reload") || args[0].equalsIgnoreCase("r")) && p.hasPermission("gopaint.admin")) {
                     GoPaintPlugin.reload();
                     p.sendMessage(prefix + "§aReloaded");
                     return true;

@@ -57,7 +57,6 @@ dependencies {
     implementation("io.papermc:paperlib:1.0.6")
 }
 
-var rootVersion by extra("3.1.0")
 var buildNumber by extra("")
 ext {
     val git: Grgit = Grgit.open {
@@ -71,7 +70,7 @@ ext {
     }
 }
 
-version = String.format("%s-%s", rootVersion, buildNumber)
+version = String.format("%s-%s", rootProject.version, buildNumber)
 
 tasks.named<ShadowJar>("shadowJar") {
     archiveClassifier.set(null as String?)
