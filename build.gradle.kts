@@ -49,7 +49,7 @@ repositories {
 dependencies {
     compileOnlyApi("io.papermc.paper:paper-api:1.17.1-R0.1-SNAPSHOT")
     compileOnly("com.mojang:authlib:1.5.25")
-    compileOnlyApi("com.sk89q.worldedit:worldedit-core:7.2.6-SNAPSHOT")
+    compileOnlyApi("com.sk89q.worldedit:worldedit-core:7.2.6")
     compileOnly("com.sk89q.worldedit:worldedit-bukkit:7.2.6-SNAPSHOT")
     implementation("org.incendo.serverlib:ServerLib:2.2.1")
     implementation("org.bstats:bstats-bukkit:2.2.1")
