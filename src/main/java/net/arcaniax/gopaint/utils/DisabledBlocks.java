@@ -67,6 +67,7 @@ public class DisabledBlocks {
     }
 
     public static boolean isDisabled(Material m) {
-      return disabledMaterials.contains(m);
+        return disabledMaterials.contains(m);
     }
+
 }

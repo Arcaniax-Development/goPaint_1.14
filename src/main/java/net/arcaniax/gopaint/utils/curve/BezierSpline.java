@@ -34,6 +34,7 @@ import org.bukkit.util.Vector;
 import java.util.LinkedList;
 
 public class BezierSpline {
+
     private final LinkedList<Location> knotsList;
     private Location[] knots;
     private BezierSplineSegment[] segments;
@@ -353,4 +354,5 @@ public class BezierSpline {
     public String toShorthand() {
         return "curve";
     }
+
 }

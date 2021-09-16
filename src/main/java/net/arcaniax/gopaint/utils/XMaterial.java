@@ -966,7 +966,9 @@ public enum XMaterial {
     }
 
     public boolean isDamageable(XMaterial type) {
-        if (type == null) return false;
+        if (type == null) {
+            return false;
+        }
         String[] split = type.toString().split("_");
         int length = split.length;
         switch (split[length - 1]) {

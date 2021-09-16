@@ -33,6 +33,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 public class ConnectListener implements Listener {
+
     public GoPaintPlugin plugin;
 
     public ConnectListener(GoPaintPlugin main) {

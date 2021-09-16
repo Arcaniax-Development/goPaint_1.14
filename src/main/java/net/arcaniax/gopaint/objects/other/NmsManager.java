@@ -29,6 +29,7 @@ package net.arcaniax.gopaint.objects.other;
 import net.arcaniax.gopaint.GoPaintPlugin;
 
 public class NmsManager {
+
     String version;
 
     public NmsManager() {
@@ -64,4 +65,5 @@ public class NmsManager {
             }
         }
     }
+
 }

@@ -38,6 +38,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 
 public class Handler implements Listener, CommandExecutor {
+
     public static GoPaintPlugin plugin;
 
     public Handler(GoPaintPlugin main) {
@@ -77,7 +78,8 @@ public class Handler implements Listener, CommandExecutor {
                         p.sendMessage(prefix + "§aEnabled brush");
                     }
                     return true;
-                } else if ((args[0].equalsIgnoreCase("reload") || args[0].equalsIgnoreCase("r")) && p.hasPermission("gopaint.admin")) {
+                } else if ((args[0].equalsIgnoreCase("reload") || args[0].equalsIgnoreCase("r")) && p.hasPermission(
+                        "gopaint.admin")) {
                     GoPaintPlugin.reload();
                     p.sendMessage(prefix + "§aReloaded");
                     return true;
@@ -93,7 +95,10 @@ public class Handler implements Listener, CommandExecutor {
                             .append("Twitter").color(ChatColor.DARK_AQUA).color(ChatColor.UNDERLINE)
                             .event(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://twitter.com/Arcaniax")).append("     ")
                             .append("Spigot").color(ChatColor.YELLOW).color(ChatColor.UNDERLINE)
-                            .event(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://www.spigotmc.org/resources/authors/arcaniax.47444/")).create());
+                            .event(new ClickEvent(
+                                    ClickEvent.Action.OPEN_URL,
+                                    "https://www.spigotmc.org/resources/authors/arcaniax.47444/"
+                            )).create());
                     return true;
                 }
                 if (p.hasPermission("gopaint.admin")) {
@@ -124,4 +129,5 @@ public class Handler implements Listener, CommandExecutor {
         }
         return false;
     }
+
 }

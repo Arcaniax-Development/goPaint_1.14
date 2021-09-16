@@ -59,13 +59,22 @@ public class AngleBrush extends Brush {
         List<BlockPlace> placedBlocks = new ArrayList<>();
         for (Block b : blocks) {
             if ((!pb.isSurfaceModeEnabled()) || Surface.isOnSurface(b.getLocation(), p.getLocation())) {
-                if ((!pb.isMaskEnabled()) || (b.getType().equals(pb.getMask().getMaterial()) && (XMaterial.isNewVersion() || b.getData() == pb.getMask().getData()))) {
+                if ((!pb.isMaskEnabled()) || (b.getType().equals(pb
+                        .getMask()
+                        .getMaterial()) && (XMaterial.isNewVersion() || b.getData() == pb.getMask().getData()))) {
                     if (!(Height.getAverageHeightDiffAngle(b.getLocation(), 1, p) >= 0.1 &&
-                            Height.getAverageHeightDiffAngle(b.getLocation(), pb.getAngleDistance(), p) >= Math.tan(Math.toRadians(pb.getMinHeightDifference())))) {
+                            Height.getAverageHeightDiffAngle(
+                                    b.getLocation(),
+                                    pb.getAngleDistance(),
+                                    p
+                            ) >= Math.tan(Math.toRadians(pb.getMinHeightDifference())))) {
                         Random r = new Random();
                         int random = r.nextInt(pbBlocks.size());
                         placedBlocks.add(
-                                new BlockPlace(b.getLocation(), new BlockType(pbBlocks.get(random).getMaterial(), pbBlocks.get(random).getData())));
+                                new BlockPlace(
+                                        b.getLocation(),
+                                        new BlockType(pbBlocks.get(random).getMaterial(), pbBlocks.get(random).getData())
+                                ));
                     }
                 }
             }
@@ -91,13 +100,25 @@ public class AngleBrush extends Brush {
         List<BlockPlace> placedBlocks = new ArrayList<BlockPlace>();
         for (Block b : blocks) {
             if ((!epb.isSurfaceModeEnabled()) || Surface.isOnSurface(b.getLocation(), p.getLocation())) {
-                if ((!epb.isMaskEnabled()) || (b.getType().equals(epb.getMask().getMaterial()) && (XMaterial.isNewVersion() || b.getData() == epb.getMask().getData()))) {
+                if ((!epb.isMaskEnabled()) || (b.getType().equals(epb
+                        .getMask()
+                        .getMaterial()) && (XMaterial.isNewVersion() || b.getData() == epb.getMask().getData()))) {
                     if (!(Height.getAverageHeightDiffAngle(b.getLocation(), 1, p) >= 0.1 &&
-                            Height.getAverageHeightDiffAngle(b.getLocation(), epb.getAngleDistance(), p) >= Math.tan(Math.toRadians(epb.getMinHeightDifference())))) {
+                            Height.getAverageHeightDiffAngle(
+                                    b.getLocation(),
+                                    epb.getAngleDistance(),
+                                    p
+                            ) >= Math.tan(Math.toRadians(epb.getMinHeightDifference())))) {
                         Random r = new Random();
                         int random = r.nextInt(epbBlocks.size());
                         placedBlocks.add(
-                                new BlockPlace(b.getLocation(), new BlockType(epb.getBlocks().get(random).getMaterial(), epb.getBlocks().get(random).getData())));
+                                new BlockPlace(
+                                        b.getLocation(),
+                                        new BlockType(
+                                                epb.getBlocks().get(random).getMaterial(),
+                                                epb.getBlocks().get(random).getData()
+                                        )
+                                ));
                     }
 
                 }

@@ -47,8 +47,8 @@ public class BlockPlacer {
 
     public boolean isGmask(Player player, BlockVector3 v) {
         LocalSession localSession = WorldEdit.getInstance().getSessionManager().get(new BukkitPlayer(player));
-		return localSession.getMask() == null || localSession.getMask().test(v);
-	}
+        return localSession.getMask() == null || localSession.getMask().test(v);
+    }
 
     public void placeBlocks(Collection<BlockPlace> blocks, final Player p) {
         Bukkit.getScheduler().runTaskAsynchronously(GoPaintPlugin.getGoPaintPlugin(), () -> {
@@ -61,7 +61,10 @@ public class BlockPlacer {
                         Vector3 v = Vector3.at(l.getBlockX(), l.getBlockY(), l.getBlockZ());
                         if (isGmask(p, v.toBlockPoint())) {
                             try {
-                                editsession.setBlock(Vector3.at(l.getBlockX(), l.getBlockY(), l.getBlockZ()).toBlockPoint(), BukkitAdapter.asBlockType(bp.bt.getMaterial()).getDefaultState());
+                                editsession.setBlock(
+                                        Vector3.at(l.getBlockX(), l.getBlockY(), l.getBlockZ()).toBlockPoint(),
+                                        BukkitAdapter.asBlockType(bp.bt.getMaterial()).getDefaultState()
+                                );
                             } catch (Exception ignored) {
                             }
                         }
@@ -72,4 +75,5 @@ public class BlockPlacer {
             }
         });
     }
+
 }

@@ -57,14 +57,22 @@ public class DiscBrush extends Brush {
         List<Block> blocks = Sphere.getBlocksInRadius(loc, size);
         List<BlockPlace> placedBlocks = new ArrayList<BlockPlace>();
         for (Block b : blocks) {
-            if ((pb.getAxis().equals("y") && b.getLocation().getBlockY() == loc.getBlockY()) || (pb.getAxis().equals("x") && b.getLocation().getBlockX() == loc.getBlockX()) || (pb.getAxis().equals("z") && b.getLocation().getBlockZ() == loc.getBlockZ())) {
+            if ((pb.getAxis().equals("y") && b.getLocation().getBlockY() == loc.getBlockY()) || (pb.getAxis().equals("x") && b
+                    .getLocation()
+                    .getBlockX() == loc.getBlockX()) || (pb.getAxis().equals("z") && b
+                    .getLocation()
+                    .getBlockZ() == loc.getBlockZ())) {
                 if ((!pb.isSurfaceModeEnabled()) || Surface.isOnSurface(b.getLocation(), p.getLocation())) {
-                    if ((!pb.isMaskEnabled()) || (b.getType().equals(pb.getMask().getMaterial()) && (XMaterial.isNewVersion() || b.getData() == pb.getMask().getData()))) {
+                    if ((!pb.isMaskEnabled()) || (b.getType().equals(pb
+                            .getMask()
+                            .getMaterial()) && (XMaterial.isNewVersion() || b.getData() == pb.getMask().getData()))) {
                         Random r = new Random();
                         int random = r.nextInt(pbBlocks.size());
                         placedBlocks.add(
-                                new BlockPlace(b.getLocation(),
-                                        new BlockType(pbBlocks.get(random).getMaterial(), pbBlocks.get(random).getData())));
+                                new BlockPlace(
+                                        b.getLocation(),
+                                        new BlockType(pbBlocks.get(random).getMaterial(), pbBlocks.get(random).getData())
+                                ));
                     }
                 }
             }
@@ -89,14 +97,25 @@ public class DiscBrush extends Brush {
         List<Block> blocks = Sphere.getBlocksInRadius(loc, size);
         List<BlockPlace> placedBlocks = new ArrayList<BlockPlace>();
         for (Block b : blocks) {
-            if ((epb.getAxis().equals("y") && b.getLocation().getBlockY() == loc.getBlockY()) || (epb.getAxis().equals("x") && b.getLocation().getBlockX() == loc.getBlockX()) || (epb.getAxis().equals("z") && b.getLocation().getBlockZ() == loc.getBlockZ())) {
+            if ((epb.getAxis().equals("y") && b.getLocation().getBlockY() == loc.getBlockY()) || (epb.getAxis().equals("x") && b
+                    .getLocation()
+                    .getBlockX() == loc.getBlockX()) || (epb.getAxis().equals("z") && b
+                    .getLocation()
+                    .getBlockZ() == loc.getBlockZ())) {
                 if ((!epb.isSurfaceModeEnabled()) || Surface.isOnSurface(b.getLocation(), p.getLocation())) {
-                    if ((!epb.isMaskEnabled()) || (b.getType().equals(epb.getMask().getMaterial()) && (XMaterial.isNewVersion() || b.getData() == epb.getMask().getData()))) {
+                    if ((!epb.isMaskEnabled()) || (b.getType().equals(epb
+                            .getMask()
+                            .getMaterial()) && (XMaterial.isNewVersion() || b.getData() == epb.getMask().getData()))) {
                         Random r = new Random();
                         int random = r.nextInt(epbBlocks.size());
                         placedBlocks.add(
-                                new BlockPlace(b.getLocation(),
-                                        new BlockType(epb.getBlocks().get(random).getMaterial(), epb.getBlocks().get(random).getData())));
+                                new BlockPlace(
+                                        b.getLocation(),
+                                        new BlockType(
+                                                epb.getBlocks().get(random).getMaterial(),
+                                                epb.getBlocks().get(random).getData()
+                                        )
+                                ));
                     }
                 }
             }
@@ -104,4 +123,5 @@ public class DiscBrush extends Brush {
         BlockPlacer bp = new BlockPlacer();
         bp.placeBlocks(placedBlocks, p);
     }
+
 }

@@ -102,4 +102,5 @@ public class Height {
         int height = getHeight(p, loc.clone());
         return height - loc.getBlockY() <= thickness;
     }
+
 }

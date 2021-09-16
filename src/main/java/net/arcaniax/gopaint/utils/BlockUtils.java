@@ -29,9 +29,11 @@ package net.arcaniax.gopaint.utils;
 import org.bukkit.Location;
 
 public class BlockUtils {
+
     public static boolean isLoaded(Location l) {
         int x = l.getBlockX() >> 4;
         int z = l.getBlockZ() >> 4;
         return l.getWorld().isChunkLoaded(x, z);
     }
+
 }

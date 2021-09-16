@@ -45,4 +45,5 @@ public class BlockType {
     public short getData() {
         return data;
     }
+
 }

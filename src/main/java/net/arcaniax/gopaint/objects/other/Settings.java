@@ -32,6 +32,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Settings {
+
     int maxSize;
     int defaultSize;
     int maxHistory;
@@ -185,4 +186,5 @@ public class Settings {
     public int getMaxFractureDistance() {
         return this.maxFractureDistance;
     }
+
 }

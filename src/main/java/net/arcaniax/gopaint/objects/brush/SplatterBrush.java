@@ -59,13 +59,22 @@ public class SplatterBrush extends Brush {
         List<BlockPlace> placedBlocks = new ArrayList<BlockPlace>();
         for (Block b : blocks) {
             if ((!pb.isSurfaceModeEnabled()) || Surface.isOnSurface(b.getLocation(), p.getLocation())) {
-                if ((!pb.isMaskEnabled()) || (b.getType().equals(pb.getMask().getMaterial()) && (XMaterial.isNewVersion() || b.getData() == pb.getMask().getData()))) {
+                if ((!pb.isMaskEnabled()) || (b.getType().equals(pb
+                        .getMask()
+                        .getMaterial()) && (XMaterial.isNewVersion() || b.getData() == pb.getMask().getData()))) {
                     Random r = new Random();
-                    double rate = (b.getLocation().distance(loc) - ((double) size / 2.0) * ((100.0 - (double) falloff) / 100.0)) / (((double) size / 2.0) - ((double) size / 2.0) * ((100.0 - (double) falloff) / 100.0));
+                    double rate = (b
+                            .getLocation()
+                            .distance(loc) - ((double) size / 2.0) * ((100.0 - (double) falloff) / 100.0)) / (((double) size / 2.0) - ((double) size / 2.0) * ((100.0 - (double) falloff) / 100.0));
                     if (!(r.nextDouble() <= rate)) {
                         int random = r.nextInt(pbBlocks.size());
                         placedBlocks.add(
-                                new BlockPlace(b.getLocation(), new BlockType(pb.getBlocks().get(random).getMaterial(), pb.getBlocks().get(random).getData())));
+                                new BlockPlace(b.getLocation(),
+                                        new BlockType(
+                                                pb.getBlocks().get(random).getMaterial(),
+                                                pb.getBlocks().get(random).getData()
+                                        )
+                                ));
                     }
                 }
             }
@@ -92,13 +101,22 @@ public class SplatterBrush extends Brush {
         List<BlockPlace> placedBlocks = new ArrayList<>();
         for (Block b : blocks) {
             if ((!epb.isSurfaceModeEnabled()) || Surface.isOnSurface(b.getLocation(), p.getLocation())) {
-                if ((!epb.isMaskEnabled()) || (b.getType().equals(epb.getMask().getMaterial()) && (XMaterial.isNewVersion() || b.getData() == epb.getMask().getData()))) {
+                if ((!epb.isMaskEnabled()) || (b.getType().equals(epb
+                        .getMask()
+                        .getMaterial()) && (XMaterial.isNewVersion() || b.getData() == epb.getMask().getData()))) {
                     Random r = new Random();
-                    double rate = (b.getLocation().distance(loc) - ((double) size / 2.0) * ((100.0 - (double) falloff) / 100.0)) / (((double) size / 2.0) - ((double) size / 2.0) * ((100.0 - (double) falloff) / 100.0));
+                    double rate = (b
+                            .getLocation()
+                            .distance(loc) - ((double) size / 2.0) * ((100.0 - (double) falloff) / 100.0)) / (((double) size / 2.0) - ((double) size / 2.0) * ((100.0 - (double) falloff) / 100.0));
                     if (!(r.nextDouble() <= rate)) {
                         int random = r.nextInt(epbBlocks.size());
                         placedBlocks.add(
-                                new BlockPlace(b.getLocation(), new BlockType(epb.getBlocks().get(random).getMaterial(), epb.getBlocks().get(random).getData())));
+                                new BlockPlace(b.getLocation(),
+                                        new BlockType(
+                                                epb.getBlocks().get(random).getMaterial(),
+                                                epb.getBlocks().get(random).getData()
+                                        )
+                                ));
                     }
                 }
             }
@@ -107,4 +125,5 @@ public class SplatterBrush extends Brush {
         bp.placeBlocks(placedBlocks, p);
 
     }
+
 }

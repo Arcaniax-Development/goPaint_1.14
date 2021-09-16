@@ -41,9 +41,14 @@ import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Random;
 
 public class PaintBrush extends Brush {
+
     private static final HashMap<String, List<Location>> selectedPoints = new HashMap<>();
 
     @Override
@@ -77,7 +82,9 @@ public class PaintBrush extends Brush {
             for (Block b : blocks) {
                 Random r = new Random();
                 int random = r.nextInt(pbBlocks.size());
-                double rate = (b.getLocation().distance(locs.get(0)) - ((double) size / 2.0) * ((100.0 - (double) falloff) / 100.0)) / (((double) size / 2.0) - ((double) size / 2.0) * ((100.0 - (double) falloff) / 100.0));
+                double rate = (b
+                        .getLocation()
+                        .distance(locs.get(0)) - ((double) size / 2.0) * ((100.0 - (double) falloff) / 100.0)) / (((double) size / 2.0) - ((double) size / 2.0) * ((100.0 - (double) falloff) / 100.0));
                 if (!(r.nextDouble() <= rate)) {
                     LinkedList<Location> newCurve = new LinkedList<>();
                     int amount = 0;
@@ -88,7 +95,8 @@ public class PaintBrush extends Brush {
                             newCurve.add(b.getLocation().clone().add(
                                     l.getX() - locs.get(0).getX(),
                                     l.getY() - locs.get(0).getY(),
-                                    l.getZ() - locs.get(0).getZ()));
+                                    l.getZ() - locs.get(0).getZ()
+                            ));
                         }
                         amount++;
                     }
@@ -98,11 +106,18 @@ public class PaintBrush extends Brush {
                     for (int y = 0; y <= maxCount; y++) {
                         Location l = bs.getPoint(((double) y / (double) maxCount) * (locs.size() - 1)).getBlock().getLocation();
                         Location location = new Location(l.getWorld(), l.getBlockX(), l.getBlockY(), l.getBlockZ());
-                        if (BlockUtils.isLoaded(location) && (!location.getBlock().getType().equals(XMaterial.AIR.parseMaterial()))) {
+                        if (BlockUtils.isLoaded(location) && (!location
+                                .getBlock()
+                                .getType()
+                                .equals(XMaterial.AIR.parseMaterial()))) {
                             if ((!pb.isSurfaceModeEnabled()) || Surface.isOnSurface(location, p.getLocation())) {
-                                if ((!pb.isMaskEnabled()) || (b.getType().equals(pb.getMask().getMaterial()) && (XMaterial.isNewVersion() || b.getData() == pb.getMask().getData()))) {
-                                    placedBlocks.add(new BlockPlace(location,
-                                            new BlockType(pbBlocks.get(random).getMaterial(), pbBlocks.get(random).getData())));
+                                if ((!pb.isMaskEnabled()) || (b.getType().equals(pb
+                                        .getMask()
+                                        .getMaterial()) && (XMaterial.isNewVersion() || b.getData() == pb.getMask().getData()))) {
+                                    placedBlocks.add(new BlockPlace(
+                                            location,
+                                            new BlockType(pbBlocks.get(random).getMaterial(), pbBlocks.get(random).getData())
+                                    ));
                                 }
                             }
                         }
@@ -146,7 +161,9 @@ public class PaintBrush extends Brush {
             for (Block b : blocks) {
                 Random r = new Random();
                 int random = r.nextInt(pbBlocks.size());
-                double rate = (b.getLocation().distance(locs.get(0)) - ((double) size / 2.0) * ((100.0 - (double) falloff) / 100.0)) / (((double) size / 2.0) - ((double) size / 2.0) * ((100.0 - (double) falloff) / 100.0));
+                double rate = (b
+                        .getLocation()
+                        .distance(locs.get(0)) - ((double) size / 2.0) * ((100.0 - (double) falloff) / 100.0)) / (((double) size / 2.0) - ((double) size / 2.0) * ((100.0 - (double) falloff) / 100.0));
                 if (!(r.nextDouble() <= rate)) {
                     LinkedList<Location> newCurve = new LinkedList<>();
                     int amount = 0;
@@ -157,7 +174,8 @@ public class PaintBrush extends Brush {
                             newCurve.add(b.getLocation().clone().add(
                                     l.getX() - locs.get(0).getX(),
                                     l.getY() - locs.get(0).getY(),
-                                    l.getZ() - locs.get(0).getZ()));
+                                    l.getZ() - locs.get(0).getZ()
+                            ));
                         }
                         amount++;
                     }
@@ -167,11 +185,20 @@ public class PaintBrush extends Brush {
                     for (int y = 0; y <= maxCount; y++) {
                         Location l = bs.getPoint(((double) y / (double) maxCount) * (locs.size() - 1)).getBlock().getLocation();
                         Location location = new Location(l.getWorld(), l.getBlockX(), l.getBlockY(), l.getBlockZ());
-                        if (BlockUtils.isLoaded(location) && (!location.getBlock().getType().equals(XMaterial.AIR.parseMaterial()))) {
+                        if (BlockUtils.isLoaded(location) && (!location
+                                .getBlock()
+                                .getType()
+                                .equals(XMaterial.AIR.parseMaterial()))) {
                             if ((!epb.isSurfaceModeEnabled()) || Surface.isOnSurface(location, p.getLocation())) {
-                                if ((!epb.isMaskEnabled()) || (b.getType().equals(epb.getMask().getMaterial()) && (XMaterial.isNewVersion() || b.getData() == epb.getMask().getData()))) {
-                                    placedBlocks.add(new BlockPlace(location,
-                                            new BlockType(pbBlocks.get(random).getMaterial(), pbBlocks.get(random).getData())));
+                                if ((!epb.isMaskEnabled()) || (b.getType().equals(epb
+                                        .getMask()
+                                        .getMaterial()) && (XMaterial.isNewVersion() || b.getData() == epb
+                                        .getMask()
+                                        .getData()))) {
+                                    placedBlocks.add(new BlockPlace(
+                                            location,
+                                            new BlockType(pbBlocks.get(random).getMaterial(), pbBlocks.get(random).getData())
+                                    ));
                                 }
                             }
                         }
@@ -189,4 +216,5 @@ public class PaintBrush extends Brush {
     public String getName() {
         return "Paint Brush";
     }
+
 }

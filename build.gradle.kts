@@ -1,13 +1,19 @@
 import org.cadixdev.gradle.licenser.LicenseExtension
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 import org.ajoberstar.grgit.Grgit
+import net.minecrell.pluginyml.bukkit.BukkitPluginDescription
 
 plugins {
-    id("java")
-    id("java-library")
+    java
+    `java-library`
+
     id("org.cadixdev.licenser") version "0.6.1"
     id("com.github.johnrengelman.shadow") version "7.0.0"
     id("org.ajoberstar.grgit") version "4.1.0"
+    id("net.minecrell.plugin-yml.bukkit") version "0.5.0"
+
+    idea
+    eclipse
 }
 
 the<JavaPluginExtension>().toolchain {
@@ -40,10 +46,6 @@ repositories {
         name = "WorldEdit"
         url = uri("https://maven.enginehub.org/repo/")
     }
-    maven {
-        name = "IntellectualSites"
-        url = uri("https://mvn.intellectualsites.com/content/groups/public/")
-    }
 }
 
 dependencies {
@@ -51,7 +53,7 @@ dependencies {
     compileOnly("com.mojang:authlib:1.5.25")
     compileOnlyApi("com.sk89q.worldedit:worldedit-core:7.2.6")
     compileOnly("com.sk89q.worldedit:worldedit-bukkit:7.2.6")
-    implementation("org.incendo.serverlib:ServerLib:2.2.1")
+    implementation("dev.notmyfault.serverlib:ServerLib:2.3.0")
     implementation("org.bstats:bstats-bukkit:2.2.1")
     implementation("org.bstats:bstats-base:2.2.1")
     implementation("io.papermc:paperlib:1.0.6")
@@ -72,17 +74,46 @@ ext {
 
 version = String.format("%s-%s", rootProject.version, buildNumber)
 
+bukkit {
+    name = "goPaint"
+    main = "net.arcaniax.gopaint.GoPaintPlugin"
+    authors = listOf("Arcaniax")
+    apiVersion = "1.13"
+    version = project.version.toString()
+    depend = listOf("WorldEdit")
+    website = "https://www.spigotmc.org/resources/27717/"
+
+    commands {
+        register("gopaint") {
+            description = "goPaint command"
+            aliases = listOf("gp")
+        }
+    }
+
+    permissions {
+        register("gopaint.use") {
+            default = BukkitPluginDescription.Permission.Default.OP
+        }
+        register("gopaint.admin") {
+            default = BukkitPluginDescription.Permission.Default.FALSE
+        }
+        register("gopaint.world.bypass") {
+            default = BukkitPluginDescription.Permission.Default.FALSE
+        }
+    }
+}
+
 tasks.named<ShadowJar>("shadowJar") {
     archiveClassifier.set(null as String?)
     dependencies {
         relocate("org.incendo.serverlib", "net.arcaniax.gopaint.serverlib") {
-            include(dependency("org.incendo.serverlib:ServerLib:2.2.1"))
+            include(dependency("dev.notmyfault.serverlib:ServerLib:2.3.0"))
         }
         relocate("org.bstats", "net.arcaniax.gopaint.metrics") {
             include(dependency("org.bstats:bstats-base"))
             include(dependency("org.bstats:bstats-bukkit"))
         }
-        relocate("io.papermc.lib", "com.arcaniax.gopaint.paperlib") {
+        relocate("io.papermc.lib", "net.arcaniax.gopaint.paperlib") {
             include(dependency("io.papermc:paperlib:1.0.6"))
         }
     }

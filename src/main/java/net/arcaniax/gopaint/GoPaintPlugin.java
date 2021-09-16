@@ -46,6 +46,7 @@ import org.incendo.serverlib.ServerLib;
 
 public class GoPaintPlugin extends JavaPlugin implements Listener {
 
+    private static final int BSTATS_ID = 10557;
     public static boolean plotSquaredEnabled;
     public static NmsManager nmsManager;
     private static PlayerBrushManager manager;
@@ -55,8 +56,6 @@ public class GoPaintPlugin extends JavaPlugin implements Listener {
     public InteractListener interactListener;
     public InventoryListener inventoryListener;
     public Handler cmdHandler;
-
-    private static final int BSTATS_ID = 10557;
 
     public static GoPaintPlugin getGoPaintPlugin() {
         return goPaintPlugin;
@@ -106,6 +105,10 @@ public class GoPaintPlugin extends JavaPlugin implements Listener {
 
         Metrics metrics = new Metrics(this, BSTATS_ID);
 
-        metrics.addCustomChart(new SimplePie("worldeditImplementation", () -> Bukkit.getPluginManager().getPlugin("FastAsyncWorldEdit") != null ? "FastAsyncWorldEdit" : "WorldEdit"));
+        metrics.addCustomChart(new SimplePie(
+                "worldeditImplementation",
+                () -> Bukkit.getPluginManager().getPlugin("FastAsyncWorldEdit") != null ? "FastAsyncWorldEdit" : "WorldEdit"
+        ));
     }
+
 }

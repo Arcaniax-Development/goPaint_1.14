@@ -29,12 +29,13 @@ package net.arcaniax.gopaint.utils.curve;
 import org.bukkit.Location;
 
 public class BezierSplineSegment {
+
+    private final double[] lengths;
     private Location p0, p1, p2, p3;
     private float a, b, c;
     private Double xFlat, yFlat, zFlat;
     private Location r;
     private double curveLength;
-    private final double[] lengths;
 
     public BezierSplineSegment(Location p0, Location p3) {
         this.p0 = p0;
@@ -246,5 +247,6 @@ public class BezierSplineSegment {
     public void setR(Location r) {
         this.r = r;
     }
+
 }
 

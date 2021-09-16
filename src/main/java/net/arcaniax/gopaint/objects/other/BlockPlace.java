@@ -29,6 +29,7 @@ package net.arcaniax.gopaint.objects.other;
 import org.bukkit.Location;
 
 public class BlockPlace {
+
     Location l;
     BlockType bt;
 
@@ -44,4 +45,5 @@ public class BlockPlace {
     public Location getLocation() {
         return l;
     }
+
 }
