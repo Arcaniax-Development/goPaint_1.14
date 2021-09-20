@@ -100,7 +100,7 @@ public class GoPaintPlugin extends JavaPlugin implements Listener {
         DisabledBlocks.addBlocks();
         // Check if we are in a safe environment
         ServerLib.checkUnsafeForks();
-        ServerLib.checkJavaLTS();
+        ServerLib.isJavaSixteen();
         PaperLib.suggestPaper(this);
 
         Metrics metrics = new Metrics(this, BSTATS_ID);

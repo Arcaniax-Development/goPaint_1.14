@@ -43,16 +43,15 @@ repositories {
         url = uri("https://libraries.minecraft.net/")
     }
     maven {
-        name = "WorldEdit"
-        url = uri("https://maven.enginehub.org/repo/")
+        name = "IntellectualSites"
+        url = uri("https://mvn.intellectualsites.com/content/groups/public/")
     }
 }
 
 dependencies {
     compileOnlyApi("io.papermc.paper:paper-api:1.17.1-R0.1-SNAPSHOT")
     compileOnly("com.mojang:authlib:1.5.25")
-    compileOnlyApi("com.sk89q.worldedit:worldedit-core:7.2.6")
-    compileOnly("com.sk89q.worldedit:worldedit-bukkit:7.2.6")
+    compileOnlyApi("com.fastasyncworldedit:FastAsyncWorldEdit-Bukkit:1.17-288")
     implementation("dev.notmyfault.serverlib:ServerLib:2.3.0")
     implementation("org.bstats:bstats-bukkit:2.2.1")
     implementation("org.bstats:bstats-base:2.2.1")
