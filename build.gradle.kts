@@ -8,7 +8,7 @@ plugins {
     `java-library`
 
     id("org.cadixdev.licenser") version "0.6.1"
-    id("com.github.johnrengelman.shadow") version "7.1.1"
+    id("com.github.johnrengelman.shadow") version "7.1.2"
     id("org.ajoberstar.grgit") version "4.1.1"
     id("net.minecrell.plugin-yml.bukkit") version "0.5.1"
 
@@ -17,7 +17,7 @@ plugins {
 }
 
 the<JavaPluginExtension>().toolchain {
-    languageVersion.set(JavaLanguageVersion.of(16))
+    languageVersion.set(JavaLanguageVersion.of(17))
 }
 
 tasks.compileJava.configure {
@@ -25,7 +25,7 @@ tasks.compileJava.configure {
 }
 
 configurations.all {
-    attributes.attribute(TargetJvmVersion.TARGET_JVM_VERSION_ATTRIBUTE, 16)
+    attributes.attribute(TargetJvmVersion.TARGET_JVM_VERSION_ATTRIBUTE, 17)
 }
 
 tasks.withType<JavaCompile> {
@@ -43,15 +43,15 @@ repositories {
         url = uri("https://libraries.minecraft.net/")
     }
     maven {
-        name = "IntellectualSites"
-        url = uri("https://mvn.intellectualsites.com/content/groups/public/")
+        name = "S01 Sonatype"
+        url = uri("https://s01.oss.sonatype.org/content/repositories/snapshots/")
     }
 }
 
 dependencies {
-    compileOnlyApi("io.papermc.paper:paper-api:1.17.1-R0.1-SNAPSHOT")
+    compileOnlyApi("io.papermc.paper:paper-api:1.18.1-R0.1-SNAPSHOT")
     compileOnly("com.mojang:authlib:1.5.25")
-    compileOnlyApi("com.fastasyncworldedit:FastAsyncWorldEdit-Bukkit:1.17-419")
+    compileOnlyApi("com.fastasyncworldedit:FastAsyncWorldEdit-Bukkit:2.0.0-SNAPSHOT")
     implementation("dev.notmyfault.serverlib:ServerLib:2.3.1")
     implementation("org.bstats:bstats-bukkit:2.2.1")
     implementation("org.bstats:bstats-base:2.2.1")
