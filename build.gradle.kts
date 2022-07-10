@@ -42,16 +42,14 @@ repositories {
         name = "Mojang"
         url = uri("https://libraries.minecraft.net/")
     }
-    maven {
-        name = "S01 Sonatype"
-        url = uri("https://s01.oss.sonatype.org/content/repositories/snapshots/")
-    }
 }
 
 dependencies {
+    implementation(platform("com.intellectualsites.bom:bom-1.18.x:1.10"))
     compileOnlyApi("io.papermc.paper:paper-api:1.18.1-R0.1-SNAPSHOT")
     compileOnly("com.mojang:authlib:1.5.25")
-    compileOnlyApi("com.fastasyncworldedit:FastAsyncWorldEdit-Bukkit:2.4.0")
+    compileOnly("com.fastasyncworldedit:FastAsyncWorldEdit-Core")
+    compileOnly("com.fastasyncworldedit:FastAsyncWorldEdit-Bukkit")
     implementation("dev.notmyfault.serverlib:ServerLib:2.3.1")
     implementation("org.bstats:bstats-bukkit:3.0.0")
     implementation("org.bstats:bstats-base:3.0.0")
