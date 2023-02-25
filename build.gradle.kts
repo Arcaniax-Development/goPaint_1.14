@@ -54,7 +54,7 @@ dependencies {
     compileOnly("com.mojang:authlib:1.5.25")
     compileOnlyApi("com.fastasyncworldedit:FastAsyncWorldEdit-Bukkit")
     implementation("dev.notmyfault.serverlib:ServerLib:2.3.1")
-    implementation("org.bstats:bstats-bukkit:3.0.0")
+    implementation("org.bstats:bstats-bukkit:3.0.1")
     implementation("org.bstats:bstats-base:3.0.0")
     implementation("io.papermc:paperlib:1.0.8")
 }
