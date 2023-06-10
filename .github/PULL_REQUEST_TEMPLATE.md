@@ -2,7 +2,7 @@
 <!--  Please describe which issue this Pull Request targets
 
 If there is no issue, please create one so we can look into it before approving your PR.
-You can do so here: https://github.com/Arcaniax-Development/goPaint_1.14/issues
+You can do so here: https://github.com/TheMeinerLP/BetterGoPaint/issues
 -->
 
 **Fixes {Link to issue}**
