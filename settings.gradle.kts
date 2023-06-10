@@ -1,1 +1,1 @@
-rootProject.name = "goPaint"
+rootProject.name = "BetterGoPaint"
