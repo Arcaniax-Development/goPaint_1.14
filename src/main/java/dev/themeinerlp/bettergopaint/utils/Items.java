@@ -18,14 +18,13 @@
  */
 package dev.themeinerlp.bettergopaint.utils;
 
-import com.mojang.authlib.GameProfile;
-import com.mojang.authlib.properties.Property;
+import com.cryptomorin.xseries.XMaterial;
+import com.destroystokyo.paper.profile.ProfileProperty;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
-
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -57,7 +56,7 @@ public class Items {
 
     public ItemStack createHead(String data, int amount, String name, String lore) {
         ItemStack item;
-        if (XMaterial.isNewVersion()) {
+        if (XMaterial.supports(13)) {
             item = XMaterial.PLAYER_HEAD.parseItem();
         } else {
             item = new ItemStack(Material.getMaterial("SKULL_ITEM"));
@@ -77,17 +76,10 @@ public class Items {
             meta.setDisplayName(name.replace("&", "§"));
         }
         item.setItemMeta(meta);
-        if (item.getItemMeta() instanceof SkullMeta) {
-            SkullMeta headMeta = (SkullMeta) item.getItemMeta();
-            GameProfile profile = new GameProfile(UUID.randomUUID(), null);
-            profile.getProperties().put("textures", new Property("textures", data));
-            Field profileField = null;
-            try {
-                profileField = headMeta.getClass().getDeclaredField("profile");
-                profileField.setAccessible(true);
-                profileField.set(headMeta, profile);
-            } catch (Exception ignored) {
-            }
+        if (item.getItemMeta() instanceof SkullMeta headMeta) {
+            var profile = Bukkit.createProfile(UUID.randomUUID());
+            profile.setProperty(new ProfileProperty("textures", data));
+            headMeta.setPlayerProfile(profile);
             item.setItemMeta(headMeta);
         }
         return item;
