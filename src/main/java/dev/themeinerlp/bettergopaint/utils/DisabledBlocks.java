@@ -18,6 +18,7 @@
  */
 package dev.themeinerlp.bettergopaint.utils;
 
+import com.cryptomorin.xseries.XMaterial;
 import org.bukkit.Material;
 
 import java.util.ArrayList;
@@ -44,7 +45,7 @@ public class DisabledBlocks {
         disabledMaterials.add(XMaterial.FURNACE.parseMaterial());
         disabledMaterials.add(XMaterial.HOPPER.parseMaterial());
         for (XMaterial material : XMaterial.values()) {
-            for (String s : material.m) {
+            for (String s : material.getLegacy()) {
                 if (s.toLowerCase().contains("shulker_box")) {
                     disabledMaterials.add(material.parseMaterial());
                 } else if (s.toLowerCase().contains("trapdoor")) {

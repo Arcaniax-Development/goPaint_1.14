@@ -18,6 +18,7 @@
  */
 package dev.themeinerlp.bettergopaint.utils;
 
+import com.cryptomorin.xseries.XMaterial;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 

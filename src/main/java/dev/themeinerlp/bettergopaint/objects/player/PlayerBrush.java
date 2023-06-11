@@ -18,10 +18,8 @@
  */
 package dev.themeinerlp.bettergopaint.objects.player;
 
+import com.cryptomorin.xseries.XMaterial;
 import dev.themeinerlp.bettergopaint.BetterGoPaint;
-import dev.themeinerlp.bettergopaint.objects.other.BlockType;
-import dev.themeinerlp.bettergopaint.utils.GUI;
-import dev.themeinerlp.bettergopaint.utils.XMaterial;
 import dev.themeinerlp.bettergopaint.objects.brush.AngleBrush;
 import dev.themeinerlp.bettergopaint.objects.brush.Brush;
 import dev.themeinerlp.bettergopaint.objects.brush.DiscBrush;
@@ -30,6 +28,8 @@ import dev.themeinerlp.bettergopaint.objects.brush.GradientBrush;
 import dev.themeinerlp.bettergopaint.objects.brush.OverlayBrush;
 import dev.themeinerlp.bettergopaint.objects.brush.SplatterBrush;
 import dev.themeinerlp.bettergopaint.objects.brush.SprayBrush;
+import dev.themeinerlp.bettergopaint.objects.other.BlockType;
+import dev.themeinerlp.bettergopaint.utils.GUI;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemFlag;

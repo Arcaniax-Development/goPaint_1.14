@@ -18,21 +18,13 @@
  */
 package dev.themeinerlp.bettergopaint.listeners;
 
+import com.cryptomorin.xseries.XMaterial;
 import dev.themeinerlp.bettergopaint.BetterGoPaint;
+import dev.themeinerlp.bettergopaint.objects.brush.*;
 import dev.themeinerlp.bettergopaint.objects.other.BlockType;
 import dev.themeinerlp.bettergopaint.objects.player.PlayerBrush;
 import dev.themeinerlp.bettergopaint.utils.DisabledBlocks;
 import dev.themeinerlp.bettergopaint.utils.GUI;
-import dev.themeinerlp.bettergopaint.utils.XMaterial;
-import dev.themeinerlp.bettergopaint.objects.brush.AngleBrush;
-import dev.themeinerlp.bettergopaint.objects.brush.Brush;
-import dev.themeinerlp.bettergopaint.objects.brush.DiscBrush;
-import dev.themeinerlp.bettergopaint.objects.brush.FractureBrush;
-import dev.themeinerlp.bettergopaint.objects.brush.GradientBrush;
-import dev.themeinerlp.bettergopaint.objects.brush.OverlayBrush;
-import dev.themeinerlp.bettergopaint.objects.brush.PaintBrush;
-import dev.themeinerlp.bettergopaint.objects.brush.SplatterBrush;
-import dev.themeinerlp.bettergopaint.objects.brush.SprayBrush;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -212,7 +204,7 @@ public class InventoryListener implements Listener {
             }
             PlayerBrush pb = BetterGoPaint.getBrushManager().getPlayerBrush(p);
             boolean check = false;
-            if (XMaterial.isNewVersion()) {
+            if (XMaterial.supports(13)) {
                 if (e.getCurrentItem().getType().equals(XMaterial.PLAYER_HEAD.parseMaterial())) {
                     check = true;
                 }

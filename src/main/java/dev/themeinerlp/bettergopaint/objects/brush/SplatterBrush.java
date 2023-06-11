@@ -18,6 +18,7 @@
  */
 package dev.themeinerlp.bettergopaint.objects.brush;
 
+import com.cryptomorin.xseries.XMaterial;
 import dev.themeinerlp.bettergopaint.BetterGoPaint;
 import dev.themeinerlp.bettergopaint.objects.other.BlockPlace;
 import dev.themeinerlp.bettergopaint.objects.other.BlockPlacer;
@@ -26,7 +27,6 @@ import dev.themeinerlp.bettergopaint.objects.player.ExportedPlayerBrush;
 import dev.themeinerlp.bettergopaint.objects.player.PlayerBrush;
 import dev.themeinerlp.bettergopaint.utils.Sphere;
 import dev.themeinerlp.bettergopaint.utils.Surface;
-import dev.themeinerlp.bettergopaint.utils.XMaterial;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -53,7 +53,7 @@ public class SplatterBrush extends Brush {
             if ((!pb.isSurfaceModeEnabled()) || Surface.isOnSurface(b.getLocation(), p.getLocation())) {
                 if ((!pb.isMaskEnabled()) || (b.getType().equals(pb
                         .getMask()
-                        .getMaterial()) && (XMaterial.isNewVersion() || b.getData() == pb.getMask().getData()))) {
+                        .getMaterial()) && (XMaterial.supports(13) || b.getData() == pb.getMask().getData()))) {
                     Random r = new Random();
                     double rate = (b
                             .getLocation()
@@ -61,7 +61,8 @@ public class SplatterBrush extends Brush {
                     if (!(r.nextDouble() <= rate)) {
                         int random = r.nextInt(pbBlocks.size());
                         placedBlocks.add(
-                                new BlockPlace(b.getLocation(),
+                                new BlockPlace(
+                                        b.getLocation(),
                                         new BlockType(
                                                 pb.getBlocks().get(random).getMaterial(),
                                                 pb.getBlocks().get(random).getData()
@@ -95,7 +96,7 @@ public class SplatterBrush extends Brush {
             if ((!epb.isSurfaceModeEnabled()) || Surface.isOnSurface(b.getLocation(), p.getLocation())) {
                 if ((!epb.isMaskEnabled()) || (b.getType().equals(epb
                         .getMask()
-                        .getMaterial()) && (XMaterial.isNewVersion() || b.getData() == epb.getMask().getData()))) {
+                        .getMaterial()) && (XMaterial.supports(13) || b.getData() == epb.getMask().getData()))) {
                     Random r = new Random();
                     double rate = (b
                             .getLocation()
@@ -103,7 +104,8 @@ public class SplatterBrush extends Brush {
                     if (!(r.nextDouble() <= rate)) {
                         int random = r.nextInt(epbBlocks.size());
                         placedBlocks.add(
-                                new BlockPlace(b.getLocation(),
+                                new BlockPlace(
+                                        b.getLocation(),
                                         new BlockType(
                                                 epb.getBlocks().get(random).getMaterial(),
                                                 epb.getBlocks().get(random).getData()

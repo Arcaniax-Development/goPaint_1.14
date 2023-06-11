@@ -18,6 +18,7 @@
  */
 package dev.themeinerlp.bettergopaint.objects.brush;
 
+import com.cryptomorin.xseries.XMaterial;
 import dev.themeinerlp.bettergopaint.BetterGoPaint;
 import dev.themeinerlp.bettergopaint.objects.other.BlockPlace;
 import dev.themeinerlp.bettergopaint.objects.other.BlockPlacer;
@@ -25,7 +26,6 @@ import dev.themeinerlp.bettergopaint.objects.other.BlockType;
 import dev.themeinerlp.bettergopaint.objects.player.ExportedPlayerBrush;
 import dev.themeinerlp.bettergopaint.utils.Sphere;
 import dev.themeinerlp.bettergopaint.utils.Surface;
-import dev.themeinerlp.bettergopaint.utils.XMaterial;
 import dev.themeinerlp.bettergopaint.objects.player.PlayerBrush;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
@@ -55,7 +55,7 @@ public class GradientBrush extends Brush {
             if ((!pb.isSurfaceModeEnabled()) || Surface.isOnSurface(b.getLocation(), p.getLocation())) {
                 if ((!pb.isMaskEnabled()) || (b.getType().equals(pb
                         .getMask()
-                        .getMaterial()) && (XMaterial.isNewVersion() || b.getData() == pb.getMask().getData()))) {
+                        .getMaterial()) && (XMaterial.supports(13) || b.getData() == pb.getMask().getData()))) {
                     double _y = (b.getLocation().getBlockY() - y) / (double) size * pbBlocks.size();
                     Random r = new Random();
                     int block = (int) (_y + (r.nextDouble() * 2 - 1) * ((double) mixing / 100.0));
@@ -106,7 +106,7 @@ public class GradientBrush extends Brush {
             if ((!epb.isSurfaceModeEnabled()) || Surface.isOnSurface(b.getLocation(), p.getLocation())) {
                 if ((!epb.isMaskEnabled()) || (b.getType().equals(epb
                         .getMask()
-                        .getMaterial()) && (XMaterial.isNewVersion() || b.getData() == epb.getMask().getData()))) {
+                        .getMaterial()) && (XMaterial.supports(13) || b.getData() == epb.getMask().getData()))) {
                     double _y = (b.getLocation().getBlockY() - y) / (double) size * epbBlocks.size();
                     Random r = new Random();
                     int block = (int) (_y + (r.nextDouble() * 2 - 1) * ((double) mixing / 100.0));

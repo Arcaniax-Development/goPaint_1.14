@@ -18,10 +18,10 @@
  */
 package dev.themeinerlp.bettergopaint.listeners;
 
+import com.cryptomorin.xseries.XMaterial;
 import dev.themeinerlp.bettergopaint.BetterGoPaint;
 import dev.themeinerlp.bettergopaint.objects.player.ExportedPlayerBrush;
 import dev.themeinerlp.bettergopaint.objects.player.PlayerBrush;
-import dev.themeinerlp.bettergopaint.utils.XMaterial;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -42,7 +42,7 @@ public class InteractListener implements Listener {
     @SuppressWarnings("deprecation")
     @EventHandler(priority = EventPriority.LOWEST)
     public void onClick(PlayerInteractEvent e) {
-        if (BetterGoPaint.nmsManager.isAtLeastVersion(1, 9, 0)) {
+        if (XMaterial.supports(19)) {
             if (e.getHand() == EquipmentSlot.OFF_HAND) {
                 return;
             }
