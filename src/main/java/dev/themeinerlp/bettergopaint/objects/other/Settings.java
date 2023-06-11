@@ -18,165 +18,125 @@
  */
 package dev.themeinerlp.bettergopaint.objects.other;
 
-import dev.themeinerlp.bettergopaint.BetterGoPaint;
+import com.fastasyncworldedit.core.configuration.Config;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Settings {
+public final class Settings extends Config {
 
-    int maxSize;
-    int defaultSize;
-    int maxHistory;
-    int defaultChance;
-    int defaultThickness;
-    int defaultAngleDistance;
-    int maxAngleDistance;
-    int defaultFractureDistance;
-    int maxFractureDistance;
-    double minAngleHeightDifference;
-    double defaultAngleHeightDifference;
-    double maxAngleHeightDifference;
-    int maxThickness;
-    String prefix;
-    List<String> disabledWorldNames;
-    boolean enabledByDefault;
-    boolean maskEnabled;
-    boolean boundingBoxEnabled;
-    boolean surfaceModeEnabled;
+    @Ignore
+    static Settings INSTANCE = new Settings();
 
-    public Settings() {
-        defaultSize = 10;
-        maxSize = 100;
-        defaultChance = 50;
-        defaultThickness = 1;
-        maxThickness = 5;
-        defaultAngleDistance = 2;
-        defaultFractureDistance = 2;
-        maxFractureDistance = 5;
-        maxAngleDistance = 5;
-        minAngleHeightDifference = 10.0;
-        defaultAngleHeightDifference = 40.0;
-        maxAngleHeightDifference = 85.0;
-        maxHistory = 100;
-        prefix = "§bgoPaint > ";
-        disabledWorldNames = new ArrayList<>();
-        enabledByDefault = false;
-        maskEnabled = true;
-        surfaceModeEnabled = false;
+    @Create
+    public GENERIC GENERIC;
+
+    @Create
+    public THICKNESS THICKNESS;
+
+
+    @Create
+    public ANGLE ANGLE;
+
+    @Create
+    public FRACTURE FRACTURE;
+
+    @Comment("This is related to generic settings")
+    public static class GENERIC {
+
+        @Comment("Max size of the brush")
+        @Final
+        public int MAX_SIZE = 100;
+        @Comment("Default size for each player of the brush")
+        @Final
+        public int DEFAULT_SIZE = 10;
+        @Comment("Default chance for some brushes")
+        @Final
+        public int DEFAULT_CHANCE = 50;
+        @Comment("Prefix of the plugin")
+        @Final
+        public String PREFIX = "<aqua>BetterGoPaint > </aqua>";
+        @Comment("World there are disabled to used brushes")
+        @Final
+        public List<String> DISABLED_WORLDS = new ArrayList<>();
+
+        @Comment("Enables BetterGoPaint usage by default")
+        @Final
+        public boolean ENABLED_BY_DEFAULT = true;
+
+        @Comment("Enables mask usage by default")
+        @Final
+        public boolean MASK_ENABLED = true;
+
+        @Comment("Enables surface mode usage by default")
+        @Final
+        public boolean SURFACE_MODE = true;
+
+
     }
 
-    public void loadConfig() {
-        maxSize = BetterGoPaint.getGoPaintPlugin().getConfig().getInt("size.max");
-        defaultSize = BetterGoPaint.getGoPaintPlugin().getConfig().getInt("size.default");
-        int chance = BetterGoPaint.getGoPaintPlugin().getConfig().getInt("chance.default");
-        if (chance > 0 && chance < 100 && chance % 10 == 0) {
-            defaultChance = chance;
-        }
-        defaultThickness = BetterGoPaint.getGoPaintPlugin().getConfig().getInt("thickness.default");
+    @Comment("This is related to thickness settings")
+    public static class THICKNESS {
 
-        defaultAngleDistance = BetterGoPaint.getGoPaintPlugin().getConfig().getInt("angleDistance.default");
+        @Comment("Default thickness for some brushes")
+        @Final
+        public int DEFAULT_THICKNESS = 1;
 
-        maxAngleDistance = BetterGoPaint.getGoPaintPlugin().getConfig().getInt("angleDistance.max");
+        @Comment("Maximum thickness for some brushes")
+        @Final
+        public int MAX_THICKNESS = 5;
 
-        defaultFractureDistance = BetterGoPaint.getGoPaintPlugin().getConfig().getInt("fractureDistance.default");
-
-        maxFractureDistance = BetterGoPaint.getGoPaintPlugin().getConfig().getInt("fractureDistance.max");
-
-        double minAngle = BetterGoPaint.getGoPaintPlugin().getConfig().getDouble("angleHeightDifference.min");
-        if (minAngle > 0 && minAngle < 90 && minAngle % 5 == 0) {
-            minAngleHeightDifference = minAngle;
-        }
-
-        double defaultAngle = BetterGoPaint.getGoPaintPlugin().getConfig().getDouble("angleHeightDifference.default");
-        if (defaultAngle > 0 && defaultAngle < 90 && defaultAngle % 5 == 0) {
-            defaultAngleHeightDifference = defaultAngle;
-        }
-        double maxAngle = BetterGoPaint.getGoPaintPlugin().getConfig().getDouble("angleHeightDifference.max");
-        if (maxAngle > 0 && maxAngle < 90 && maxAngle % 5 == 0) {
-            maxAngleHeightDifference = maxAngle;
-        }
-
-        maxThickness = BetterGoPaint.getGoPaintPlugin().getConfig().getInt("thickness.max");
-        maxHistory = BetterGoPaint.getGoPaintPlugin().getConfig().getInt("history.max");
-
-        disabledWorldNames = BetterGoPaint.getGoPaintPlugin().getConfig().getStringList("disabledWorlds");
-        enabledByDefault = BetterGoPaint.getGoPaintPlugin().getConfig().getBoolean("toggles.enabledByDefault");
-        maskEnabled = BetterGoPaint.getGoPaintPlugin().getConfig().getBoolean("toggles.maskEnabled");
-        boundingBoxEnabled = BetterGoPaint.getGoPaintPlugin().getConfig().getBoolean("toggles.boundingBoxEnabled");
-        surfaceModeEnabled = BetterGoPaint.getGoPaintPlugin().getConfig().getBoolean("toggles.surfaceModeEnabled");
     }
 
-    public int getDefaultSize() {
-        return defaultSize;
+    @Comment("This is related to angle settings")
+    public static class ANGLE {
+
+        @Comment("Default angle distance for some brushes")
+        @Final
+        public int DEFAULT_ANGLE_DISTANCE = 2;
+        @Comment("Maximum angle distance for some brushes")
+        @Final
+        public int MAX_ANGLE_DISTANCE = 5;
+
+        @Comment("Minimum angle height difference for some brushes")
+        @Final
+        // Angle category
+        public double MIN_ANGLE_HEIGHT_DIFFERENCE = 10.0;
+
+        @Comment("Default angle height difference for some brushes")
+        @Final
+        public double DEFAULT_ANGLE_HEIGHT_DIFFERENCE = 40.0;
+
+        public double MAX_ANGLE_HEIGHT_DIFFERENCE = 85.0;
+
     }
 
-    public int getDefaultChance() {
-        return defaultChance;
+    @Comment("This is related to fracture settings")
+    public static class FRACTURE {
+
+        @Comment("Default fracture for some brushes")
+        @Final
+        public int DEFAULT_FRACTURE_DISTANCE = 2;
+        @Comment("Maximum fracture for some brushes")
+        @Final
+        public int MAX_FRACTURE_DISTANCE = 5;
+
     }
 
-    public int getDefaultThickness() {
-        return defaultThickness;
+    public static Settings settings() {
+        return INSTANCE;
     }
 
-    public double getDefaultAngleHeightDifference() {
-        return defaultAngleHeightDifference;
+
+    public void reload(File file) {
+        load(file);
+        save(file);
     }
 
-    public int getDefaultAngleDistance() {
-        return defaultAngleDistance;
+    private Settings() {
+        INSTANCE = this;
     }
 
-    public int getMaxSize() {
-        return maxSize;
-    }
-
-    public int getMaxThickness() {
-        return maxThickness;
-    }
-
-    public double getMinAngleHeightDifference() {
-        return minAngleHeightDifference;
-    }
-
-    public double getMaxAngleHeightDifference() {
-        return maxAngleHeightDifference;
-    }
-
-    public int getMaxAngleDistance() {
-        return maxAngleDistance;
-    }
-
-    public String getPrefix() {
-        return prefix;
-    }
-
-    public int getMaxHistory() {
-        return maxHistory;
-    }
-
-    public List<String> getDisabledWorlds() {
-        return disabledWorldNames;
-    }
-
-    public boolean isEnabledDefault() {
-        return enabledByDefault;
-    }
-
-    public boolean isMaskEnabledDefault() {
-        return maskEnabled;
-    }
-
-    public boolean isSurfaceModeEnabledDefault() {
-        return surfaceModeEnabled;
-    }
-
-    public int getDefaultFractureDistance() {
-        return this.defaultFractureDistance;
-    }
-
-    public int getMaxFractureDistance() {
-        return this.maxFractureDistance;
-    }
 
 }
