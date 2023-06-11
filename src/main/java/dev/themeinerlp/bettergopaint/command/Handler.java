@@ -19,6 +19,7 @@
 package dev.themeinerlp.bettergopaint.command;
 
 import dev.themeinerlp.bettergopaint.BetterGoPaint;
+import dev.themeinerlp.bettergopaint.objects.other.Settings;
 import dev.themeinerlp.bettergopaint.objects.player.PlayerBrush;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.ClickEvent;
@@ -45,7 +46,7 @@ public class Handler implements Listener, CommandExecutor {
             }
             Player p = (Player) sender;
             PlayerBrush pb = BetterGoPaint.getBrushManager().getPlayerBrush(p);
-            String prefix = BetterGoPaint.getSettings().getPrefix();
+            String prefix = Settings.settings().GENERIC.PREFIX;
             if (!p.hasPermission("gopaint.use")) {
                 p.sendMessage(prefix + "§cYou are lacking the permission gopaint.use");
                 return true;
@@ -72,7 +73,7 @@ public class Handler implements Listener, CommandExecutor {
                     return true;
                 } else if ((args[0].equalsIgnoreCase("reload") || args[0].equalsIgnoreCase("r")) && p.hasPermission(
                         "gopaint.admin")) {
-                    BetterGoPaint.reload();
+                    plugin.reload();
                     p.sendMessage(prefix + "§aReloaded");
                     return true;
                 } else if (args[0].equalsIgnoreCase("info") || args[0].equalsIgnoreCase("i")) {

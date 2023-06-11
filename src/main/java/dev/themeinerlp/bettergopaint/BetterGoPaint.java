@@ -23,7 +23,6 @@ import dev.themeinerlp.bettergopaint.command.Handler;
 import dev.themeinerlp.bettergopaint.listeners.ConnectListener;
 import dev.themeinerlp.bettergopaint.listeners.InteractListener;
 import dev.themeinerlp.bettergopaint.listeners.InventoryListener;
-import dev.themeinerlp.bettergopaint.objects.other.NmsManager;
 import dev.themeinerlp.bettergopaint.objects.other.Settings;
 import dev.themeinerlp.bettergopaint.objects.player.PlayerBrushManager;
 import dev.themeinerlp.bettergopaint.utils.DisabledBlocks;
@@ -35,15 +34,15 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.incendo.serverlib.ServerLib;
 
+import java.io.File;
+
 
 public class BetterGoPaint extends JavaPlugin implements Listener {
 
     private static final int BSTATS_ID = 10557;
     public static boolean plotSquaredEnabled;
-    public static NmsManager nmsManager;
     private static PlayerBrushManager manager;
     private static BetterGoPaint betterGoPaint;
-    private static Settings settings;
     public ConnectListener connectListener;
     public InteractListener interactListener;
     public InventoryListener inventoryListener;
@@ -52,11 +51,6 @@ public class BetterGoPaint extends JavaPlugin implements Listener {
     public static BetterGoPaint getGoPaintPlugin() {
         return betterGoPaint;
     }
-
-    public static Settings getSettings() {
-        return settings;
-    }
-
     public static PlayerBrushManager getBrushManager() {
         return manager;
     }
@@ -65,11 +59,10 @@ public class BetterGoPaint extends JavaPlugin implements Listener {
         return plotSquaredEnabled;
     }
 
-    public static void reload() {
+    public void reload() {
         BetterGoPaint.getGoPaintPlugin().reloadConfig();
         manager = new PlayerBrushManager();
-        settings = new Settings();
-        settings.loadConfig();
+        Settings.settings().reload(new File(getDataFolder(), "config.yml"));
     }
 
     public void onEnable() {
@@ -79,11 +72,10 @@ public class BetterGoPaint extends JavaPlugin implements Listener {
         ServerLib.isJavaSixteen();
         PaperLib.suggestPaper(this);
 
-        this.saveDefaultConfig();
+        saveDefaultConfig();
         betterGoPaint = this;
         manager = new PlayerBrushManager();
-        settings = new Settings();
-        settings.loadConfig();
+        Settings.settings().reload(new File(getDataFolder(), "config.yml"));
         connectListener = new ConnectListener(betterGoPaint);
         interactListener = new InteractListener(betterGoPaint);
         inventoryListener = new InventoryListener(betterGoPaint);
@@ -94,7 +86,6 @@ public class BetterGoPaint extends JavaPlugin implements Listener {
         pm.registerEvents(inventoryListener, this);
         pm.registerEvents(cmdHandler, this);
         getCommand("gopaint").setExecutor(cmdHandler);
-        nmsManager = new NmsManager();
         DisabledBlocks.addBlocks();
 
 

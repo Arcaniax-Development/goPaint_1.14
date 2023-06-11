@@ -29,6 +29,7 @@ import dev.themeinerlp.bettergopaint.objects.brush.OverlayBrush;
 import dev.themeinerlp.bettergopaint.objects.brush.SplatterBrush;
 import dev.themeinerlp.bettergopaint.objects.brush.SprayBrush;
 import dev.themeinerlp.bettergopaint.objects.other.BlockType;
+import dev.themeinerlp.bettergopaint.objects.other.Settings;
 import dev.themeinerlp.bettergopaint.utils.GUI;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.Inventory;
@@ -51,7 +52,7 @@ public class PlayerBrush {
     int angleDistance;
     int falloffStrength;
     int mixingStrength;
-    double minAngleHeightDifference;
+    double angleHeightDifference;
     String axis;
     Brush brush;
     Inventory gui;
@@ -60,19 +61,19 @@ public class PlayerBrush {
 
 
     public PlayerBrush() {
-        surfaceEnabled = BetterGoPaint.getSettings().isSurfaceModeEnabledDefault();
-        maskEnabled = BetterGoPaint.getSettings().isMaskEnabledDefault();
-        enabled = BetterGoPaint.getSettings().isEnabledDefault();
-        chance = BetterGoPaint.getSettings().getDefaultChance();
-        thickness = BetterGoPaint.getSettings().getDefaultThickness();
-        fractureDistance = BetterGoPaint.getSettings().getDefaultFractureDistance();
-        angleDistance = BetterGoPaint.getSettings().getDefaultAngleDistance();
-        minAngleHeightDifference = BetterGoPaint.getSettings().getDefaultAngleHeightDifference();
+        surfaceEnabled = Settings.settings().GENERIC.SURFACE_MODE;
+        maskEnabled = Settings.settings().GENERIC.MASK_ENABLED;
+        enabled = Settings.settings().GENERIC.ENABLED_BY_DEFAULT;
+        chance = Settings.settings().GENERIC.DEFAULT_CHANCE;
+        thickness = Settings.settings().THICKNESS.DEFAULT_THICKNESS;
+        fractureDistance = Settings.settings().FRACTURE.DEFAULT_FRACTURE_DISTANCE;
+        angleDistance = Settings.settings().ANGLE.DEFAULT_ANGLE_DISTANCE;
+        angleHeightDifference = Settings.settings().ANGLE.DEFAULT_ANGLE_HEIGHT_DIFFERENCE;
         falloffStrength = 50;
         mixingStrength = 50;
         axis = "y";
         brush = BetterGoPaint.getBrushManager().cycle(brush);
-        brushSize = BetterGoPaint.getSettings().getDefaultSize();
+        brushSize = Settings.settings().GENERIC.DEFAULT_SIZE;
         blocks = new ArrayList<>();
         blocks.add(new BlockType(XMaterial.STONE.parseMaterial(), (short) 0));
         mask = new BlockType(XMaterial.SPONGE.parseMaterial(), (short) 0);
@@ -128,7 +129,7 @@ public class PlayerBrush {
     }
 
     public Double getMinHeightDifference() {
-        return this.minAngleHeightDifference;
+        return this.angleHeightDifference;
     }
 
     public int getAngleDistance() {
@@ -183,10 +184,10 @@ public class PlayerBrush {
     }
 
     public void setBrushSize(int size) {
-        if (size <= BetterGoPaint.getSettings().getMaxSize() && size > 0) {
+        if (size <= Settings.settings().GENERIC.MAX_SIZE && size > 0) {
             brushSize = size;
-        } else if (size > BetterGoPaint.getSettings().getMaxSize()) {
-            brushSize = BetterGoPaint.getSettings().getMaxSize();
+        } else if (size > Settings.settings().GENERIC.MAX_SIZE) {
+            brushSize = Settings.settings().GENERIC.MAX_SIZE;
         } else {
             brushSize = 1;
         }
@@ -199,13 +200,13 @@ public class PlayerBrush {
 
     public void increaseBrushSize(boolean x10) {
         if (x10) {
-            if (brushSize + 10 <= BetterGoPaint.getSettings().getMaxSize()) {
+            if (brushSize + 10 <= Settings.settings().GENERIC.MAX_SIZE) {
                 brushSize += 10;
             } else {
-                brushSize = BetterGoPaint.getSettings().getMaxSize();
+                brushSize = Settings.settings().GENERIC.MAX_SIZE;
             }
         } else {
-            if (brushSize < BetterGoPaint.getSettings().getMaxSize()) {
+            if (brushSize < Settings.settings().GENERIC.MAX_SIZE) {
                 brushSize += 1;
             }
         }
@@ -255,7 +256,7 @@ public class PlayerBrush {
     }
 
     public void increaseThickness() {
-        if (thickness < BetterGoPaint.getSettings().getMaxThickness()) {
+        if (thickness < Settings.settings().THICKNESS.MAX_THICKNESS) {
             thickness += 1;
         }
         updateInventory();
@@ -269,7 +270,7 @@ public class PlayerBrush {
     }
 
     public void increaseAngleDistance() {
-        if (angleDistance < BetterGoPaint.getSettings().getMaxAngleDistance()) {
+        if (angleDistance < Settings.settings().ANGLE.MAX_ANGLE_DISTANCE) {
             angleDistance += 1;
         }
         updateInventory();
@@ -283,7 +284,7 @@ public class PlayerBrush {
     }
 
     public void increaseFractureDistance() {
-        if (this.fractureDistance < BetterGoPaint.getSettings().getMaxFractureDistance()) {
+        if (this.fractureDistance < Settings.settings().FRACTURE.MAX_FRACTURE_DISTANCE) {
             this.fractureDistance += 1;
         }
         updateInventory();
@@ -298,24 +299,24 @@ public class PlayerBrush {
 
     public void increaseAngleHeightDifference(boolean d15) {
         if (d15) {
-            minAngleHeightDifference += 15.0;
+            angleHeightDifference += 15.0;
         } else {
-            minAngleHeightDifference += 5.0;
+            angleHeightDifference += 5.0;
         }
-        if (minAngleHeightDifference > BetterGoPaint.getSettings().getMaxAngleHeightDifference()) {
-            minAngleHeightDifference = BetterGoPaint.getSettings().getMaxAngleHeightDifference();
+        if (angleHeightDifference > Settings.settings().ANGLE.MAX_ANGLE_HEIGHT_DIFFERENCE) {
+            angleHeightDifference = Settings.settings().ANGLE.MAX_ANGLE_HEIGHT_DIFFERENCE;
         }
         updateInventory();
     }
 
     public void decreaseAngleHeightDifference(boolean d15) {
         if (d15) {
-            minAngleHeightDifference -= 15.0;
+            angleHeightDifference -= 15.0;
         } else {
-            minAngleHeightDifference -= 5.0;
+            angleHeightDifference -= 5.0;
         }
-        if (minAngleHeightDifference < BetterGoPaint.getSettings().getMinAngleHeightDifference()) {
-            minAngleHeightDifference = BetterGoPaint.getSettings().getMinAngleHeightDifference();
+        if (angleHeightDifference < Settings.settings().ANGLE.MIN_ANGLE_HEIGHT_DIFFERENCE) {
+            angleHeightDifference = Settings.settings().ANGLE.MIN_ANGLE_HEIGHT_DIFFERENCE;
         }
         updateInventory();
     }
@@ -371,7 +372,7 @@ public class PlayerBrush {
             lore.append("___&8Axis: ").append(axis);
         } else if (brush instanceof AngleBrush) {
             lore.append("___&8AngleDistance: ").append(this.angleDistance);
-            lore.append("___&8AngleHeightDifference: ").append(this.minAngleHeightDifference);
+            lore.append("___&8AngleHeightDifference: ").append(this.angleHeightDifference);
         } else if (brush instanceof GradientBrush) {
             lore.append("___&8Mixing: ").append(this.mixingStrength);
             lore.append("___&8Falloff: ").append(this.falloffStrength);

@@ -20,6 +20,7 @@ package dev.themeinerlp.bettergopaint.listeners;
 
 import com.cryptomorin.xseries.XMaterial;
 import dev.themeinerlp.bettergopaint.BetterGoPaint;
+import dev.themeinerlp.bettergopaint.objects.other.Settings;
 import dev.themeinerlp.bettergopaint.objects.player.ExportedPlayerBrush;
 import dev.themeinerlp.bettergopaint.objects.player.PlayerBrush;
 import org.bukkit.Location;
@@ -83,9 +84,7 @@ public class InteractListener implements Listener {
             } else {
                 loc = e.getClickedBlock().getLocation().clone();
             }
-            if ((!e.getPlayer().hasPermission("gopaint.world.bypass")) && (BetterGoPaint
-                    .getSettings()
-                    .getDisabledWorlds()
+            if ((!e.getPlayer().hasPermission("gopaint.world.bypass")) && (Settings.settings().GENERIC.DISABLED_WORLDS
                     .contains(loc.getWorld().getName()))) {
                 return;
             }
@@ -96,9 +95,7 @@ public class InteractListener implements Listener {
             if (pb.isEnabled()) {
                 pb.getBrush().paint(loc, p);
             } else {
-                p.sendMessage(BetterGoPaint
-                        .getSettings()
-                        .getPrefix() + "§cYour brush is disabled, left click to enable the brush.");
+                p.sendMessage(Settings.settings().GENERIC.PREFIX + "§cYour brush is disabled, left click to enable the brush.");
             }
         }
         if (e.getPlayer().getItemInHand().getType() == XMaterial.FEATHER.parseMaterial() && (e
