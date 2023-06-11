@@ -11,12 +11,12 @@ fixes.
 
 ## Major Changes
 ### Done
+- Improved configuration file
 ### To-Do
 - Fix performance impacts
 - Memory leaks
 - Better FAWE integration
 - Better XMaterial Support
-- Improved configuration file
 - Reduce duplicated code
 - Stability
 - Replace default commands with cloud framework
