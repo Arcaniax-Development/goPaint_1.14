@@ -1,5 +1,6 @@
 import net.minecrell.pluginyml.bukkit.BukkitPluginDescription
 import org.ajoberstar.grgit.Grgit
+import xyz.jpenilla.runpaper.task.RunServer
 import java.util.*
 
 plugins {
@@ -9,6 +10,7 @@ plugins {
     id("com.github.johnrengelman.shadow") version "8.1.1"
     id("org.ajoberstar.grgit") version "5.2.0"
     id("net.minecrell.plugin-yml.bukkit") version "0.5.3"
+    id("xyz.jpenilla.run-paper") version "2.1.0"
     idea
 }
 
@@ -36,6 +38,22 @@ ext {
 
 version = "%s%s".format(Locale.ROOT, baseVersion, extension)
 
+val minecraftVersion = "1.20"
+val supportedMinecraftVersions = listOf(
+        "1.16.5",
+        "1.17",
+        "1.17.1",
+        "1.18",
+        "1.18.1",
+        "1.18.2",
+        "1.19",
+        "1.19.1",
+        "1.19.2",
+        "1.19.3",
+        "1.19.4",
+        "1.20"
+)
+
 repositories {
     mavenCentral()
     maven {
@@ -49,8 +67,8 @@ repositories {
 }
 
 dependencies {
+    compileOnly("io.papermc.paper:paper-api:$minecraftVersion-R0.1-SNAPSHOT")
     implementation(platform("com.intellectualsites.bom:bom-newest:1.27"))
-    compileOnlyApi("io.papermc.paper:paper-api:1.19.3-R0.1-SNAPSHOT")
     compileOnlyApi("com.fastasyncworldedit:FastAsyncWorldEdit-Bukkit")
     implementation("dev.notmyfault.serverlib:ServerLib")
     implementation("org.bstats:bstats-bukkit:3.0.2")
@@ -125,5 +143,15 @@ tasks {
 
     build {
         dependsOn(shadowJar)
+    }
+
+    supportedMinecraftVersions.forEach { serverVersion ->
+        register<RunServer>("run-$serverVersion") {
+            minecraftVersion(serverVersion)
+            jvmArgs("-DPaper.IgnoreJavaVersion=true", "-Dcom.mojang.eula.agree=true")
+            group = "run paper"
+            runDirectory.set(file("run-$serverVersion"))
+            pluginJars(rootProject.tasks.shadowJar.map { it.archiveFile }.get())
+        }
     }
 }
