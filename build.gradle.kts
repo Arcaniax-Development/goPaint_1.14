@@ -37,6 +37,7 @@ ext {
 }
 
 version = "%s%s".format(Locale.ROOT, baseVersion, extension)
+group = "dev.themeinerlp.bettergopaint"
 
 val minecraftVersion = "1.20"
 val supportedMinecraftVersions = listOf(
@@ -74,6 +75,8 @@ dependencies {
     implementation("org.bstats:bstats-bukkit:3.0.2")
     implementation("org.bstats:bstats-base:3.0.2")
     implementation("io.papermc:paperlib")
+    implementation("com.github.cryptomorin:XSeries:9.4.0") { isTransitive = false }
+
 }
 
 bukkit {
@@ -127,16 +130,10 @@ tasks {
     shadowJar {
         archiveClassifier.set(null as String?)
         dependencies {
-            relocate("org.incendo.serverlib", "net.arcaniax.gopaint.serverlib") {
-                include(dependency("dev.notmyfault.serverlib:ServerLib:2.3.1"))
-            }
-            relocate("org.bstats", "net.arcaniax.gopaint.metrics") {
-                include(dependency("org.bstats:bstats-base"))
-                include(dependency("org.bstats:bstats-bukkit"))
-            }
-            relocate("io.papermc.lib", "net.arcaniax.gopaint.paperlib") {
-                include(dependency("io.papermc:paperlib:1.0.8"))
-            }
+            relocate("com.cryptomorin.xseries", "$group.xseries")
+            relocate("org.incendo.serverlib", "$group.serverlib")
+            relocate("org.bstats", "$group.metrics")
+            relocate("io.papermc.lib", "$group.paperlib")
         }
         minimize()
     }
