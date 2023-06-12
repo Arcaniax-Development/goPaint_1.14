@@ -84,7 +84,7 @@ bukkit {
     main = "dev.themeinerlp.bettergopraint.BetterGoPaint"
     authors = listOf("Arcaniax", "TheMeinerLP")
     apiVersion = "1.13"
-    depend = listOf("WorldEdit")
+    depend = listOf("FastAsyncWorldEdit")
     website = "https://www.spigotmc.org/resources/27717/"
 
     commands {
