@@ -20,15 +20,14 @@ package dev.themeinerlp.bettergopaint.objects.brush;
 
 import com.cryptomorin.xseries.XMaterial;
 import dev.themeinerlp.bettergopaint.BetterGoPaint;
+import dev.themeinerlp.bettergopaint.objects.other.BlockPlace;
 import dev.themeinerlp.bettergopaint.objects.other.BlockPlacer;
+import dev.themeinerlp.bettergopaint.objects.other.BlockType;
 import dev.themeinerlp.bettergopaint.objects.player.ExportedPlayerBrush;
+import dev.themeinerlp.bettergopaint.objects.player.PlayerBrush;
 import dev.themeinerlp.bettergopaint.utils.Height;
 import dev.themeinerlp.bettergopaint.utils.Sphere;
 import dev.themeinerlp.bettergopaint.utils.Surface;
-import dev.themeinerlp.bettergopaint.utils.XMaterial;
-import dev.themeinerlp.bettergopaint.objects.other.BlockPlace;
-import dev.themeinerlp.bettergopaint.objects.other.BlockType;
-import dev.themeinerlp.bettergopaint.objects.player.PlayerBrush;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;

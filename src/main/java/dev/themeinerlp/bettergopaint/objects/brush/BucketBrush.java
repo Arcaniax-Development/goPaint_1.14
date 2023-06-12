@@ -27,7 +27,6 @@ import dev.themeinerlp.bettergopaint.objects.player.ExportedPlayerBrush;
 import dev.themeinerlp.bettergopaint.utils.ConnectedBlocks;
 import dev.themeinerlp.bettergopaint.utils.Sphere;
 import dev.themeinerlp.bettergopaint.utils.Surface;
-import dev.themeinerlp.bettergopaint.utils.XMaterial;
 import dev.themeinerlp.bettergopaint.objects.player.PlayerBrush;
 import org.bukkit.Location;
 import org.bukkit.block.Block;

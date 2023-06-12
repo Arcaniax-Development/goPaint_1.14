@@ -23,6 +23,7 @@ import dev.themeinerlp.bettergopaint.BetterGoPaint;
 import dev.themeinerlp.bettergopaint.objects.other.BlockPlace;
 import dev.themeinerlp.bettergopaint.objects.other.BlockPlacer;
 import dev.themeinerlp.bettergopaint.objects.other.BlockType;
+import dev.themeinerlp.bettergopaint.objects.other.Settings;
 import dev.themeinerlp.bettergopaint.objects.player.ExportedPlayerBrush;
 import dev.themeinerlp.bettergopaint.utils.BlockUtils;
 import dev.themeinerlp.bettergopaint.utils.Sphere;
@@ -45,7 +46,7 @@ public class PaintBrush extends Brush {
 
     @Override
     public void paint(Location loc, Player p) {
-        String prefix = BetterGoPaint.getSettings().getPrefix();
+        String prefix = Settings.settings().GENERIC.PREFIX;
         if (!selectedPoints.containsKey(p.getName())) {
             List<Location> locs = new ArrayList<>();
             locs.add(loc);
@@ -125,7 +126,7 @@ public class PaintBrush extends Brush {
 
     @Override
     public void paint(Location loc, Player p, ExportedPlayerBrush epb) {
-        String prefix = BetterGoPaint.getSettings().getPrefix();
+        String prefix = Settings.settings().GENERIC.PREFIX;
         if (!selectedPoints.containsKey(p.getName())) {
             List<Location> locs = new ArrayList<>();
             locs.add(loc);
