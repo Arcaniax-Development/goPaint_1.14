@@ -105,6 +105,9 @@ bukkit {
     }
 
     permissions {
+        register("bettergopaint.command.admin.reload") {
+            default = BukkitPluginDescription.Permission.Default.OP
+        }
         register("gopaint.use") {
             default = BukkitPluginDescription.Permission.Default.OP
         }
