@@ -35,7 +35,6 @@ public final class Settings extends Config {
     @Create
     public THICKNESS THICKNESS;
 
-
     @Create
     public ANGLE ANGLE;
 
@@ -46,45 +45,33 @@ public final class Settings extends Config {
     public static class GENERIC {
 
         @Comment("Max size of the brush")
-        @Final
         public int MAX_SIZE = 100;
         @Comment("Default size for each player of the brush")
-        @Final
         public int DEFAULT_SIZE = 10;
         @Comment("Default chance for some brushes")
-        @Final
         public int DEFAULT_CHANCE = 50;
         @Comment("Prefix of the plugin")
-        @Final
         public String PREFIX = "<aqua>BetterGoPaint > </aqua>";
         @Comment("World there are disabled to used brushes")
-        @Final
         public List<String> DISABLED_WORLDS = new ArrayList<>();
 
         @Comment("Enables BetterGoPaint usage by default")
-        @Final
         public boolean ENABLED_BY_DEFAULT = true;
 
         @Comment("Enables mask usage by default")
-        @Final
         public boolean MASK_ENABLED = true;
 
         @Comment("Enables surface mode usage by default")
-        @Final
         public boolean SURFACE_MODE = true;
-
-
     }
 
     @Comment("This is related to thickness settings")
     public static class THICKNESS {
 
         @Comment("Default thickness for some brushes")
-        @Final
         public int DEFAULT_THICKNESS = 1;
 
         @Comment("Maximum thickness for some brushes")
-        @Final
         public int MAX_THICKNESS = 5;
 
     }
@@ -93,19 +80,14 @@ public final class Settings extends Config {
     public static class ANGLE {
 
         @Comment("Default angle distance for some brushes")
-        @Final
         public int DEFAULT_ANGLE_DISTANCE = 2;
         @Comment("Maximum angle distance for some brushes")
-        @Final
         public int MAX_ANGLE_DISTANCE = 5;
 
         @Comment("Minimum angle height difference for some brushes")
-        @Final
-        // Angle category
         public double MIN_ANGLE_HEIGHT_DIFFERENCE = 10.0;
 
         @Comment("Default angle height difference for some brushes")
-        @Final
         public double DEFAULT_ANGLE_HEIGHT_DIFFERENCE = 40.0;
 
         public double MAX_ANGLE_HEIGHT_DIFFERENCE = 85.0;
@@ -116,10 +98,8 @@ public final class Settings extends Config {
     public static class FRACTURE {
 
         @Comment("Default fracture for some brushes")
-        @Final
         public int DEFAULT_FRACTURE_DISTANCE = 2;
         @Comment("Maximum fracture for some brushes")
-        @Final
         public int MAX_FRACTURE_DISTANCE = 5;
 
     }
