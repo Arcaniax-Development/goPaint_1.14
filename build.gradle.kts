@@ -80,7 +80,6 @@ dependencies {
     implementation("com.github.cryptomorin:XSeries:9.4.0") { isTransitive = false }
     // Stats
     implementation("org.bstats:bstats-bukkit:3.0.2")
-    implementation("org.bstats:bstats-base:3.0.2")
     // Commands
     implementation("cloud.commandframework:cloud-annotations:1.8.3")
     implementation("cloud.commandframework:cloud-minecraft-extras:1.8.3")
