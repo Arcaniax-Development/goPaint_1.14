@@ -1,3 +1,4 @@
+import io.papermc.hangarpublishplugin.model.Platforms
 import net.minecrell.pluginyml.bukkit.BukkitPluginDescription
 import org.ajoberstar.grgit.Grgit
 import xyz.jpenilla.runpaper.task.RunServer
@@ -12,6 +13,10 @@ plugins {
     id("net.minecrell.plugin-yml.bukkit") version "0.5.3"
     id("xyz.jpenilla.run-paper") version "2.1.0"
     idea
+
+    id("io.papermc.hangar-publish-plugin") version "0.0.5"
+    id("com.modrinth.minotaur") version "2.+"
+    id("org.jetbrains.changelog") version "2.0.0"
 }
 
 if (!File("$rootDir/.git").exists()) {
@@ -118,6 +123,54 @@ bukkit {
             default = BukkitPluginDescription.Permission.Default.FALSE
         }
     }
+}
+
+changelog {
+    version.set(baseVersion)
+    path.set("${project.projectDir}/CHANGELOG.md")
+    itemPrefix.set("-")
+    keepUnreleasedSection.set(true)
+    unreleasedTerm.set("[Unreleased]")
+    groups.set(listOf("Added", "Changed", "Deprecated", "Removed", "Fixed", "Security"))
+}
+
+hangarPublish {
+    publications.register("BetterGoPaint") {
+        version.set(project.version.toString())
+        channel.set(System.getenv("HANGAR_CHANNEL"))
+        changelog.set(
+            project.changelog.renderItem(
+                project.changelog.getOrNull(baseVersion) ?: project.changelog.getUnreleased()
+            )
+        )
+        apiKey.set(System.getenv("HANGAR_SECRET"))
+        owner.set("TheMeinerLP")
+        slug.set("BetterGoPaint")
+
+        platforms {
+            register(Platforms.PAPER) {
+                jar.set(tasks.shadowJar.flatMap { it.archiveFile })
+                platformVersions.set(supportedMinecraftVersions)
+            }
+        }
+    }
+}
+
+modrinth {
+    token.set(System.getenv("MODRINTH_TOKEN"))
+    projectId.set("qf7sNg9A")
+    versionNumber.set(version.toString())
+    versionType.set(System.getenv("MODRINTH_CHANNEL"))
+    uploadFile.set(tasks.shadowJar as Any)
+    gameVersions.addAll(supportedMinecraftVersions)
+    loaders.add("paper")
+    loaders.add("bukkit")
+    loaders.add("folia")
+    changelog.set(
+        project.changelog.renderItem(
+            project.changelog.getOrNull(baseVersion) ?: project.changelog.getUnreleased()
+        )
+    )
 }
 
 
