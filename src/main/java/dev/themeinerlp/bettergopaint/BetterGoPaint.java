@@ -18,28 +18,38 @@
  */
 package dev.themeinerlp.bettergopaint;
 
-import io.papermc.lib.PaperLib;
+import cloud.commandframework.annotations.AnnotationParser;
+import cloud.commandframework.arguments.parser.ParserParameters;
+import cloud.commandframework.arguments.parser.StandardParameters;
+import cloud.commandframework.bukkit.CloudBukkitCapabilities;
+import cloud.commandframework.execution.CommandExecutionCoordinator;
+import cloud.commandframework.meta.CommandMeta;
+import cloud.commandframework.paper.PaperCommandManager;
+import com.fastasyncworldedit.core.Fawe;
 import dev.themeinerlp.bettergopaint.command.Handler;
+import dev.themeinerlp.bettergopaint.command.ReloadCommand;
 import dev.themeinerlp.bettergopaint.listeners.ConnectListener;
 import dev.themeinerlp.bettergopaint.listeners.InteractListener;
 import dev.themeinerlp.bettergopaint.listeners.InventoryListener;
 import dev.themeinerlp.bettergopaint.objects.other.Settings;
 import dev.themeinerlp.bettergopaint.objects.player.PlayerBrushManager;
+import dev.themeinerlp.bettergopaint.utils.Constants;
 import dev.themeinerlp.bettergopaint.utils.DisabledBlocks;
+import io.papermc.lib.PaperLib;
 import org.bstats.bukkit.Metrics;
 import org.bstats.charts.SimplePie;
-import org.bukkit.Bukkit;
+import org.bukkit.command.CommandSender;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.incendo.serverlib.ServerLib;
 
 import java.io.File;
+import java.util.function.Function;
+import java.util.logging.Level;
 
 
 public class BetterGoPaint extends JavaPlugin implements Listener {
-
-    private static final int BSTATS_ID = 10557;
     public static boolean plotSquaredEnabled;
     private static PlayerBrushManager manager;
     private static BetterGoPaint betterGoPaint;
@@ -47,10 +57,12 @@ public class BetterGoPaint extends JavaPlugin implements Listener {
     public InteractListener interactListener;
     public InventoryListener inventoryListener;
     public Handler cmdHandler;
+    private AnnotationParser<CommandSender> annotationParser;
 
     public static BetterGoPaint getGoPaintPlugin() {
         return betterGoPaint;
     }
+
     public static PlayerBrushManager getBrushManager() {
         return manager;
     }
@@ -73,8 +85,16 @@ public class BetterGoPaint extends JavaPlugin implements Listener {
         PaperLib.suggestPaper(this);
 
         betterGoPaint = this;
-        manager = new PlayerBrushManager();
         Settings.settings().reload(new File(getDataFolder(), "config.yml"));
+        enableBStats();
+        enableCommandSystem();
+        if (this.annotationParser != null) {
+            annotationParser.parse(new ReloadCommand(this));
+        }
+
+
+        manager = new PlayerBrushManager();
+
         connectListener = new ConnectListener(betterGoPaint);
         interactListener = new InteractListener(betterGoPaint);
         inventoryListener = new InventoryListener(betterGoPaint);
@@ -88,11 +108,41 @@ public class BetterGoPaint extends JavaPlugin implements Listener {
         DisabledBlocks.addBlocks();
 
 
-        Metrics metrics = new Metrics(this, BSTATS_ID);
+    }
+
+    private void enableCommandSystem() {
+        try {
+            PaperCommandManager<CommandSender> commandManager = PaperCommandManager.createNative(
+                    this,
+                    CommandExecutionCoordinator.simpleCoordinator()
+            );
+            if (commandManager.hasCapability(CloudBukkitCapabilities.BRIGADIER)) {
+                commandManager.registerBrigadier();
+                getLogger().info("Brigadier support enabled");
+            }
+            if (commandManager.hasCapability(CloudBukkitCapabilities.ASYNCHRONOUS_COMPLETION)) {
+                commandManager.registerAsynchronousCompletions();
+                getLogger().info("Brigadier support enabled");
+            }
+            Function<ParserParameters, CommandMeta> commandMetaFunction = parserParameters ->
+                    CommandMeta
+                            .simple()
+                            .with(CommandMeta.DESCRIPTION, parserParameters.get(StandardParameters.DESCRIPTION, "No description"))
+                            .build();
+            this.annotationParser = new AnnotationParser<>(commandManager, CommandSender.class, commandMetaFunction);
+
+        } catch (Exception e) {
+            getLogger().log(Level.SEVERE, "Cannot init command manager");
+        }
+
+    }
+
+    private void enableBStats() {
+        Metrics metrics = new Metrics(this, Constants.BSTATS_ID);
 
         metrics.addCustomChart(new SimplePie(
-                "worldeditImplementation",
-                () -> Bukkit.getPluginManager().getPlugin("FastAsyncWorldEdit") != null ? "FastAsyncWorldEdit" : "WorldEdit"
+                "faweVersion",
+                () -> Fawe.instance().getVersion().toString()
         ));
     }
 
