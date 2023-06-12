@@ -12,24 +12,27 @@ fixes.
 ## Major Changes
 ### Done
 - Improved configuration file
+- Better XMaterial Support
+- Modrinth auto deployment
+- Hangar auto deployment
+- New CI Development builds
+
 ### To-Do
 - Fix performance impacts
 - Memory leaks
 - Better FAWE integration
-- Better XMaterial Support
 - Reduce duplicated code
 - Stability
 - Replace default commands with cloud framework
 - Better build gradle
 - New download link
-- New CI Development builds
-- Modrinth auto deployment
-- Hangar auto deployment
 
 ## Links
 
-* ~~[Download](https://www.spigotmc.org/resources/gopaint.27717/)~~
-* ~~[Development Builds](https://ci.athion.net/job/goPaint-1.14+/)~~
+* [Download](https://hangar.papermc.io/TheMeinerLP/BetterGoPaint)
+  * [Mirror](https://modrinth.com/plugin/bettergopaint)
+* [Development Builds](https://hangar.papermc.io/TheMeinerLP/BetterGoPaint)
+  * [Mirror](https://modrinth.com/plugin/bettergopaint)
 * [Discord](https://discord.onelitefeather.net)
 * [Issues](https://github.com/TheMeinerLP/BetterGoPaint/issues)
 
