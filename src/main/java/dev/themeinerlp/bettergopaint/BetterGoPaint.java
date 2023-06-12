@@ -72,7 +72,6 @@ public class BetterGoPaint extends JavaPlugin implements Listener {
         ServerLib.isJavaSixteen();
         PaperLib.suggestPaper(this);
 
-        saveDefaultConfig();
         betterGoPaint = this;
         manager = new PlayerBrushManager();
         Settings.settings().reload(new File(getDataFolder(), "config.yml"));
