@@ -7,7 +7,6 @@ import com.sk89q.worldedit.bukkit.BukkitPlayer;
 import com.sk89q.worldedit.function.pattern.Pattern;
 import com.sk89q.worldedit.math.BlockVector3;
 import com.sk89q.worldedit.math.Vector3;
-import com.sk89q.worldedit.regions.Region;
 import com.sk89q.worldedit.world.block.BaseBlock;
 import dev.themeinerlp.bettergopaint.fawe.util.BrushSettings;
 import org.bukkit.entity.Player;
@@ -58,13 +57,13 @@ public class AngleBrush implements BetterBrush {
                     if (!(!settings().maskEnabled && editSession.getMask().test(blockInRadius))) {
                         continue;
                     }
-                    if (getAverageHeightDiffAngle(editSession,blockInRadius.toVector3(), 1) >= 0.1) {
+                    if (getAverageHeightDiffAngle(editSession, blockInRadius.toVector3(), 1) >= 0.1) {
                         continue;
                     }
                     if (getAverageHeightDiffAngle(editSession, blockInRadius.toVector3(), settings().angleDistance) >= Math.tan(Math.toRadians(settings().angleHeightDifference))) {
                         continue;
                     }
-
+                    editSession.setBlock(blockInRadius, pattern);
                 }
             }
         }
