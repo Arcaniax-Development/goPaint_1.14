@@ -68,14 +68,25 @@ repositories {
 }
 
 dependencies {
+    // Paper / Spigot
     compileOnly("io.papermc.paper:paper-api:$minecraftVersion-R0.1-SNAPSHOT")
+    // Fawe / WorldEdit
     implementation(platform("com.intellectualsites.bom:bom-newest:1.27"))
     compileOnlyApi("com.fastasyncworldedit:FastAsyncWorldEdit-Bukkit")
+    // Utils
     implementation("dev.notmyfault.serverlib:ServerLib")
+    implementation("io.papermc:paperlib")
+    // Material Utils
+    implementation("com.github.cryptomorin:XSeries:9.4.0") { isTransitive = false }
+    // Stats
     implementation("org.bstats:bstats-bukkit:3.0.2")
     implementation("org.bstats:bstats-base:3.0.2")
-    implementation("io.papermc:paperlib")
-    implementation("com.github.cryptomorin:XSeries:9.4.0") { isTransitive = false }
+    // Commands
+    implementation("cloud.commandframework:cloud-annotations:1.8.3")
+    implementation("cloud.commandframework:cloud-minecraft-extras:1.8.3")
+    implementation("cloud.commandframework:cloud-paper:1.8.3")
+    annotationProcessor("cloud.commandframework:cloud-annotations:1.8.3")
+    implementation("me.lucko:commodore:2.2")
 
 }
 
