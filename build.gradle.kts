@@ -81,7 +81,7 @@ dependencies {
 
 bukkit {
     name = "BetterGoPaint"
-    main = "dev.themeinerlp.bettergopraint.BetterGoPaint"
+    main = "dev.themeinerlp.bettergopaint.BetterGoPaint"
     authors = listOf("Arcaniax", "TheMeinerLP")
     apiVersion = "1.13"
     depend = listOf("FastAsyncWorldEdit")
