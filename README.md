@@ -16,6 +16,8 @@ fixes.
 - Modrinth auto deployment
 - Hangar auto deployment
 - New CI Development builds
+- New download link
+- Better build gradle
 
 ### To-Do
 - Fix performance impacts
@@ -24,8 +26,6 @@ fixes.
 - Reduce duplicated code
 - Stability
 - Replace default commands with cloud framework
-- Better build gradle
-- New download link
 
 ## Links
 
