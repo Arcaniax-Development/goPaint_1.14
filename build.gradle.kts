@@ -1,3 +1,4 @@
+import io.papermc.hangarpublishplugin.model.Platforms
 import net.minecrell.pluginyml.bukkit.BukkitPluginDescription
 import org.ajoberstar.grgit.Grgit
 import xyz.jpenilla.runpaper.task.RunServer
@@ -12,11 +13,15 @@ plugins {
     id("net.minecrell.plugin-yml.bukkit") version "0.5.3"
     id("xyz.jpenilla.run-paper") version "2.1.0"
     idea
+
+    id("io.papermc.hangar-publish-plugin") version "0.0.5"
+    id("com.modrinth.minotaur") version "2.+"
+    id("org.jetbrains.changelog") version "2.0.0"
 }
 
 if (!File("$rootDir/.git").exists()) {
     logger.lifecycle(
-            """
+        """
     **************************************************************************************
     You need to fork and clone this repository! Don't download a .zip file.
     If you need assistance, consult the GitHub docs: https://docs.github.com/get-started/quickstart/fork-a-repo
@@ -41,18 +46,34 @@ group = "dev.themeinerlp.bettergopaint"
 
 val minecraftVersion = "1.20"
 val supportedMinecraftVersions = listOf(
-        "1.16.5",
-        "1.17",
-        "1.17.1",
-        "1.18",
-        "1.18.1",
-        "1.18.2",
-        "1.19",
-        "1.19.1",
-        "1.19.2",
-        "1.19.3",
-        "1.19.4",
-        "1.20"
+    "1.13",
+    "1.13.1",
+    "1.13.2",
+    "1.14",
+    "1.14.1",
+    "1.14.2",
+    "1.14.3",
+    "1.14.4",
+    "1.15",
+    "1.15.1",
+    "1.15.2",
+    "1.16",
+    "1.16.1",
+    "1.16.2",
+    "1.16.3",
+    "1.16.4",
+    "1.16.5",
+    "1.17",
+    "1.17.1",
+    "1.18",
+    "1.18.1",
+    "1.18.2",
+    "1.19",
+    "1.19.1",
+    "1.19.2",
+    "1.19.3",
+    "1.19.4",
+    "1.20"
 )
 
 repositories {
@@ -118,6 +139,54 @@ bukkit {
             default = BukkitPluginDescription.Permission.Default.FALSE
         }
     }
+}
+
+changelog {
+    version.set(baseVersion)
+    path.set("${project.projectDir}/CHANGELOG.md")
+    itemPrefix.set("-")
+    keepUnreleasedSection.set(true)
+    unreleasedTerm.set("[Unreleased]")
+    groups.set(listOf("Added", "Changed", "Deprecated", "Removed", "Fixed", "Security"))
+}
+
+hangarPublish {
+    publications.register("BetterGoPaint") {
+        version.set(project.version.toString())
+        channel.set(System.getenv("HANGAR_CHANNEL"))
+        changelog.set(
+            project.changelog.renderItem(
+                project.changelog.getOrNull(baseVersion) ?: project.changelog.getUnreleased()
+            )
+        )
+        apiKey.set(System.getenv("HANGAR_SECRET"))
+        owner.set("TheMeinerLP")
+        slug.set("BetterGoPaint")
+
+        platforms {
+            register(Platforms.PAPER) {
+                jar.set(tasks.shadowJar.flatMap { it.archiveFile })
+                platformVersions.set(supportedMinecraftVersions)
+            }
+        }
+    }
+}
+
+modrinth {
+    token.set(System.getenv("MODRINTH_TOKEN"))
+    projectId.set("qf7sNg9A")
+    versionNumber.set(version.toString())
+    versionType.set(System.getenv("MODRINTH_CHANNEL"))
+    uploadFile.set(tasks.shadowJar as Any)
+    gameVersions.addAll(supportedMinecraftVersions)
+    loaders.add("paper")
+    loaders.add("bukkit")
+    loaders.add("folia")
+    changelog.set(
+        project.changelog.renderItem(
+            project.changelog.getOrNull(baseVersion) ?: project.changelog.getUnreleased()
+        )
+    )
 }
 
 
