@@ -46,6 +46,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.incendo.serverlib.ServerLib;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.function.Function;
 import java.util.logging.Level;
 
@@ -100,9 +102,18 @@ public class BetterGoPaint extends JavaPlugin implements Listener {
                 .miniMessage()
                 .deserialize("Made with <red>\u2665</red> in <gradient:black:red:gold>Germany</gradient>"));
 
-        checkIfGoPaintActive();
+        if (checkIfGoPaintActive()) {
+            return;
+        }
 
         betterGoPaint = this;
+        if (!Files.exists(getDataFolder().toPath())) {
+            try {
+                Files.createDirectories(getDataFolder().toPath());
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
         Settings.settings().reload(new File(getDataFolder(), "config.yml"));
         enableBStats();
         enableCommandSystem();
@@ -128,14 +139,16 @@ public class BetterGoPaint extends JavaPlugin implements Listener {
 
     }
 
-    private void checkIfGoPaintActive() {
+    private boolean checkIfGoPaintActive() {
         if (getServer().getPluginManager().isPluginEnabled("goPaint")) {
             getComponentLogger().error(MiniMessage.miniMessage().deserialize("<red>BetterGoPaint is a replacement for goPaint. " +
                     "Please use one instead of both"));
             getComponentLogger().error(MiniMessage.miniMessage().deserialize("This plugin is now disabling to prevent future " +
                     "errors"));
             this.getServer().getPluginManager().disablePlugin(this);
+            return true;
         }
+        return false;
     }
 
     private void enableCommandSystem() {
