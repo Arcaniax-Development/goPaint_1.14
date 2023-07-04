@@ -19,6 +19,7 @@
 package dev.themeinerlp.bettergopaint.listeners;
 
 import com.cryptomorin.xseries.XMaterial;
+import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import dev.themeinerlp.bettergopaint.BetterGoPaint;
 import dev.themeinerlp.bettergopaint.objects.other.Settings;
 import dev.themeinerlp.bettergopaint.objects.player.ExportedPlayerBrush;
@@ -32,7 +33,7 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 
-public class InteractListener implements Listener {
+public final class InteractListener implements Listener {
 
     public BetterGoPaint plugin;
 
@@ -48,7 +49,7 @@ public class InteractListener implements Listener {
                 return;
             }
         }
-        if (!e.getPlayer().hasPermission("gopaint.use")) {
+        if (!e.getPlayer().hasPermission("bettergopaint.use")) {
             return;
         }
         if ((e.getAction().equals(Action.RIGHT_CLICK_AIR) || e.getAction().equals(Action.RIGHT_CLICK_BLOCK))) {
@@ -70,7 +71,7 @@ public class InteractListener implements Listener {
                 } else {
                     loc = e.getClickedBlock().getLocation().clone();
                 }
-                epb.getBrush().paint(loc, p, epb);
+                BukkitAdapter.adapt(p).runAsyncIfFree(() ->epb.getBrush().paint(loc, p, epb));
             }
         }
         if (e.getPlayer().getItemInHand().getType() == XMaterial.FEATHER.parseMaterial() && (e
@@ -84,7 +85,7 @@ public class InteractListener implements Listener {
             } else {
                 loc = e.getClickedBlock().getLocation().clone();
             }
-            if ((!e.getPlayer().hasPermission("gopaint.world.bypass")) && (Settings.settings().GENERIC.DISABLED_WORLDS
+            if ((!e.getPlayer().hasPermission("bettergopaint.world.bypass")) && (Settings.settings().GENERIC.DISABLED_WORLDS
                     .contains(loc.getWorld().getName()))) {
                 return;
             }
@@ -92,8 +93,9 @@ public class InteractListener implements Listener {
                 return;
             }
             final PlayerBrush pb = BetterGoPaint.getBrushManager().getPlayerBrush(p);
+
             if (pb.isEnabled()) {
-                pb.getBrush().paint(loc, p);
+                BukkitAdapter.adapt(p).runAsyncIfFree(() -> pb.getBrush().paint(loc, p));
             } else {
                 p.sendMessage(Settings.settings().GENERIC.PREFIX + "§cYour brush is disabled, left click to enable the brush.");
             }
