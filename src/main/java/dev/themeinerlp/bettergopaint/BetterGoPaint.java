@@ -174,7 +174,7 @@ public class BetterGoPaint extends JavaPlugin implements Listener {
             }
             if (commandManager.hasCapability(CloudBukkitCapabilities.ASYNCHRONOUS_COMPLETION)) {
                 commandManager.registerAsynchronousCompletions();
-                getLogger().info("Brigadier support enabled");
+                getLogger().info("Async completion support enabled");
             }
             Function<ParserParameters, CommandMeta> commandMetaFunction = parserParameters ->
                     CommandMeta
