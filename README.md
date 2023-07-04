@@ -18,6 +18,7 @@ fixes.
 - New CI Development builds
 - New download link
 - Better build gradle
+- **Drop 1.13-1.16.4 support. Please the original plugin!**
 
 ### To-Do
 - Fix performance impacts
