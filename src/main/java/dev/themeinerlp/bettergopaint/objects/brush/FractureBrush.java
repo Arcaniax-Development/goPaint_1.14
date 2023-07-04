@@ -54,12 +54,11 @@ public class FractureBrush extends Brush {
                 if ((!pb.isMaskEnabled()) || (b.getType().equals(pb
                         .getMask()
                         .getMaterial()) && (XMaterial.supports(13) || b.getData() == pb.getMask().getData()))) {
-                    if (Height.getAverageHeightDiffFracture(b.getLocation(), Height.getHeight(p, b.getLocation()), 1, p) >= 0.1) {
+                    if (Height.getAverageHeightDiffFracture(b.getLocation(), Height.getHeight( b.getLocation()), 1) >= 0.1) {
                         if (Height.getAverageHeightDiffFracture(
                                 b.getLocation(),
-                                Height.getHeight(p, b.getLocation()),
-                                pb.getFractureDistance(),
-                                p
+                                Height.getHeight( b.getLocation()),
+                                pb.getFractureDistance()
                         ) >= 0.1) {
                             Random r = new Random();
                             int random = r.nextInt(pbBlocks.size());
@@ -97,12 +96,11 @@ public class FractureBrush extends Brush {
                 if ((!epb.isMaskEnabled()) || (b.getType().equals(epb
                         .getMask()
                         .getMaterial()) && (XMaterial.supports(13) || b.getData() == epb.getMask().getData()))) {
-                    if (Height.getAverageHeightDiffFracture(b.getLocation(), Height.getHeight(p, b.getLocation()), 1, p) >= 0.1) {
+                    if (Height.getAverageHeightDiffFracture(b.getLocation(), Height.getHeight( b.getLocation()), 1) >= 0.1) {
                         if (Height.getAverageHeightDiffFracture(
                                 b.getLocation(),
-                                Height.getHeight(p, b.getLocation()),
-                                epb.getFractureDistance(),
-                                p
+                                Height.getHeight( b.getLocation()),
+                                epb.getFractureDistance()
                         ) >= 0.1) {
                             Random r = new Random();
                             int random = r.nextInt(epbBlocks.size());

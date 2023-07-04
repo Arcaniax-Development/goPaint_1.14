@@ -54,11 +54,10 @@ public class AngleBrush extends Brush {
                 if ((!pb.isMaskEnabled()) || (b.getType().equals(pb
                         .getMask()
                         .getMaterial()) && (XMaterial.supports(13) || b.getData() == pb.getMask().getData()))) {
-                    if (!(Height.getAverageHeightDiffAngle(b.getLocation(), 1, p) >= 0.1 &&
+                    if (!(Height.getAverageHeightDiffAngle(b.getLocation(), 1) >= 0.1 &&
                             Height.getAverageHeightDiffAngle(
                                     b.getLocation(),
-                                    pb.getAngleDistance(),
-                                    p
+                                    pb.getAngleDistance()
                             ) >= Math.tan(Math.toRadians(pb.getMinHeightDifference())))) {
                         Random r = new Random();
                         int random = r.nextInt(pbBlocks.size());
@@ -95,11 +94,10 @@ public class AngleBrush extends Brush {
                 if ((!epb.isMaskEnabled()) || (b.getType().equals(epb
                         .getMask()
                         .getMaterial()) && (XMaterial.supports(13) || b.getData() == epb.getMask().getData()))) {
-                    if (!(Height.getAverageHeightDiffAngle(b.getLocation(), 1, p) >= 0.1 &&
+                    if (!(Height.getAverageHeightDiffAngle(b.getLocation(), 1) >= 0.1 &&
                             Height.getAverageHeightDiffAngle(
                                     b.getLocation(),
-                                    epb.getAngleDistance(),
-                                    p
+                                    epb.getAngleDistance()
                             ) >= Math.tan(Math.toRadians(epb.getMinHeightDifference())))) {
                         Random r = new Random();
                         int random = r.nextInt(epbBlocks.size());
