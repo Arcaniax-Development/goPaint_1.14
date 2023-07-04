@@ -36,6 +36,7 @@ import dev.themeinerlp.bettergopaint.objects.player.PlayerBrushManager;
 import dev.themeinerlp.bettergopaint.utils.Constants;
 import dev.themeinerlp.bettergopaint.utils.DisabledBlocks;
 import io.papermc.lib.PaperLib;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bstats.bukkit.Metrics;
 import org.bstats.charts.SimplePie;
 import org.bukkit.command.CommandSender;
@@ -50,6 +51,7 @@ import java.util.logging.Level;
 
 
 public class BetterGoPaint extends JavaPlugin implements Listener {
+
     public static boolean plotSquaredEnabled;
     private static PlayerBrushManager manager;
     private static BetterGoPaint betterGoPaint;
@@ -78,11 +80,27 @@ public class BetterGoPaint extends JavaPlugin implements Listener {
     }
 
     public void onEnable() {
-
         // Check if we are in a safe environment
         ServerLib.checkUnsafeForks();
         ServerLib.isJavaSixteen();
         PaperLib.suggestPaper(this);
+        if (PaperLib.getMinecraftVersion() < 16) {
+            getComponentLogger().error(MiniMessage.miniMessage().deserialize("<red>We support only Minecraft 1.16.5 upwards"));
+            getComponentLogger().error(MiniMessage.miniMessage().deserialize("<red>Disabling plugin to prevent errors"));
+            this.getServer().getPluginManager().disablePlugin(this);
+            return;
+        }
+        if (PaperLib.getMinecraftVersion() == 16 && PaperLib.getMinecraftPatchVersion() < 5) {
+            getComponentLogger().error(MiniMessage.miniMessage().deserialize("<red>We support only Minecraft 1.16.5 upwards"));
+            getComponentLogger().error(MiniMessage.miniMessage().deserialize("<red>Disabling plugin to prevent errors"));
+            this.getServer().getPluginManager().disablePlugin(this);
+            return;
+        }
+        getComponentLogger().info(MiniMessage
+                .miniMessage()
+                .deserialize("Made with <red>\u2665</red> in <gradient:black:red:gold>Germany</gradient>"));
+
+        checkIfGoPaintActive();
 
         betterGoPaint = this;
         Settings.settings().reload(new File(getDataFolder(), "config.yml"));
@@ -108,6 +126,16 @@ public class BetterGoPaint extends JavaPlugin implements Listener {
         DisabledBlocks.addBlocks();
 
 
+    }
+
+    private void checkIfGoPaintActive() {
+        if (getServer().getPluginManager().isPluginEnabled("goPaint")) {
+            getComponentLogger().error(MiniMessage.miniMessage().deserialize("<red>BetterGoPaint is a replacement for goPaint. " +
+                    "Please use one instead of both"));
+            getComponentLogger().error(MiniMessage.miniMessage().deserialize("This plugin is now disabling to prevent future " +
+                    "errors"));
+            this.getServer().getPluginManager().disablePlugin(this);
+        }
     }
 
     private void enableCommandSystem() {
