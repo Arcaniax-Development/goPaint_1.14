@@ -2,7 +2,7 @@ name: Build PR
 on: [pull_request]
 jobs:
   build_pr:
-    if: github.repository_owner == 'TheMeinerLP'
+    if: github.repository_owner == 'OneLiteFeatherNET'
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
