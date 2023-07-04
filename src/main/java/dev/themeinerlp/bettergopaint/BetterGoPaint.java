@@ -86,22 +86,27 @@ public class BetterGoPaint extends JavaPlugin implements Listener {
         ServerLib.checkUnsafeForks();
         ServerLib.isJavaSixteen();
         PaperLib.suggestPaper(this);
+
         if (PaperLib.getMinecraftVersion() < 16) {
-            getComponentLogger().error(MiniMessage.miniMessage().deserialize("<red>We support only Minecraft 1.16.5 upwards"));
-            getComponentLogger().error(MiniMessage.miniMessage().deserialize("<red>Disabling plugin to prevent errors"));
+            getSLF4JLogger().error("We support only Minecraft 1.16.5 upwards");
+            getSLF4JLogger().error("Disabling plugin to prevent errors");
             this.getServer().getPluginManager().disablePlugin(this);
             return;
         }
         if (PaperLib.getMinecraftVersion() == 16 && PaperLib.getMinecraftPatchVersion() < 5) {
-            getComponentLogger().error(MiniMessage.miniMessage().deserialize("<red>We support only Minecraft 1.16.5 upwards"));
-            getComponentLogger().error(MiniMessage.miniMessage().deserialize("<red>Disabling plugin to prevent errors"));
+            getSLF4JLogger().error("We support only Minecraft 1.16.5 upwards");
+            getSLF4JLogger().error("Disabling plugin to prevent errors");
             this.getServer().getPluginManager().disablePlugin(this);
             return;
         }
-        getComponentLogger().info(MiniMessage
-                .miniMessage()
-                .deserialize("Made with <red>\u2665</red> in <gradient:black:red:gold>Germany</gradient>"));
 
+        if (PaperLib.getMinecraftVersion() > 17) {
+            getComponentLogger().info(MiniMessage
+                    .miniMessage()
+                    .deserialize("Made with <red>\u2665</red> in <gradient:black:red:gold>Germany</gradient>"));
+        } else {
+            getLogger().info("Made with \u2665 in Germany");
+        }
         if (checkIfGoPaintActive()) {
             return;
         }
@@ -141,10 +146,15 @@ public class BetterGoPaint extends JavaPlugin implements Listener {
 
     private boolean checkIfGoPaintActive() {
         if (getServer().getPluginManager().isPluginEnabled("goPaint")) {
-            getComponentLogger().error(MiniMessage.miniMessage().deserialize("<red>BetterGoPaint is a replacement for goPaint. " +
-                    "Please use one instead of both"));
-            getComponentLogger().error(MiniMessage.miniMessage().deserialize("This plugin is now disabling to prevent future " +
-                    "errors"));
+            if (PaperLib.getMinecraftVersion() > 17) {
+                getComponentLogger().error(MiniMessage.miniMessage().deserialize("<red>BetterGoPaint is a replacement for goPaint. " +
+                        "Please use one instead of both"));
+                getComponentLogger().error(MiniMessage.miniMessage().deserialize("This plugin is now disabling to prevent future " +
+                        "errors"));
+            } else {
+                getSLF4JLogger().error("BetterGoPaint is a replacement for goPaint. Please use one instead of both");
+                getSLF4JLogger().error("This plugin is now disabling to prevent future errors");
+            }
             this.getServer().getPluginManager().disablePlugin(this);
             return true;
         }
