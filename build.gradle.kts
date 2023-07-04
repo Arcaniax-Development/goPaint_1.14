@@ -44,24 +44,8 @@ ext {
 version = "%s%s".format(Locale.ROOT, baseVersion, extension)
 group = "dev.themeinerlp.bettergopaint"
 
-val minecraftVersion = "1.20"
+val minecraftVersion = "1.20.1"
 val supportedMinecraftVersions = listOf(
-    "1.13",
-    "1.13.1",
-    "1.13.2",
-    "1.14",
-    "1.14.1",
-    "1.14.2",
-    "1.14.3",
-    "1.14.4",
-    "1.15",
-    "1.15.1",
-    "1.15.2",
-    "1.16",
-    "1.16.1",
-    "1.16.2",
-    "1.16.3",
-    "1.16.4",
     "1.16.5",
     "1.17",
     "1.17.1",
@@ -73,7 +57,8 @@ val supportedMinecraftVersions = listOf(
     "1.19.2",
     "1.19.3",
     "1.19.4",
-    "1.20"
+    "1.20",
+    "1.20.1",
 )
 
 repositories {
@@ -116,7 +101,8 @@ bukkit {
     authors = listOf("Arcaniax", "TheMeinerLP")
     apiVersion = "1.13"
     depend = listOf("FastAsyncWorldEdit")
-    website = "https://www.spigotmc.org/resources/27717/"
+    website = "https://github.com/OneLiteFeatherNET/BetterGoPaint"
+    softDepend = listOf("goPaint")
 
     commands {
         register("gopaint") {
@@ -129,13 +115,13 @@ bukkit {
         register("bettergopaint.command.admin.reload") {
             default = BukkitPluginDescription.Permission.Default.OP
         }
-        register("gopaint.use") {
+        register("bettergopaint.use") {
             default = BukkitPluginDescription.Permission.Default.OP
         }
-        register("gopaint.admin") {
+        register("bettergopaint.admin") {
             default = BukkitPluginDescription.Permission.Default.FALSE
         }
-        register("gopaint.world.bypass") {
+        register("bettergopaint.world.bypass") {
             default = BukkitPluginDescription.Permission.Default.FALSE
         }
     }
