@@ -103,7 +103,7 @@ public class BetterGoPaint extends JavaPlugin implements Listener {
         if (PaperLib.getMinecraftVersion() > 17) {
             getComponentLogger().info(MiniMessage
                     .miniMessage()
-                    .deserialize("Made with <red>\u2665</red> in <gradient:black:red:gold>Germany</gradient>"));
+                    .deserialize("<white>Made with <red>\u2665</red> <white>in <gradient:black:red:gold>Germany</gradient>"));
         } else {
             getLogger().info("Made with \u2665 in Germany");
         }
@@ -149,7 +149,8 @@ public class BetterGoPaint extends JavaPlugin implements Listener {
             if (PaperLib.getMinecraftVersion() > 17) {
                 getComponentLogger().error(MiniMessage.miniMessage().deserialize("<red>BetterGoPaint is a replacement for goPaint. " +
                         "Please use one instead of both"));
-                getComponentLogger().error(MiniMessage.miniMessage().deserialize("This plugin is now disabling to prevent future " +
+                getComponentLogger().error(MiniMessage.miniMessage().deserialize("<red>This plugin is now disabling to prevent " +
+                        "future " +
                         "errors"));
             } else {
                 getSLF4JLogger().error("BetterGoPaint is a replacement for goPaint. Please use one instead of both");
