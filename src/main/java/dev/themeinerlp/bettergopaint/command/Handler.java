@@ -21,6 +21,7 @@ package dev.themeinerlp.bettergopaint.command;
 import dev.themeinerlp.bettergopaint.BetterGoPaint;
 import dev.themeinerlp.bettergopaint.objects.other.Settings;
 import dev.themeinerlp.bettergopaint.objects.player.PlayerBrush;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
@@ -47,76 +48,69 @@ public class Handler implements Listener, CommandExecutor {
             Player p = (Player) sender;
             PlayerBrush pb = BetterGoPaint.getBrushManager().getPlayerBrush(p);
             String prefix = Settings.settings().GENERIC.PREFIX;
-            if (!p.hasPermission("gopaint.use")) {
-                p.sendMessage(prefix + "§cYou are lacking the permission gopaint.use");
+            if (!p.hasPermission("bettergopaint.use")) {
+                p.sendMessage(MiniMessage.miniMessage().deserialize(prefix + "<red>You are lacking the permission bettergopaint" +
+                        ".use"));
                 return true;
             }
             if (args.length == 0) {
-                if (p.hasPermission("gopaint.admin")) {
-                    p.sendMessage(prefix + "§c/gp size§7|§ctoggle§7|§cinfo§7|§creload");
+                if (p.hasPermission("bettergopaint.admin")) {
+                    p.sendMessage(MiniMessage.miniMessage().deserialize(prefix + "<red>/gp size<gray>|<red>toggle<gray>|<red>info<gray>|<red>reload"));
                     return true;
                 }
-                p.sendMessage(prefix + "§c/gp size§7|§ctoggle§7|§cinfo");
+                p.sendMessage(MiniMessage.miniMessage().deserialize(prefix + "<red>/gp size<gray>|<red>toggle<gray>|<red>info<gray>"));
                 return true;
             } else if (args.length == 1) {
                 if (args[0].equalsIgnoreCase("size")) {
-                    p.sendMessage(prefix + "§c/gp size [number]");
+                    p.sendMessage(MiniMessage.miniMessage().deserialize(prefix + "§<red>/gp size [number]"));
                     return true;
                 } else if (args[0].equalsIgnoreCase("toggle")) {
                     if (pb.isEnabled()) {
                         pb.toggleEnabled();
-                        p.sendMessage(prefix + "§cDisabled brush");
+                        p.sendMessage(MiniMessage.miniMessage().deserialize(prefix + "§cDisabled brush"));
                     } else {
                         pb.toggleEnabled();
-                        p.sendMessage(prefix + "§aEnabled brush");
+                        p.sendMessage(MiniMessage.miniMessage().deserialize(prefix + "§aEnabled brush"));
                     }
                     return true;
                 } else if ((args[0].equalsIgnoreCase("reload") || args[0].equalsIgnoreCase("r")) && p.hasPermission(
-                        "gopaint.admin")) {
+                        "bettergopaint.admin")) {
                     plugin.reload();
-                    p.sendMessage(prefix + "§aReloaded");
+                    p.sendMessage(MiniMessage.miniMessage().deserialize(prefix + "<green>Reloaded"));
                     return true;
                 } else if (args[0].equalsIgnoreCase("info") || args[0].equalsIgnoreCase("i")) {
-
-                    p.spigot().sendMessage(new ComponentBuilder("goPaint> ").color(ChatColor.AQUA)
-                            .append("Created by: ").color(ChatColor.GOLD)
-                            .append("Arcaniax").color(ChatColor.YELLOW).create());
-
-
-                    p.spigot().sendMessage(new ComponentBuilder("goPaint> ").color(ChatColor.AQUA)
-                            .append("Links: ").color(ChatColor.GOLD)
-                            .append("Twitter").color(ChatColor.DARK_AQUA).color(ChatColor.UNDERLINE)
-                            .event(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://twitter.com/Arcaniax")).append("     ")
-                            .append("Spigot").color(ChatColor.YELLOW).color(ChatColor.UNDERLINE)
-                            .event(new ClickEvent(
-                                    ClickEvent.Action.OPEN_URL,
-                                    "https://www.spigotmc.org/resources/authors/arcaniax.47444/"
-                            )).create());
+                    p.sendMessage(MiniMessage.miniMessage().deserialize(prefix+ " <aqua>Created by: <gold>TheMeinerLP"));
+                    p.sendMessage(MiniMessage.miniMessage().deserialize(prefix+ " <aqua>Links: <gold><click:url_open:'https" +
+                            "://twitter.com/themeinerlp'>Twitter      " +
+                            "</click>"));
                     return true;
                 }
-                if (p.hasPermission("gopaint.admin")) {
-                    p.sendMessage(prefix + "§c/gp size§7|§ctoggle§7|§cinfo§7|§creload");
+                if (p.hasPermission("bettergopaint.admin")) {
+                    p.sendMessage(MiniMessage.miniMessage().deserialize(prefix + "<red>/gp size<gray>|<red>toggle<gray" +
+                            ">|<red>info" +
+                            "<gray>" +
+                            "|<red>reload"));
                     return true;
                 }
-                p.sendMessage(prefix + "§c/gp size§7|§ctoggle§7|§cinfo");
+                p.sendMessage(MiniMessage.miniMessage().deserialize(prefix + "<red>/gp size<gray>|<red>toggle<gray>|<red>info"));
                 return true;
             } else if (args.length == 2) {
                 if (args[0].equalsIgnoreCase("size") || args[0].equalsIgnoreCase("s")) {
                     try {
                         int sizeAmount = Integer.parseInt(args[1]);
                         pb.setBrushSize(sizeAmount);
-                        p.sendMessage(prefix + "§6Size set to: §e" + pb.getBrushSize());
+                        p.sendMessage(MiniMessage.miniMessage().deserialize(prefix + "<gold>Size set to: <yellow>" + pb.getBrushSize()));
                         return true;
                     } catch (Exception e) {
-                        p.sendMessage(prefix + "§c/gb size [number]");
+                        p.sendMessage(MiniMessage.miniMessage().deserialize(prefix + "<red>/gb size [number]"));
                         return true;
                     }
                 }
-                if (p.hasPermission("gopaint.admin")) {
-                    p.sendMessage(prefix + "§c/gp size§7|§ctoggle§7|§cinfo§7|§creload");
+                if (p.hasPermission("bettergopaint.admin")) {
+                    p.sendMessage(MiniMessage.miniMessage().deserialize(prefix + "<red>/gp size<gray>|<red>toggle<gray>|<red>info<gray>|<red>reload"));
                     return true;
                 }
-                p.sendMessage(prefix + "§c/gp size§7|§ctoggle§7|§cinfo");
+                p.sendMessage(MiniMessage.miniMessage().deserialize(prefix + "<red>/gp size<gray>|<red>toggle<gray>|<red>info<gray>"));
                 return true;
             }
         }

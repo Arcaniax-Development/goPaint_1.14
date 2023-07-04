@@ -24,6 +24,8 @@ import dev.themeinerlp.bettergopaint.BetterGoPaint;
 import dev.themeinerlp.bettergopaint.objects.other.Settings;
 import dev.themeinerlp.bettergopaint.objects.player.ExportedPlayerBrush;
 import dev.themeinerlp.bettergopaint.objects.player.PlayerBrush;
+import net.kyori.adventure.text.minimessage.MiniMessage;
+import net.royawesome.jlibnoise.module.combiner.Min;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -97,7 +99,7 @@ public final class InteractListener implements Listener {
             if (pb.isEnabled()) {
                 BukkitAdapter.adapt(p).runAsyncIfFree(() -> pb.getBrush().paint(loc, p));
             } else {
-                p.sendMessage(Settings.settings().GENERIC.PREFIX + "§cYour brush is disabled, left click to enable the brush.");
+                p.sendMessage(MiniMessage.miniMessage().deserialize(Settings.settings().GENERIC.PREFIX + "§cYour brush is disabled, left click to enable the brush."));
             }
         }
         if (e.getPlayer().getItemInHand().getType() == XMaterial.FEATHER.parseMaterial() && (e
