@@ -79,7 +79,7 @@ public class Items {
         item.setItemMeta(meta);
         if (item.getItemMeta() instanceof SkullMeta) {
             SkullMeta headMeta = (SkullMeta) item.getItemMeta();
-            GameProfile profile = new GameProfile(UUID.randomUUID(), null);
+            GameProfile profile = new GameProfile(UUID.randomUUID(), "goPaint");
             profile.getProperties().put("textures", new Property("textures", data));
             Field profileField = null;
             try {
