@@ -84,9 +84,9 @@ public class Handler implements Listener, CommandExecutor {
 
                     p.spigot().sendMessage(new ComponentBuilder("goPaint> ").color(ChatColor.AQUA)
                             .append("Links: ").color(ChatColor.GOLD)
-                            .append("Twitter").color(ChatColor.DARK_AQUA).color(ChatColor.UNDERLINE)
+                            .append("Twitter").color(ChatColor.DARK_AQUA)
                             .event(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://twitter.com/Arcaniax")).append("     ")
-                            .append("Spigot").color(ChatColor.YELLOW).color(ChatColor.UNDERLINE)
+                            .append("Spigot").color(ChatColor.YELLOW)
                             .event(new ClickEvent(
                                     ClickEvent.Action.OPEN_URL,
                                     "https://www.spigotmc.org/resources/authors/arcaniax.47444/"
