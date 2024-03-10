@@ -44,7 +44,7 @@ ext {
 version = "%s%s".format(Locale.ROOT, baseVersion, extension)
 group = "dev.themeinerlp.bettergopaint"
 
-val minecraftVersion = "1.20.1"
+val minecraftVersion = "1.20.2"
 val supportedMinecraftVersions = listOf(
     "1.16.5",
     "1.17",
@@ -59,6 +59,9 @@ val supportedMinecraftVersions = listOf(
     "1.19.4",
     "1.20",
     "1.20.1",
+    "1.20.2",
+    "1.20.3",
+    "1.20.4"
 )
 
 repositories {

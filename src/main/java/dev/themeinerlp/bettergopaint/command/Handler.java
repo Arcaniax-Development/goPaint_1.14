@@ -62,15 +62,15 @@ public class Handler implements Listener, CommandExecutor {
                 return true;
             } else if (args.length == 1) {
                 if (args[0].equalsIgnoreCase("size")) {
-                    p.sendMessage(MiniMessage.miniMessage().deserialize(prefix + "§<red>/gp size [number]"));
+                    p.sendMessage(MiniMessage.miniMessage().deserialize(prefix + "<red>/gp size [number]"));
                     return true;
                 } else if (args[0].equalsIgnoreCase("toggle")) {
                     if (pb.isEnabled()) {
                         pb.toggleEnabled();
-                        p.sendMessage(MiniMessage.miniMessage().deserialize(prefix + "§cDisabled brush"));
+                        p.sendMessage(MiniMessage.miniMessage().deserialize(prefix + "<red>Disabled brush"));
                     } else {
                         pb.toggleEnabled();
-                        p.sendMessage(MiniMessage.miniMessage().deserialize(prefix + "§aEnabled brush"));
+                        p.sendMessage(MiniMessage.miniMessage().deserialize(prefix + "<green>Enabled brush"));
                     }
                     return true;
                 } else if ((args[0].equalsIgnoreCase("reload") || args[0].equalsIgnoreCase("r")) && p.hasPermission(
@@ -79,10 +79,9 @@ public class Handler implements Listener, CommandExecutor {
                     p.sendMessage(MiniMessage.miniMessage().deserialize(prefix + "<green>Reloaded"));
                     return true;
                 } else if (args[0].equalsIgnoreCase("info") || args[0].equalsIgnoreCase("i")) {
-                    p.sendMessage(MiniMessage.miniMessage().deserialize(prefix+ " <aqua>Created by: <gold>TheMeinerLP"));
-                    p.sendMessage(MiniMessage.miniMessage().deserialize(prefix+ " <aqua>Links: <gold><click:url_open:'https" +
-                            "://twitter.com/themeinerlp'>Twitter      " +
-                            "</click>"));
+                    p.sendMessage(MiniMessage.miniMessage().deserialize(prefix+ "<aqua>Created by: <gold>TheMeinerLP"));
+                    p.sendMessage(MiniMessage.miniMessage().deserialize(prefix+ "<aqua>Links: <gold><click:open_url:https" +
+                            "://twitter.com/themeinerlp'><u>Twitter</u></click>"));
                     return true;
                 }
                 if (p.hasPermission("bettergopaint.admin")) {
