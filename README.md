@@ -5,7 +5,7 @@
 ---
 
 BetterGoPaint is a plugin that's designed to simplify painting inside of Minecraft.
-This plugin is a [fork](https://github.com/Arcaniax-Development/goPaint_1.14) of original one but with many improvements and 
+This plugin is a [fork](https://github.com/Arcaniax-Development/goPaint_1.14) of original one, but with many improvements and 
 fixes.  
 
 
@@ -18,7 +18,7 @@ fixes.
 - New CI Development builds
 - New download link
 - Better build gradle
-- **Drop 1.13-1.16.4 support. Please the original plugin!**
+- **Drop 1.13-1.16.4 support. Please use the original plugin!**
 
 ### To-Do
 - Fix performance impacts
