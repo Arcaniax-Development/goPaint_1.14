@@ -20,7 +20,6 @@ package net.onelitefeather.bettergopaint.listeners;
 
 import com.cryptomorin.xseries.XMaterial;
 import net.onelitefeather.bettergopaint.BetterGoPaint;
-import dev.themeinerlp.bettergopaint.objects.brush.*;
 import net.onelitefeather.bettergopaint.objects.brush.*;
 import net.onelitefeather.bettergopaint.objects.other.BlockType;
 import net.onelitefeather.bettergopaint.objects.player.PlayerBrush;
