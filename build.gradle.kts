@@ -100,12 +100,12 @@ dependencies {
 
 bukkit {
     name = "BetterGoPaint"
-    main = "dev.themeinerlp.bettergopaint.BetterGoPaint"
+    main = "net.onelitefeather.bettergopaint.BetterGoPaint"
     authors = listOf("Arcaniax", "TheMeinerLP")
     apiVersion = "1.13"
     depend = listOf("FastAsyncWorldEdit")
     website = "https://github.com/OneLiteFeatherNET/BetterGoPaint"
-    softDepend = listOf("goPaint")
+    provides = listOf("goPaint")
 
     commands {
         register("gopaint") {
