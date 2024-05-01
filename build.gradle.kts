@@ -107,7 +107,7 @@ tasks.named<ShadowJar>("shadowJar") {
     archiveClassifier.set(null as String?)
     dependencies {
         relocate("org.incendo.serverlib", "net.arcaniax.gopaint.serverlib") {
-            include(dependency("dev.notmyfault.serverlib:ServerLib:2.3.4"))
+            include(dependency("dev.notmyfault.serverlib:ServerLib:2.3.6"))
         }
         relocate("org.bstats", "net.arcaniax.gopaint.metrics") {
             include(dependency("org.bstats:bstats-base"))
