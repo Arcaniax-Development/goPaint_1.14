@@ -6,6 +6,7 @@ import xyz.jpenilla.runpaper.task.RunServer
 plugins {
     java
     `java-library`
+    id("olf.build-logic")
     id("com.diffplug.spotless") version "6.18.0"
     id("com.github.johnrengelman.shadow") version "8.1.1"
     id("net.minecrell.plugin-yml.bukkit") version "0.5.3"
