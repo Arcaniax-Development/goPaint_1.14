@@ -1,22 +1,20 @@
 import io.papermc.hangarpublishplugin.model.Platforms
-import net.minecrell.pluginyml.bukkit.BukkitPluginDescription
-import org.ajoberstar.grgit.Grgit
-import xyz.jpenilla.runpaper.task.RunServer
 import java.util.*
+import net.minecrell.pluginyml.bukkit.BukkitPluginDescription
+import xyz.jpenilla.runpaper.task.RunServer
 
 plugins {
     java
     `java-library`
+    id("olf.build-logic")
     id("com.diffplug.spotless") version "6.18.0"
     id("com.github.johnrengelman.shadow") version "8.1.1"
-    id("org.ajoberstar.grgit") version "5.2.0"
     id("net.minecrell.plugin-yml.bukkit") version "0.5.3"
     id("xyz.jpenilla.run-paper") version "2.1.0"
     idea
 
     id("io.papermc.hangar-publish-plugin") version "0.0.5"
     id("com.modrinth.minotaur") version "2.+"
-    id("org.jetbrains.changelog") version "2.0.0"
 }
 
 if (!File("$rootDir/.git").exists()) {
@@ -29,20 +27,11 @@ if (!File("$rootDir/.git").exists()) {
     """.trimIndent()
     ).also { System.exit(1) }
 }
-var baseVersion by extra("1.0.0")
-var extension by extra("")
-var snapshot by extra("-SNAPSHOT")
-
-ext {
-    val git: Grgit = Grgit.open {
-        dir = File("$rootDir/.git")
-    }
-    val revision = git.head().abbreviatedId
-    extension = "%s+%s".format(Locale.ROOT, snapshot, revision)
+allprojects {
+    group = "net.onelitefeather.bettergopaint"
+    version = property("projectVersion") as String // from gradle.properties
 }
-
-version = "%s%s".format(Locale.ROOT, baseVersion, extension)
-group = "dev.themeinerlp.bettergopaint"
+group = "net.onelitefeather.bettergopaint"
 
 val minecraftVersion = "1.20.2"
 val supportedMinecraftVersions = listOf(
@@ -130,54 +119,6 @@ bukkit {
     }
 }
 
-changelog {
-    version.set(baseVersion)
-    path.set("${project.projectDir}/CHANGELOG.md")
-    itemPrefix.set("-")
-    keepUnreleasedSection.set(true)
-    unreleasedTerm.set("[Unreleased]")
-    groups.set(listOf("Added", "Changed", "Deprecated", "Removed", "Fixed", "Security"))
-}
-
-hangarPublish {
-    publications.register("BetterGoPaint") {
-        version.set(project.version.toString())
-        channel.set(System.getenv("HANGAR_CHANNEL"))
-        changelog.set(
-            project.changelog.renderItem(
-                project.changelog.getOrNull(baseVersion) ?: project.changelog.getUnreleased()
-            )
-        )
-        apiKey.set(System.getenv("HANGAR_SECRET"))
-        owner.set("TheMeinerLP")
-        slug.set("BetterGoPaint")
-
-        platforms {
-            register(Platforms.PAPER) {
-                jar.set(tasks.shadowJar.flatMap { it.archiveFile })
-                platformVersions.set(supportedMinecraftVersions)
-            }
-        }
-    }
-}
-
-modrinth {
-    token.set(System.getenv("MODRINTH_TOKEN"))
-    projectId.set("qf7sNg9A")
-    versionNumber.set(version.toString())
-    versionType.set(System.getenv("MODRINTH_CHANNEL"))
-    uploadFile.set(tasks.shadowJar as Any)
-    gameVersions.addAll(supportedMinecraftVersions)
-    loaders.add("paper")
-    loaders.add("bukkit")
-    loaders.add("folia")
-    changelog.set(
-        project.changelog.renderItem(
-            project.changelog.getOrNull(baseVersion) ?: project.changelog.getUnreleased()
-        )
-    )
-}
-
 
 spotless {
     java {
@@ -194,22 +135,24 @@ java {
 }
 
 tasks {
+    named<Jar>("jar") {
+        archiveClassifier.set("unshaded")
+    }
     compileJava {
         options.release.set(17)
         options.encoding = "UTF-8"
     }
     shadowJar {
-        archiveClassifier.set(null as String?)
+        archiveClassifier.set("")
         dependencies {
             relocate("com.cryptomorin.xseries", "$group.xseries")
             relocate("org.incendo.serverlib", "$group.serverlib")
             relocate("org.bstats", "$group.metrics")
             relocate("io.papermc.lib", "$group.paperlib")
         }
-        minimize()
     }
 
-    build {
+    named("build") {
         dependsOn(shadowJar)
     }
 
@@ -223,3 +166,50 @@ tasks {
         }
     }
 }
+
+val branch = rootProject.branchName()
+val baseVersion = project.version as String
+val isRelease = !baseVersion.contains('-')
+val isMainBranch = branch == "master"
+if (!isRelease || isMainBranch) { // Only publish releases from the main branch
+    val suffixedVersion = if (isRelease) baseVersion else baseVersion + "+" + System.getenv("GITHUB_RUN_NUMBER")
+    val changelogContent = if (isRelease) {
+        "See [GitHub](https://github.com/OneLiteFeatherNET/BetterGoPaint) for release notes."
+    } else {
+        val commitHash = rootProject.latestCommitHash()
+        "[$commitHash](https://github.com/OneLiteFeatherNET/BetterGoPaint/commit/$commitHash) ${rootProject.latestCommitMessage()}"
+    }
+    hangarPublish {
+        publications.register("BetterGoPaint") {
+            version.set(project.version.toString())
+            channel.set(if (isRelease) "Release" else if (isMainBranch) "Snapshot" else "Alpha")
+            changelog.set(changelogContent)
+            apiKey.set(System.getenv("HANGAR_SECRET"))
+            owner.set("TheMeinerLP")
+            slug.set("BetterGoPaint")
+            platforms {
+                register(Platforms.PAPER) {
+                    jar.set(tasks.shadowJar.flatMap { it.archiveFile })
+                    platformVersions.set(supportedMinecraftVersions)
+                }
+            }
+        }
+    }
+
+    modrinth {
+        token.set(System.getenv("MODRINTH_TOKEN"))
+        projectId.set("qf7sNg9A")
+        versionType.set(if (isRelease) "release" else if (isMainBranch) "beta" else "alpha")
+        versionNumber.set(suffixedVersion)
+        versionName.set(suffixedVersion)
+        changelog.set(changelogContent)
+        uploadFile.set(tasks.shadowJar.flatMap { it.archiveFile })
+        gameVersions.addAll(supportedMinecraftVersions)
+        loaders.add("paper")
+        loaders.add("bukkit")
+        loaders.add("folia")
+    }
+}
+
+
+
