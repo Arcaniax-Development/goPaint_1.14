@@ -1,3 +1,6 @@
+import java.io.ByteArrayOutputStream
+import org.gradle.api.Project
+
 fun Project.latestCommitHash(): String {
     return runGitCommand(listOf("rev-parse", "--short", "HEAD"))
 }
