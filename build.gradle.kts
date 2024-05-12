@@ -181,7 +181,7 @@ if (!isRelease || isMainBranch) { // Only publish releases from the main branch
     }
     hangarPublish {
         publications.register("BetterGoPaint") {
-            version.set(project.version.toString())
+            version.set(suffixedVersion)
             channel.set(if (isRelease) "Release" else if (isMainBranch) "Snapshot" else "Alpha")
             changelog.set(changelogContent)
             apiKey.set(System.getenv("HANGAR_SECRET"))
