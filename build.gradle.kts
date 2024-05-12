@@ -135,22 +135,24 @@ java {
 }
 
 tasks {
+    named<Jar>("jar") {
+        archiveClassifier.set("unshaded")
+    }
     compileJava {
         options.release.set(17)
         options.encoding = "UTF-8"
     }
     shadowJar {
-        archiveClassifier.set(null as String?)
+        archiveClassifier.set("")
         dependencies {
             relocate("com.cryptomorin.xseries", "$group.xseries")
             relocate("org.incendo.serverlib", "$group.serverlib")
             relocate("org.bstats", "$group.metrics")
             relocate("io.papermc.lib", "$group.paperlib")
         }
-        minimize()
     }
 
-    build {
+    named("build") {
         dependsOn(shadowJar)
     }
 
@@ -201,7 +203,7 @@ if (!isRelease || isMainBranch) { // Only publish releases from the main branch
         versionNumber.set(suffixedVersion)
         versionName.set(suffixedVersion)
         changelog.set(changelogContent)
-        uploadFile.set(tasks.shadowJar as Any)
+        uploadFile.set(tasks.shadowJar.flatMap { it.archiveFile })
         gameVersions.addAll(supportedMinecraftVersions)
         loaders.add("paper")
         loaders.add("bukkit")
