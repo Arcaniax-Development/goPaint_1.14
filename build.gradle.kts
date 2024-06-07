@@ -18,7 +18,7 @@ plugins {
 
 if (!File("$rootDir/.git").exists()) {
     logger.lifecycle(
-        """
+            """
     **************************************************************************************
     You need to fork and clone this repository! Don't download a .zip file.
     If you need assistance, consult the GitHub docs: https://docs.github.com/get-started/quickstart/fork-a-repo
@@ -34,13 +34,13 @@ group = "net.onelitefeather.bettergopaint"
 
 val minecraftVersion = "1.20.6"
 val supportedMinecraftVersions = listOf(
-    "1.20",
-    "1.20.1",
-    "1.20.2",
-    "1.20.3",
-    "1.20.4",
-    "1.20.5",
-    "1.20.6"
+        "1.20",
+        "1.20.1",
+        "1.20.2",
+        "1.20.3",
+        "1.20.4",
+        "1.20.5",
+        "1.20.6"
 )
 
 repositories {
