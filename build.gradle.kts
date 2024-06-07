@@ -4,14 +4,14 @@ import xyz.jpenilla.runpaper.task.RunServer
 import kotlin.system.exitProcess
 
 plugins {
-    java
-    `java-library`
+    id("java")
+    id("java-library")
     id("olf.build-logic")
     id("com.diffplug.spotless") version "6.18.0"
     id("io.github.goooler.shadow") version "8.1.7"
     id("net.minecrell.plugin-yml.bukkit") version "0.5.3"
     id("xyz.jpenilla.run-paper") version "2.1.0"
-    idea
+    id("idea")
 
     id("io.papermc.hangar-publish-plugin") version "0.1.2"
     id("com.modrinth.minotaur") version "2.+"
