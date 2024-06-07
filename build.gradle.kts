@@ -26,6 +26,7 @@ if (!File("$rootDir/.git").exists()) {
     """.trimIndent()
     ).also { exitProcess(1) }
 }
+
 allprojects {
     group = "net.onelitefeather.bettergopaint"
     version = property("projectVersion") as String // from gradle.properties
