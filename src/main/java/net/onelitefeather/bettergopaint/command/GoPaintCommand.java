@@ -29,12 +29,14 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
+
 public class GoPaintCommand extends Command implements PluginIdentifiableCommand {
 
     public static BetterGoPaint plugin;
 
     public GoPaintCommand(BetterGoPaint main) {
-        super("gopaint");
+        super("gopaint", "goPaint command", "/gp size|toggle|info|reload", List.of("gp"));
         plugin = main;
     }
 
