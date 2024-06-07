@@ -403,7 +403,7 @@ public class PlayerBrush {
             }
             im.setLore(loreList);
         }
-        im.addEnchant(Enchantment.ARROW_INFINITE, 10, true);
+        im.addEnchant(Enchantment.INFINITY, 10, true);
         im.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         i.setItemMeta(im);
         return i;
