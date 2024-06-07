@@ -1,4 +1,3 @@
-
 import io.papermc.hangarpublishplugin.model.Platforms
 import net.minecrell.pluginyml.bukkit.BukkitPluginDescription
 import xyz.jpenilla.runpaper.task.RunServer
@@ -199,6 +198,3 @@ if (!isRelease || isMainBranch) { // Only publish releases from the main branch
         loaders.add("folia")
     }
 }
-
-
-
