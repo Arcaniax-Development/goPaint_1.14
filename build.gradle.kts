@@ -66,7 +66,6 @@ dependencies {
     implementation("org.incendo:cloud-minecraft-extras:2.0.0-beta.8")
     implementation("org.incendo:cloud-paper:2.0.0-beta.8")
     annotationProcessor("org.incendo:cloud-annotations:2.0.0-rc.2")
-
 }
 
 bukkit {
@@ -132,11 +131,9 @@ tasks {
             relocate("io.papermc.lib", "$group.paperlib")
         }
     }
-
     build {
         dependsOn(shadowJar)
     }
-
     supportedMinecraftVersions.forEach { serverVersion ->
         register<RunServer>("run-$serverVersion") {
             minecraftVersion(serverVersion)
