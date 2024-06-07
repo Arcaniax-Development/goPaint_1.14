@@ -45,10 +45,7 @@ val supportedMinecraftVersions = listOf(
 
 repositories {
     mavenCentral()
-    maven {
-        name = "Paper"
-        url = uri("https://papermc.io/repo/repository/maven-public/")
-    }
+    maven("https://papermc.io/repo/repository/maven-public/")
 }
 
 dependencies {
