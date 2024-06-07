@@ -1,5 +1,5 @@
+
 import io.papermc.hangarpublishplugin.model.Platforms
-import java.util.*
 import net.minecrell.pluginyml.bukkit.BukkitPluginDescription
 import xyz.jpenilla.runpaper.task.RunServer
 
