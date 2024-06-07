@@ -21,7 +21,7 @@ package net.onelitefeather.bettergopaint;
 import com.fastasyncworldedit.core.Fawe;
 import io.papermc.lib.PaperLib;
 import net.kyori.adventure.text.minimessage.MiniMessage;
-import net.onelitefeather.bettergopaint.command.Handler;
+import net.onelitefeather.bettergopaint.command.GoPaintCommand;
 import net.onelitefeather.bettergopaint.command.ReloadCommand;
 import net.onelitefeather.bettergopaint.listeners.ConnectListener;
 import net.onelitefeather.bettergopaint.listeners.InteractListener;
@@ -32,6 +32,7 @@ import net.onelitefeather.bettergopaint.utils.Constants;
 import net.onelitefeather.bettergopaint.utils.DisabledBlocks;
 import org.bstats.bukkit.Metrics;
 import org.bstats.charts.SimplePie;
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginManager;
@@ -41,38 +42,24 @@ import org.incendo.cloud.bukkit.CloudBukkitCapabilities;
 import org.incendo.cloud.execution.ExecutionCoordinator;
 import org.incendo.cloud.paper.LegacyPaperCommandManager;
 import org.incendo.serverlib.ServerLib;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.Objects;
 import java.util.logging.Level;
 
 
 public class BetterGoPaint extends JavaPlugin implements Listener {
-
-    public static boolean plotSquaredEnabled;
     private static PlayerBrushManager manager;
-    private static BetterGoPaint betterGoPaint;
-    public ConnectListener connectListener;
-    public InteractListener interactListener;
-    public InventoryListener inventoryListener;
-    public Handler cmdHandler;
-    private AnnotationParser<CommandSender> annotationParser;
-
-    public static BetterGoPaint getGoPaintPlugin() {
-        return betterGoPaint;
-    }
 
     public static PlayerBrushManager getBrushManager() {
         return manager;
     }
 
-    public static boolean isPlotSquaredEnabled() {
-        return plotSquaredEnabled;
-    }
-
     public void reload() {
-        BetterGoPaint.getGoPaintPlugin().reloadConfig();
+        reloadConfig();
         manager = new PlayerBrushManager();
         Settings.settings().reload(new File(getDataFolder(), "config.yml"));
     }
@@ -80,34 +67,19 @@ public class BetterGoPaint extends JavaPlugin implements Listener {
     public void onEnable() {
         // Check if we are in a safe environment
         ServerLib.checkUnsafeForks();
-        ServerLib.isJavaSixteen();
         PaperLib.suggestPaper(this);
 
-        if (PaperLib.getMinecraftVersion() < 16) {
-            getSLF4JLogger().error("We support only Minecraft 1.16.5 upwards");
-            getSLF4JLogger().error("Disabling plugin to prevent errors");
-            this.getServer().getPluginManager().disablePlugin(this);
-            return;
-        }
-        if (PaperLib.getMinecraftVersion() == 16 && PaperLib.getMinecraftPatchVersion() < 5) {
-            getSLF4JLogger().error("We support only Minecraft 1.16.5 upwards");
-            getSLF4JLogger().error("Disabling plugin to prevent errors");
+        // disable if goPaint and BetterGoPaint are installed simultaneously
+        if (hasOriginalGoPaint()) {
             this.getServer().getPluginManager().disablePlugin(this);
             return;
         }
 
-        if (PaperLib.getMinecraftVersion() > 17) {
-            getComponentLogger().info(MiniMessage
-                    .miniMessage()
-                    .deserialize("<white>Made with <red>\u2665</red> <white>in <gradient:black:red:gold>Germany</gradient>"));
-        } else {
-            getLogger().info("Made with \u2665 in Germany");
-        }
-        if (checkIfGoPaintActive()) {
-            return;
-        }
+        //noinspection UnnecessaryUnicodeEscape
+        getComponentLogger().info(MiniMessage.miniMessage().deserialize(
+                "<white>Made with <red>\u2665</red> <white>in <gradient:black:red:gold>Germany</gradient>"
+        ));
 
-        betterGoPaint = this;
         if (!Files.exists(getDataFolder().toPath())) {
             try {
                 Files.createDirectories(getDataFolder().toPath());
@@ -117,48 +89,47 @@ public class BetterGoPaint extends JavaPlugin implements Listener {
         }
         Settings.settings().reload(new File(getDataFolder(), "config.yml"));
         enableBStats();
-        enableCommandSystem();
-        if (this.annotationParser != null) {
-            annotationParser.parse(new ReloadCommand(this));
-        }
-
 
         manager = new PlayerBrushManager();
 
-        connectListener = new ConnectListener(betterGoPaint);
-        interactListener = new InteractListener(betterGoPaint);
-        inventoryListener = new InventoryListener(betterGoPaint);
-        cmdHandler = new Handler(betterGoPaint);
-        PluginManager pm = getServer().getPluginManager();
-        pm.registerEvents(connectListener, this);
-        pm.registerEvents(interactListener, this);
-        pm.registerEvents(inventoryListener, this);
-        pm.registerEvents(cmdHandler, this);
-        getCommand("gopaint").setExecutor(cmdHandler);
+        registerListeners();
+        registerCommands();
         DisabledBlocks.addBlocks();
-
-
     }
 
-    private boolean checkIfGoPaintActive() {
-        if (getServer().getPluginManager().isPluginEnabled("goPaint")) {
-            if (PaperLib.getMinecraftVersion() > 17) {
-                getComponentLogger().error(MiniMessage.miniMessage().deserialize("<red>BetterGoPaint is a replacement for goPaint. " +
-                        "Please use one instead of both"));
-                getComponentLogger().error(MiniMessage.miniMessage().deserialize("<red>This plugin is now disabling to prevent " +
-                        "future " +
-                        "errors"));
-            } else {
-                getSLF4JLogger().error("BetterGoPaint is a replacement for goPaint. Please use one instead of both");
-                getSLF4JLogger().error("This plugin is now disabling to prevent future errors");
-            }
-            this.getServer().getPluginManager().disablePlugin(this);
-            return true;
+    @SuppressWarnings("UnstableApiUsage")
+    private void registerCommands() {
+        Bukkit.getCommandMap().register("gopaint", getPluginMeta().getName(), new GoPaintCommand(this));
+
+        var annotationParser = enableCommandSystem();
+        if (annotationParser != null) {
+            annotationParser.parse(new ReloadCommand(this));
+            annotationParser.parse(new GoPaintCommand(this));
         }
-        return false;
     }
 
-    private void enableCommandSystem() {
+    private void registerListeners() {
+        PluginManager pm = getServer().getPluginManager();
+        pm.registerEvents(new ConnectListener(this), this);
+        pm.registerEvents(new InteractListener(), this);
+        pm.registerEvents(new InventoryListener(this), this);
+    }
+
+    private boolean hasOriginalGoPaint() {
+        if (getServer().getPluginManager().getPlugin("goPaint") == this) {
+            return false;
+        }
+        getComponentLogger().error(MiniMessage.miniMessage().deserialize(
+                "<red>BetterGoPaint is a replacement for goPaint. Please use one instead of both"
+        ));
+        getComponentLogger().error(MiniMessage.miniMessage().deserialize(
+                "<red>This plugin is now disabling to prevent future errors"
+        ));
+
+        return true;
+    }
+
+    private @Nullable AnnotationParser<CommandSender> enableCommandSystem() {
         try {
             LegacyPaperCommandManager<CommandSender> commandManager = LegacyPaperCommandManager.createNative(
                     this,
@@ -168,12 +139,12 @@ public class BetterGoPaint extends JavaPlugin implements Listener {
                 commandManager.registerBrigadier();
                 getLogger().info("Brigadier support enabled");
             }
-            this.annotationParser = new AnnotationParser<>(commandManager, CommandSender.class);
+            return new AnnotationParser<>(commandManager, CommandSender.class);
 
         } catch (Exception e) {
             getLogger().log(Level.SEVERE, "Cannot init command manager");
+            return null;
         }
-
     }
 
     private void enableBStats() {
@@ -181,7 +152,7 @@ public class BetterGoPaint extends JavaPlugin implements Listener {
 
         metrics.addCustomChart(new SimplePie(
                 "faweVersion",
-                () -> Fawe.instance().getVersion().toString()
+                () -> Objects.requireNonNull(Fawe.instance().getVersion()).toString()
         ));
     }
 

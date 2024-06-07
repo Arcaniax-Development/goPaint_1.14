@@ -36,57 +36,58 @@ import org.bukkit.inventory.EquipmentSlot;
 
 public final class InteractListener implements Listener {
 
-    public BetterGoPaint plugin;
-
-    public InteractListener(BetterGoPaint main) {
-        plugin = main;
-    }
-
     @SuppressWarnings("deprecation")
     @EventHandler(priority = EventPriority.LOWEST)
-    public void onClick(PlayerInteractEvent e) {
-        if (XMaterial.supports(19)) {
-            if (e.getHand() == EquipmentSlot.OFF_HAND) {
-                return;
-            }
-        }
-        if (!e.getPlayer().hasPermission("bettergopaint.use")) {
+    public void onClick(PlayerInteractEvent event) {
+        if (event.getAction().equals(Action.PHYSICAL)) {
             return;
         }
-        if ((e.getAction().equals(Action.RIGHT_CLICK_AIR) || e.getAction().equals(Action.RIGHT_CLICK_BLOCK))) {
-            if (e.getPlayer().getItemInHand().hasItemMeta() && e.getPlayer().getItemInHand().getItemMeta().hasDisplayName() && e
+        if (EquipmentSlot.OFF_HAND.equals(event.getHand())) {
+            return;
+        }
+
+        if (!event.getPlayer().hasPermission("bettergopaint.use")) {
+            return;
+        }
+
+        if ((event.getAction().equals(Action.RIGHT_CLICK_AIR) || event.getAction().equals(Action.RIGHT_CLICK_BLOCK))) {
+            if (event.getPlayer().getItemInHand().hasItemMeta() && event
+                    .getPlayer()
+                    .getItemInHand()
+                    .getItemMeta()
+                    .hasDisplayName() && event
                     .getPlayer()
                     .getItemInHand()
                     .getItemMeta()
                     .getDisplayName()
-                    .startsWith(" <aqua>♦ ") && e.getPlayer().getItemInHand().getItemMeta().hasLore()) {
-                final ExportedPlayerBrush epb = new ExportedPlayerBrush(e
+                    .startsWith(" <aqua>♦ ") && event.getPlayer().getItemInHand().getItemMeta().hasLore()) {
+                final ExportedPlayerBrush epb = new ExportedPlayerBrush(event
                         .getPlayer()
                         .getItemInHand()
                         .getItemMeta()
-                        .getDisplayName(), e.getPlayer().getItemInHand().getItemMeta().getLore());
-                final Player p = e.getPlayer();
+                        .getDisplayName(), event.getPlayer().getItemInHand().getItemMeta().getLore());
+                final Player p = event.getPlayer();
                 final Location loc;
-                if (e.getAction().equals(Action.RIGHT_CLICK_AIR)) {
+                if (event.getAction().equals(Action.RIGHT_CLICK_AIR)) {
                     loc = p.getTargetBlock(null, 250).getLocation().clone();
                 } else {
-                    loc = e.getClickedBlock().getLocation().clone();
+                    loc = event.getClickedBlock().getLocation().clone();
                 }
-                BukkitAdapter.adapt(p).runAsyncIfFree(() ->epb.getBrush().paint(loc, p, epb));
+                BukkitAdapter.adapt(p).runAsyncIfFree(() -> epb.getBrush().paint(loc, p, epb));
             }
         }
-        if (e.getPlayer().getItemInHand().getType() == XMaterial.FEATHER.parseMaterial() && (e
+        if (event.getPlayer().getItemInHand().getType() == XMaterial.FEATHER.parseMaterial() && (event
                 .getAction()
-                .equals(Action.RIGHT_CLICK_AIR) || e.getAction().equals(Action.RIGHT_CLICK_BLOCK))) {
-            e.setCancelled(true);
-            final Player p = e.getPlayer();
+                .equals(Action.RIGHT_CLICK_AIR) || event.getAction().equals(Action.RIGHT_CLICK_BLOCK))) {
+            event.setCancelled(true);
+            final Player p = event.getPlayer();
             final Location loc;
-            if (e.getAction().equals(Action.RIGHT_CLICK_AIR)) {
+            if (event.getAction().equals(Action.RIGHT_CLICK_AIR)) {
                 loc = p.getTargetBlock(null, 250).getLocation().clone();
             } else {
-                loc = e.getClickedBlock().getLocation().clone();
+                loc = event.getClickedBlock().getLocation().clone();
             }
-            if ((!e.getPlayer().hasPermission("bettergopaint.world.bypass")) && (Settings.settings().GENERIC.DISABLED_WORLDS
+            if ((!event.getPlayer().hasPermission("bettergopaint.world.bypass")) && (Settings.settings().GENERIC.DISABLED_WORLDS
                     .contains(loc.getWorld().getName()))) {
                 return;
             }
@@ -102,11 +103,11 @@ public final class InteractListener implements Listener {
                         "disabled, left click to enable the brush."));
             }
         }
-        if (e.getPlayer().getItemInHand().getType() == XMaterial.FEATHER.parseMaterial() && (e
+        if (event.getPlayer().getItemInHand().getType() == XMaterial.FEATHER.parseMaterial() && (event
                 .getAction()
-                .equals(Action.LEFT_CLICK_AIR) || e.getAction().equals(Action.LEFT_CLICK_BLOCK))) {
-            e.setCancelled(true);
-            Player p = e.getPlayer();
+                .equals(Action.LEFT_CLICK_AIR) || event.getAction().equals(Action.LEFT_CLICK_BLOCK))) {
+            event.setCancelled(true);
+            Player p = event.getPlayer();
             PlayerBrush pb = BetterGoPaint.getBrushManager().getPlayerBrush(p);
             p.openInventory(pb.getInventory());
         }

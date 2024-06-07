@@ -66,8 +66,7 @@ public class SprayBrush extends Brush {
             }
 
         }
-        BlockPlacer bp = new BlockPlacer();
-        bp.placeBlocks(placedBlocks, p);
+        BlockPlacer.placeBlocks(placedBlocks, p);
     }
 
     @Override
@@ -106,9 +105,6 @@ public class SprayBrush extends Brush {
             }
 
         }
-        BlockPlacer bp = new BlockPlacer();
-        bp.placeBlocks(placedBlocks, p);
-
+        BlockPlacer.placeBlocks(placedBlocks, p);
     }
-
 }

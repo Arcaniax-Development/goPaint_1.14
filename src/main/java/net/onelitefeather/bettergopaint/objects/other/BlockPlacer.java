@@ -20,52 +20,43 @@ package net.onelitefeather.bettergopaint.objects.other;
 
 import com.sk89q.worldedit.EditSession;
 import com.sk89q.worldedit.LocalSession;
+import com.sk89q.worldedit.MaxChangedBlocksException;
 import com.sk89q.worldedit.WorldEdit;
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldedit.bukkit.BukkitPlayer;
-import com.sk89q.worldedit.math.BlockVector3;
 import com.sk89q.worldedit.math.Vector3;
-import net.onelitefeather.bettergopaint.BetterGoPaint;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 import java.util.Collection;
 
-public class BlockPlacer {
+public final class BlockPlacer {
 
-    public BlockPlacer() {
-    }
-
-    public boolean isGmask(Player player, BlockVector3 v) {
-        LocalSession localSession = WorldEdit.getInstance().getSessionManager().get(new BukkitPlayer(player));
-        return localSession.getMask() == null || localSession.getMask().test(v);
-    }
-
-    public void placeBlocks(Collection<BlockPlace> blocks, final Player p) {
-        Bukkit.getScheduler().runTaskAsynchronously(BetterGoPaint.getGoPaintPlugin(), () -> {
-            LocalSession localSession = WorldEdit.getInstance().getSessionManager().get(new BukkitPlayer(p));
-            try (EditSession editsession = localSession.createEditSession(new BukkitPlayer(p))) {
-                try {
-                    editsession.setFastMode(false);
-                    for (BlockPlace bp : blocks) {
-                        Location l = bp.getLocation();
-                        Vector3 v = Vector3.at(l.getBlockX(), l.getBlockY(), l.getBlockZ());
-                        if (isGmask(p, v.toBlockPoint())) {
-                            try {
-                                editsession.setBlock(
-                                        Vector3.at(l.getBlockX(), l.getBlockY(), l.getBlockZ()).toBlockPoint(),
-                                        BukkitAdapter.asBlockType(bp.bt.getMaterial()).getDefaultState()
-                                );
-                            } catch (Exception ignored) {
-                            }
-                        }
+    public static void placeBlocks(Collection<BlockPlace> blocks, final Player player) {
+        BukkitPlayer wrapped = BukkitAdapter.adapt(player);
+        LocalSession localSession = WorldEdit.getInstance().getSessionManager().get(wrapped);
+        try (EditSession editsession = localSession.createEditSession(wrapped)) {
+            try {
+                editsession.setFastMode(false);
+                for (BlockPlace placement : blocks) {
+                    Location l = placement.getLocation();
+                    Vector3 v = Vector3.at(l.getBlockX(), l.getBlockY(), l.getBlockZ());
+                    if (localSession.getMask() != null && !localSession.getMask().test(v.toBlockPoint())) {
+                        continue;
                     }
-                } finally {
-                    localSession.remember(editsession);
+                    try {
+                        editsession.setBlock(
+                                l.getBlockX(), l.getBlockY(), l.getBlockZ(),
+                                BukkitAdapter.asBlockType(placement.bt.getMaterial()).getDefaultState()
+                        );
+                    } catch (MaxChangedBlocksException ignored) {
+                        break;
+                    }
                 }
+            } finally {
+                localSession.remember(editsession);
             }
-        });
+        }
     }
 
 }

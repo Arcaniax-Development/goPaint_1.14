@@ -116,11 +116,8 @@ public class PaintBrush extends Brush {
                         }
                     }
                 }
-
-
             }
-            BlockPlacer bp = new BlockPlacer();
-            bp.placeBlocks(placedBlocks, p);
+            BlockPlacer.placeBlocks(placedBlocks, p);
         }
     }
 
@@ -197,11 +194,8 @@ public class PaintBrush extends Brush {
                         }
                     }
                 }
-
-
             }
-            BlockPlacer bp = new BlockPlacer();
-            bp.placeBlocks(placedBlocks, p);
+            BlockPlacer.placeBlocks(placedBlocks, p);
         }
     }
 
@@ -209,5 +203,4 @@ public class PaintBrush extends Brush {
     public String getName() {
         return "Paint Brush";
     }
-
 }
