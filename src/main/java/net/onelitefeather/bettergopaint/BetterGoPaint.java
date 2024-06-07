@@ -107,27 +107,30 @@ public class BetterGoPaint extends JavaPlugin implements Listener {
         }
         Settings.settings().reload(new File(getDataFolder(), "config.yml"));
         enableBStats();
-        enableCommandSystem();
-        if (this.annotationParser != null) {
-            annotationParser.parse(new ReloadCommand(this));
-        }
-
 
         manager = new PlayerBrushManager();
 
-        connectListener = new ConnectListener(betterGoPaint);
-        interactListener = new InteractListener(betterGoPaint);
-        inventoryListener = new InventoryListener(betterGoPaint);
-        cmdHandler = new Handler(betterGoPaint);
-        PluginManager pm = getServer().getPluginManager();
-        pm.registerEvents(connectListener, this);
-        pm.registerEvents(interactListener, this);
-        pm.registerEvents(inventoryListener, this);
-        pm.registerEvents(cmdHandler, this);
-        getCommand("gopaint").setExecutor(cmdHandler);
+        registerListeners();
+        registerCommands();
         DisabledBlocks.addBlocks();
+    }
 
+    @SuppressWarnings("UnstableApiUsage")
+    private void registerCommands() {
+        Bukkit.getCommandMap().register("gopaint", getPluginMeta().getName(), new GoPaintCommand(this));
 
+        var annotationParser = enableCommandSystem();
+        if (annotationParser != null) {
+            annotationParser.parse(new ReloadCommand(this));
+            annotationParser.parse(new GoPaintCommand(this));
+        }
+    }
+
+    private void registerListeners() {
+        PluginManager pm = getServer().getPluginManager();
+        pm.registerEvents(new ConnectListener(this), this);
+        pm.registerEvents(new InteractListener(this), this);
+        pm.registerEvents(new InventoryListener(this), this);
     }
 
     private boolean hasOriginalGoPaint() {
@@ -144,7 +147,7 @@ public class BetterGoPaint extends JavaPlugin implements Listener {
         return true;
     }
 
-    private void enableCommandSystem() {
+    private @Nullable AnnotationParser<CommandSender> enableCommandSystem() {
         try {
             LegacyPaperCommandManager<CommandSender> commandManager = LegacyPaperCommandManager.createNative(
                     this,
@@ -154,12 +157,12 @@ public class BetterGoPaint extends JavaPlugin implements Listener {
                 commandManager.registerBrigadier();
                 getLogger().info("Brigadier support enabled");
             }
-            this.annotationParser = new AnnotationParser<>(commandManager, CommandSender.class);
+            return new AnnotationParser<>(commandManager, CommandSender.class);
 
         } catch (Exception e) {
             getLogger().log(Level.SEVERE, "Cannot init command manager");
+            return null;
         }
-
     }
 
     private void enableBStats() {
