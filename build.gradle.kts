@@ -4,17 +4,17 @@ import xyz.jpenilla.runpaper.task.RunServer
 import kotlin.system.exitProcess
 
 plugins {
+    id("idea")
     id("java")
     id("java-library")
     id("olf.build-logic")
+
     id("com.diffplug.spotless") version "6.18.0"
+    id("com.modrinth.minotaur") version "2.+"
     id("io.github.goooler.shadow") version "8.1.7"
+    id("io.papermc.hangar-publish-plugin") version "0.1.2"
     id("net.minecrell.plugin-yml.bukkit") version "0.5.3"
     id("xyz.jpenilla.run-paper") version "2.1.0"
-    id("idea")
-
-    id("io.papermc.hangar-publish-plugin") version "0.1.2"
-    id("com.modrinth.minotaur") version "2.+"
 }
 
 if (!File("$rootDir/.git").exists()) {
