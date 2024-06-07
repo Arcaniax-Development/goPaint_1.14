@@ -1,80 +1,71 @@
-
 import io.papermc.hangarpublishplugin.model.Platforms
 import net.minecrell.pluginyml.bukkit.BukkitPluginDescription
 import xyz.jpenilla.runpaper.task.RunServer
+import kotlin.system.exitProcess
 
 plugins {
-    java
-    `java-library`
+    id("idea")
+    id("java")
+    id("java-library")
     id("olf.build-logic")
-    id("com.diffplug.spotless") version "6.18.0"
-    id("io.github.goooler.shadow") version "8.1.7"
-    id("net.minecrell.plugin-yml.bukkit") version "0.5.3"
-    id("xyz.jpenilla.run-paper") version "2.1.0"
-    idea
 
-    id("io.papermc.hangar-publish-plugin") version "0.1.2"
-    id("com.modrinth.minotaur") version "2.+"
+    alias(libs.plugins.spotless)
+    alias(libs.plugins.minotaur)
+    alias(libs.plugins.shadow)
+    alias(libs.plugins.hangar.publish.plugin)
+    alias(libs.plugins.plugin.yml.bukkit)
+    alias(libs.plugins.run.paper)
 }
 
 if (!File("$rootDir/.git").exists()) {
-    logger.lifecycle(
-        """
+    logger.lifecycle("""
     **************************************************************************************
     You need to fork and clone this repository! Don't download a .zip file.
     If you need assistance, consult the GitHub docs: https://docs.github.com/get-started/quickstart/fork-a-repo
     **************************************************************************************
     """.trimIndent()
-    ).also { System.exit(1) }
+    ).also { exitProcess(1) }
 }
+
 allprojects {
     group = "net.onelitefeather.bettergopaint"
     version = property("projectVersion") as String // from gradle.properties
 }
 group = "net.onelitefeather.bettergopaint"
 
-val minecraftVersion = "1.20.6"
 val supportedMinecraftVersions = listOf(
-    "1.20",
-    "1.20.1",
-    "1.20.2",
-    "1.20.3",
-    "1.20.4",
-    "1.20.5",
-    "1.20.6"
+        "1.20",
+        "1.20.1",
+        "1.20.2",
+        "1.20.3",
+        "1.20.4",
+        "1.20.5",
+        "1.20.6"
 )
 
 repositories {
     mavenCentral()
-    maven {
-        name = "Paper"
-        url = uri("https://papermc.io/repo/repository/maven-public/")
-    }
-    maven {
-        name = "S01 Sonatype"
-        url = uri("https://s01.oss.sonatype.org/content/repositories/snapshots/")
-    }
+    maven("https://papermc.io/repo/repository/maven-public/")
 }
 
 dependencies {
     // Paper / Spigot
-    compileOnly("io.papermc.paper:paper-api:$minecraftVersion-R0.1-SNAPSHOT")
+    compileOnly(libs.paper)
     // Fawe / WorldEdit
-    implementation(platform("com.intellectualsites.bom:bom-newest:1.27"))
-    compileOnlyApi("com.fastasyncworldedit:FastAsyncWorldEdit-Bukkit")
+    implementation(platform(libs.fawe.bom))
+    compileOnlyApi(libs.fawe.bukkit)
     // Utils
-    implementation("dev.notmyfault.serverlib:ServerLib")
-    implementation("io.papermc:paperlib")
+    implementation(libs.serverlib)
+    implementation(libs.paperlib)
     // Material Utils
-    implementation("com.github.cryptomorin:XSeries:9.4.0") { isTransitive = false }
+    implementation(libs.xseries) { isTransitive = false }
     // Stats
-    implementation("org.bstats:bstats-bukkit:3.0.2")
+    implementation(libs.bstats)
     // Commands
-    implementation("org.incendo:cloud-annotations:2.0.0-rc.2")
-    implementation("org.incendo:cloud-minecraft-extras:2.0.0-beta.8")
-    implementation("org.incendo:cloud-paper:2.0.0-beta.8")
-    annotationProcessor("org.incendo:cloud-annotations:2.0.0-rc.2")
-
+    implementation(libs.cloud.annotations)
+    implementation(libs.cloud.minecraft.extras)
+    implementation(libs.cloud.paper)
+    annotationProcessor(libs.cloud.annotations)
 }
 
 bukkit {
@@ -119,13 +110,13 @@ spotless {
 }
 
 java {
-    toolchain {
-        languageVersion.set(JavaLanguageVersion.of(21))
-    }
+    toolchain.languageVersion.set(JavaLanguageVersion.of(21))
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
 }
 
 tasks {
-    named<Jar>("jar") {
+    jar {
         archiveClassifier.set("unshaded")
     }
     compileJava {
@@ -141,11 +132,9 @@ tasks {
             relocate("io.papermc.lib", "$group.paperlib")
         }
     }
-
-    named("build") {
+    build {
         dependsOn(shadowJar)
     }
-
     supportedMinecraftVersions.forEach { serverVersion ->
         register<RunServer>("run-$serverVersion") {
             minecraftVersion(serverVersion)
@@ -199,6 +188,3 @@ if (!isRelease || isMainBranch) { // Only publish releases from the main branch
         loaders.add("folia")
     }
 }
-
-
-
