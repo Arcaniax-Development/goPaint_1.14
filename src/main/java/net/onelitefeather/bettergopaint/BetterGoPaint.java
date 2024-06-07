@@ -80,32 +80,22 @@ public class BetterGoPaint extends JavaPlugin implements Listener {
     public void onEnable() {
         // Check if we are in a safe environment
         ServerLib.checkUnsafeForks();
-        ServerLib.isJavaSixteen();
         PaperLib.suggestPaper(this);
 
-        if (PaperLib.getMinecraftVersion() < 16) {
-            getSLF4JLogger().error("We support only Minecraft 1.16.5 upwards");
-            getSLF4JLogger().error("Disabling plugin to prevent errors");
-            this.getServer().getPluginManager().disablePlugin(this);
-            return;
-        }
-        if (PaperLib.getMinecraftVersion() == 16 && PaperLib.getMinecraftPatchVersion() < 5) {
-            getSLF4JLogger().error("We support only Minecraft 1.16.5 upwards");
-            getSLF4JLogger().error("Disabling plugin to prevent errors");
+        //noinspection UnnecessaryUnicodeEscape
+        getComponentLogger().info(MiniMessage.miniMessage().deserialize(
+                "<white>Made with <red>\u2665</red> <white>in <gradient:black:red:gold>Germany</gradient>"
+        ));
+
+        // disable if goPaint and BetterGoPaint are installed simultaneously
+        if (hasOriginalGoPaint()) {
             this.getServer().getPluginManager().disablePlugin(this);
             return;
         }
 
-        if (PaperLib.getMinecraftVersion() > 17) {
-            getComponentLogger().info(MiniMessage
-                    .miniMessage()
-                    .deserialize("<white>Made with <red>\u2665</red> <white>in <gradient:black:red:gold>Germany</gradient>"));
-        } else {
-            getLogger().info("Made with \u2665 in Germany");
-        }
-        if (checkIfGoPaintActive()) {
-            return;
-        }
+        getComponentLogger().info(MiniMessage.miniMessage().deserialize(
+                "<white>Made with <red>\u2665</red> <white>in <gradient:black:red:gold>Germany</gradient>"
+        ));
 
         betterGoPaint = this;
         if (!Files.exists(getDataFolder().toPath())) {
@@ -140,7 +130,7 @@ public class BetterGoPaint extends JavaPlugin implements Listener {
 
     }
 
-    private boolean checkIfGoPaintActive() {
+    private boolean hasOriginalGoPaint() {
         if (getServer().getPluginManager().getPlugin("goPaint") == this) {
             return false;
         }
