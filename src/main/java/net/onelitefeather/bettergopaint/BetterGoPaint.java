@@ -141,21 +141,17 @@ public class BetterGoPaint extends JavaPlugin implements Listener {
     }
 
     private boolean checkIfGoPaintActive() {
-        if (getServer().getPluginManager().isPluginEnabled("goPaint")) {
-            if (PaperLib.getMinecraftVersion() > 17) {
-                getComponentLogger().error(MiniMessage.miniMessage().deserialize("<red>BetterGoPaint is a replacement for goPaint. " +
-                        "Please use one instead of both"));
-                getComponentLogger().error(MiniMessage.miniMessage().deserialize("<red>This plugin is now disabling to prevent " +
-                        "future " +
-                        "errors"));
-            } else {
-                getSLF4JLogger().error("BetterGoPaint is a replacement for goPaint. Please use one instead of both");
-                getSLF4JLogger().error("This plugin is now disabling to prevent future errors");
-            }
-            this.getServer().getPluginManager().disablePlugin(this);
-            return true;
+        if (getServer().getPluginManager().getPlugin("goPaint") == this) {
+            return false;
         }
-        return false;
+        getComponentLogger().error(MiniMessage.miniMessage().deserialize(
+                "<red>BetterGoPaint is a replacement for goPaint. Please use one instead of both"
+        ));
+        getComponentLogger().error(MiniMessage.miniMessage().deserialize(
+                "<red>This plugin is now disabling to prevent future errors"
+        ));
+
+        return true;
     }
 
     private void enableCommandSystem() {
