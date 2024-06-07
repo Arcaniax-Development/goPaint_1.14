@@ -18,14 +18,9 @@
  */
 package net.onelitefeather.bettergopaint;
 
-import cloud.commandframework.annotations.AnnotationParser;
-import cloud.commandframework.arguments.parser.ParserParameters;
-import cloud.commandframework.arguments.parser.StandardParameters;
-import cloud.commandframework.bukkit.CloudBukkitCapabilities;
-import cloud.commandframework.execution.CommandExecutionCoordinator;
-import cloud.commandframework.meta.CommandMeta;
-import cloud.commandframework.paper.PaperCommandManager;
 import com.fastasyncworldedit.core.Fawe;
+import io.papermc.lib.PaperLib;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.onelitefeather.bettergopaint.command.Handler;
 import net.onelitefeather.bettergopaint.command.ReloadCommand;
 import net.onelitefeather.bettergopaint.listeners.ConnectListener;
@@ -35,20 +30,21 @@ import net.onelitefeather.bettergopaint.objects.other.Settings;
 import net.onelitefeather.bettergopaint.objects.player.PlayerBrushManager;
 import net.onelitefeather.bettergopaint.utils.Constants;
 import net.onelitefeather.bettergopaint.utils.DisabledBlocks;
-import io.papermc.lib.PaperLib;
-import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bstats.bukkit.Metrics;
 import org.bstats.charts.SimplePie;
 import org.bukkit.command.CommandSender;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.incendo.cloud.annotations.AnnotationParser;
+import org.incendo.cloud.bukkit.CloudBukkitCapabilities;
+import org.incendo.cloud.execution.ExecutionCoordinator;
+import org.incendo.cloud.paper.LegacyPaperCommandManager;
 import org.incendo.serverlib.ServerLib;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.util.function.Function;
 import java.util.logging.Level;
 
 
@@ -164,24 +160,15 @@ public class BetterGoPaint extends JavaPlugin implements Listener {
 
     private void enableCommandSystem() {
         try {
-            PaperCommandManager<CommandSender> commandManager = PaperCommandManager.createNative(
+            LegacyPaperCommandManager<CommandSender> commandManager = LegacyPaperCommandManager.createNative(
                     this,
-                    CommandExecutionCoordinator.simpleCoordinator()
+                    ExecutionCoordinator.simpleCoordinator()
             );
             if (commandManager.hasCapability(CloudBukkitCapabilities.BRIGADIER)) {
                 commandManager.registerBrigadier();
                 getLogger().info("Brigadier support enabled");
             }
-            if (commandManager.hasCapability(CloudBukkitCapabilities.ASYNCHRONOUS_COMPLETION)) {
-                commandManager.registerAsynchronousCompletions();
-                getLogger().info("Async completion support enabled");
-            }
-            Function<ParserParameters, CommandMeta> commandMetaFunction = parserParameters ->
-                    CommandMeta
-                            .simple()
-                            .with(CommandMeta.DESCRIPTION, parserParameters.get(StandardParameters.DESCRIPTION, "No description"))
-                            .build();
-            this.annotationParser = new AnnotationParser<>(commandManager, CommandSender.class, commandMetaFunction);
+            this.annotationParser = new AnnotationParser<>(commandManager, CommandSender.class);
 
         } catch (Exception e) {
             getLogger().log(Level.SEVERE, "Cannot init command manager");

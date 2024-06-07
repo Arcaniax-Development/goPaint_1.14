@@ -33,24 +33,15 @@ allprojects {
 }
 group = "net.onelitefeather.bettergopaint"
 
-val minecraftVersion = "1.20.2"
+val minecraftVersion = "1.20.6"
 val supportedMinecraftVersions = listOf(
-    "1.16.5",
-    "1.17",
-    "1.17.1",
-    "1.18",
-    "1.18.1",
-    "1.18.2",
-    "1.19",
-    "1.19.1",
-    "1.19.2",
-    "1.19.3",
-    "1.19.4",
     "1.20",
     "1.20.1",
     "1.20.2",
     "1.20.3",
-    "1.20.4"
+    "1.20.4",
+    "1.20.5",
+    "1.20.6"
 )
 
 repositories {
@@ -79,11 +70,10 @@ dependencies {
     // Stats
     implementation("org.bstats:bstats-bukkit:3.0.2")
     // Commands
-    implementation("cloud.commandframework:cloud-annotations:1.8.3")
-    implementation("cloud.commandframework:cloud-minecraft-extras:1.8.3")
-    implementation("cloud.commandframework:cloud-paper:1.8.3")
-    annotationProcessor("cloud.commandframework:cloud-annotations:1.8.3")
-    implementation("me.lucko:commodore:2.2")
+    implementation("org.incendo:cloud-annotations:2.0.0-rc.2")
+    implementation("org.incendo:cloud-minecraft-extras:2.0.0-beta.8")
+    implementation("org.incendo:cloud-paper:2.0.0-beta.8")
+    annotationProcessor("org.incendo:cloud-annotations:2.0.0-rc.2")
 
 }
 
