@@ -1,6 +1,7 @@
 import io.papermc.hangarpublishplugin.model.Platforms
 import net.minecrell.pluginyml.bukkit.BukkitPluginDescription
 import xyz.jpenilla.runpaper.task.RunServer
+import kotlin.system.exitProcess
 
 plugins {
     java
@@ -24,7 +25,7 @@ if (!File("$rootDir/.git").exists()) {
     If you need assistance, consult the GitHub docs: https://docs.github.com/get-started/quickstart/fork-a-repo
     **************************************************************************************
     """.trimIndent()
-    ).also { System.exit(1) }
+    ).also { exitProcess(1) }
 }
 allprojects {
     group = "net.onelitefeather.bettergopaint"
