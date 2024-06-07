@@ -18,8 +18,7 @@ plugins {
 }
 
 if (!File("$rootDir/.git").exists()) {
-    logger.lifecycle(
-            """
+    logger.lifecycle("""
     **************************************************************************************
     You need to fork and clone this repository! Don't download a .zip file.
     If you need assistance, consult the GitHub docs: https://docs.github.com/get-started/quickstart/fork-a-repo
