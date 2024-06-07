@@ -126,10 +126,10 @@ tasks {
     shadowJar {
         archiveClassifier.set("")
         dependencies {
-            relocate("com.cryptomorin.xseries", "$group.xseries")
-            relocate("org.incendo.serverlib", "$group.serverlib")
-            relocate("org.bstats", "$group.metrics")
-            relocate("io.papermc.lib", "$group.paperlib")
+            relocate("com.cryptomorin.xseries", "${rootProject.group}.xseries")
+            relocate("org.incendo.serverlib", "${rootProject.group}.serverlib")
+            relocate("org.bstats", "${rootProject.group}.metrics")
+            relocate("io.papermc.lib", "${rootProject.group}.paperlib")
         }
     }
     build {
