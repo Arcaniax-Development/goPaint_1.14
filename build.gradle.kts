@@ -13,7 +13,7 @@ plugins {
     alias(libs.plugins.minotaur)
     alias(libs.plugins.shadow)
     alias(libs.plugins.hangar.publish.plugin)
-    alias(libs.plugins.plugin.yml.bukkit)
+    alias(libs.plugins.plugin.yml.paper)
     alias(libs.plugins.run.paper)
 }
 
