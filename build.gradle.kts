@@ -75,7 +75,6 @@ bukkit {
     apiVersion = "1.13"
     depend = listOf("FastAsyncWorldEdit")
     website = "https://github.com/OneLiteFeatherNET/BetterGoPaint"
-    softDepend = listOf("goPaint")
 
     commands {
         register("gopaint") {
@@ -83,6 +82,7 @@ bukkit {
             aliases = listOf("gp")
         }
     }
+    provides = listOf("goPaint")
 
     permissions {
         register("bettergopaint.command.admin.reload") {
