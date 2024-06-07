@@ -1,5 +1,5 @@
+
 import io.papermc.hangarpublishplugin.model.Platforms
-import java.util.*
 import net.minecrell.pluginyml.bukkit.BukkitPluginDescription
 import xyz.jpenilla.runpaper.task.RunServer
 
@@ -8,7 +8,7 @@ plugins {
     `java-library`
     id("olf.build-logic")
     id("com.diffplug.spotless") version "6.18.0"
-    id("com.github.johnrengelman.shadow") version "8.1.1"
+    id("io.github.goooler.shadow") version "8.1.7"
     id("net.minecrell.plugin-yml.bukkit") version "0.5.3"
     id("xyz.jpenilla.run-paper") version "2.1.0"
     idea
@@ -130,7 +130,7 @@ spotless {
 
 java {
     toolchain {
-        languageVersion.set(JavaLanguageVersion.of(17))
+        languageVersion.set(JavaLanguageVersion.of(21))
     }
 }
 
@@ -139,7 +139,7 @@ tasks {
         archiveClassifier.set("unshaded")
     }
     compileJava {
-        options.release.set(17)
+        options.release.set(21)
         options.encoding = "UTF-8"
     }
     shadowJar {
