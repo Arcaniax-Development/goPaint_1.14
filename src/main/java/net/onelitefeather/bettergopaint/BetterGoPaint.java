@@ -26,6 +26,8 @@ import cloud.commandframework.execution.CommandExecutionCoordinator;
 import cloud.commandframework.meta.CommandMeta;
 import cloud.commandframework.paper.PaperCommandManager;
 import com.fastasyncworldedit.core.Fawe;
+import io.papermc.lib.PaperLib;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.onelitefeather.bettergopaint.command.Handler;
 import net.onelitefeather.bettergopaint.command.ReloadCommand;
 import net.onelitefeather.bettergopaint.listeners.ConnectListener;
@@ -35,8 +37,6 @@ import net.onelitefeather.bettergopaint.objects.other.Settings;
 import net.onelitefeather.bettergopaint.objects.player.PlayerBrushManager;
 import net.onelitefeather.bettergopaint.utils.Constants;
 import net.onelitefeather.bettergopaint.utils.DisabledBlocks;
-import io.papermc.lib.PaperLib;
-import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bstats.bukkit.Metrics;
 import org.bstats.charts.SimplePie;
 import org.bukkit.command.CommandSender;
@@ -48,7 +48,6 @@ import org.incendo.serverlib.ServerLib;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.util.function.Function;
 import java.util.logging.Level;
 
 
