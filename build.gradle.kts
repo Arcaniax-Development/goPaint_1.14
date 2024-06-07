@@ -120,7 +120,7 @@ java {
 }
 
 tasks {
-    named<Jar>("jar") {
+    jar {
         archiveClassifier.set("unshaded")
     }
     compileJava {
@@ -137,7 +137,7 @@ tasks {
         }
     }
 
-    named("build") {
+    build {
         dependsOn(shadowJar)
     }
 
