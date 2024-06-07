@@ -79,17 +79,13 @@ public class BetterGoPaint extends JavaPlugin implements Listener {
         ServerLib.checkUnsafeForks();
         PaperLib.suggestPaper(this);
 
-        //noinspection UnnecessaryUnicodeEscape
-        getComponentLogger().info(MiniMessage.miniMessage().deserialize(
-                "<white>Made with <red>\u2665</red> <white>in <gradient:black:red:gold>Germany</gradient>"
-        ));
-
         // disable if goPaint and BetterGoPaint are installed simultaneously
         if (hasOriginalGoPaint()) {
             this.getServer().getPluginManager().disablePlugin(this);
             return;
         }
 
+        //noinspection UnnecessaryUnicodeEscape
         getComponentLogger().info(MiniMessage.miniMessage().deserialize(
                 "<white>Made with <red>\u2665</red> <white>in <gradient:black:red:gold>Germany</gradient>"
         ));
