@@ -1,0 +1,27 @@
+[versions]
+minecraft = "1.20.6-R0.1-SNAPSHOT"
+intellectualsites = "1.27"
+xseries = "9.4.0"
+bstats = "3.0.2"
+cloud-minecraft = "2.0.0-beta.8"
+cloud-annotations = "2.0.0-rc.2"
+
+[libraries]
+paper = { group = "io.papermc.paper", name = "paper-api", version.ref = "minecraft" }
+fawe-bom = { group = "com.intellectualsites.bom", name = "bom-newest", version.ref = "intellectualsites" }
+fawe-bukkit = { group = "com.fastasyncworldedit", name = "FastAsyncWorldEdit-Bukkit" }
+serverlib = { group = "dev.notmyfault.serverlib", name = "ServerLib" }
+paperlib = { group = "io.papermc", name = "paperlib" }
+xseries = { group = "com.github.cryptomorin", name = "XSeries", version.ref = "xseries" }
+bstats = { group = "org.bstats", name = "bstats-bukkit", version.ref = "bstats" }
+cloud-annotations = { group = "org.incendo", name = "cloud-annotations", version.ref = "cloud-annotations" }
+cloud-minecraft-extras = { group = "org.incendo", name = "cloud-minecraft-extras", version.ref = "cloud-minecraft" }
+cloud-paper = { group = "org.incendo", name = "cloud-paper", version.ref = "cloud-minecraft" }
+
+[plugins]
+spotless = { id = "com.diffplug.spotless", version = "6.18.0" }
+minotaur = { id = "com.modrinth.minotaur", version = "2.+" }
+shadow = { id = "io.github.goooler.shadow", version = "8.1.7" }
+hangar-publish-plugin = { id = "io.papermc.hangar-publish-plugin", version = "0.1.2" }
+plugin-yml-bukkit = { id = "net.minecrell.plugin-yml.bukkit", version = "0.5.3" }
+run-paper = { id = "xyz.jpenilla.run-paper", version = "2.1.0" }

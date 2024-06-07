@@ -9,12 +9,12 @@ plugins {
     id("java-library")
     id("olf.build-logic")
 
-    id("com.diffplug.spotless") version "6.18.0"
-    id("com.modrinth.minotaur") version "2.+"
-    id("io.github.goooler.shadow") version "8.1.7"
-    id("io.papermc.hangar-publish-plugin") version "0.1.2"
-    id("net.minecrell.plugin-yml.bukkit") version "0.5.3"
-    id("xyz.jpenilla.run-paper") version "2.1.0"
+    alias(libs.plugins.spotless)
+    alias(libs.plugins.minotaur)
+    alias(libs.plugins.shadow)
+    alias(libs.plugins.hangar.publish.plugin)
+    alias(libs.plugins.plugin.yml.bukkit)
+    alias(libs.plugins.run.paper)
 }
 
 if (!File("$rootDir/.git").exists()) {
@@ -51,22 +51,22 @@ repositories {
 
 dependencies {
     // Paper / Spigot
-    compileOnly("io.papermc.paper:paper-api:$minecraftVersion-R0.1-SNAPSHOT")
+    compileOnly(libs.paper)
     // Fawe / WorldEdit
-    implementation(platform("com.intellectualsites.bom:bom-newest:1.27"))
-    compileOnlyApi("com.fastasyncworldedit:FastAsyncWorldEdit-Bukkit")
+    implementation(platform(libs.fawe.bom))
+    compileOnlyApi(libs.fawe.bukkit)
     // Utils
-    implementation("dev.notmyfault.serverlib:ServerLib")
-    implementation("io.papermc:paperlib")
+    implementation(libs.serverlib)
+    implementation(libs.paperlib)
     // Material Utils
-    implementation("com.github.cryptomorin:XSeries:9.4.0") { isTransitive = false }
+    implementation(libs.xseries) { isTransitive = false }
     // Stats
-    implementation("org.bstats:bstats-bukkit:3.0.2")
+    implementation(libs.bstats)
     // Commands
-    implementation("org.incendo:cloud-annotations:2.0.0-rc.2")
-    implementation("org.incendo:cloud-minecraft-extras:2.0.0-beta.8")
-    implementation("org.incendo:cloud-paper:2.0.0-beta.8")
-    annotationProcessor("org.incendo:cloud-annotations:2.0.0-rc.2")
+    implementation(libs.cloud.annotations)
+    implementation(libs.cloud.minecraft.extras)
+    implementation(libs.cloud.paper)
+    annotationProcessor(libs.cloud.annotations)
 }
 
 bukkit {
