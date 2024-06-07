@@ -55,11 +55,6 @@ public class BetterGoPaint extends JavaPlugin implements Listener {
     public static boolean plotSquaredEnabled;
     private static PlayerBrushManager manager;
     private static BetterGoPaint betterGoPaint;
-    public ConnectListener connectListener;
-    public InteractListener interactListener;
-    public InventoryListener inventoryListener;
-    public Handler cmdHandler;
-    private AnnotationParser<CommandSender> annotationParser;
 
     public static BetterGoPaint getGoPaintPlugin() {
         return betterGoPaint;
