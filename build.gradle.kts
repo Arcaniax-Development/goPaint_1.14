@@ -13,7 +13,7 @@ plugins {
     id("xyz.jpenilla.run-paper") version "2.1.0"
     idea
 
-    id("io.papermc.hangar-publish-plugin") version "0.0.5"
+    id("io.papermc.hangar-publish-plugin") version "0.1.2"
     id("com.modrinth.minotaur") version "2.+"
 }
 
@@ -185,8 +185,6 @@ if (!isRelease || isMainBranch) { // Only publish releases from the main branch
             channel.set(if (isRelease) "Release" else if (isMainBranch) "Snapshot" else "Alpha")
             changelog.set(changelogContent)
             apiKey.set(System.getenv("HANGAR_SECRET"))
-            owner.set("TheMeinerLP")
-            slug.set("BetterGoPaint")
             platforms {
                 register(Platforms.PAPER) {
                     jar.set(tasks.shadowJar.flatMap { it.archiveFile })
