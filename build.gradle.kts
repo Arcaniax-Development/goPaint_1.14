@@ -33,7 +33,7 @@ allprojects {
 }
 group = "net.onelitefeather.bettergopaint"
 
-val minecraftVersion = "1.20.2"
+val minecraftVersion = "1.20.6"
 val supportedMinecraftVersions = listOf(
     "1.16.5",
     "1.17",
