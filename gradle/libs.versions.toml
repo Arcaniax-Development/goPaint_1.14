@@ -23,5 +23,5 @@ spotless = { id = "com.diffplug.spotless", version = "6.18.0" }
 minotaur = { id = "com.modrinth.minotaur", version = "2.+" }
 shadow = { id = "io.github.goooler.shadow", version = "8.1.7" }
 hangar-publish-plugin = { id = "io.papermc.hangar-publish-plugin", version = "0.1.2" }
-plugin-yml-bukkit = { id = "net.minecrell.plugin-yml.bukkit", version = "0.5.3" }
+plugin-yml-paper = { id = "net.minecrell.plugin-yml.paper", version = "0.6.0" }
 run-paper = { id = "xyz.jpenilla.run-paper", version = "2.1.0" }
