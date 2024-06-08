@@ -26,13 +26,14 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.PluginIdentifiableCommand;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
 public class GoPaintCommand extends Command implements PluginIdentifiableCommand {
 
-    private final BetterGoPaint plugin;
+    public static BetterGoPaint plugin;
 
     public GoPaintCommand(BetterGoPaint main) {
         super("gopaint", "goPaint command", "/gp size|toggle|info|reload", List.of("gp"));
@@ -127,9 +128,9 @@ public class GoPaintCommand extends Command implements PluginIdentifiableCommand
         return false;
     }
 
-    @NotNull
     @Override
-    public BetterGoPaint getPlugin() {
+    public @NotNull Plugin getPlugin() {
         return plugin;
     }
+
 }

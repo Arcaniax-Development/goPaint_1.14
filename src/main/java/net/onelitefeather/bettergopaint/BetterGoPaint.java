@@ -47,19 +47,29 @@ import org.jetbrains.annotations.Nullable;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.util.Objects;
 import java.util.logging.Level;
 
 
 public class BetterGoPaint extends JavaPlugin implements Listener {
+
+    public static boolean plotSquaredEnabled;
     private static PlayerBrushManager manager;
+    private static BetterGoPaint betterGoPaint;
+
+    public static BetterGoPaint getGoPaintPlugin() {
+        return betterGoPaint;
+    }
 
     public static PlayerBrushManager getBrushManager() {
         return manager;
     }
 
+    public static boolean isPlotSquaredEnabled() {
+        return plotSquaredEnabled;
+    }
+
     public void reload() {
-        reloadConfig();
+        BetterGoPaint.getGoPaintPlugin().reloadConfig();
         manager = new PlayerBrushManager();
         Settings.settings().reload(new File(getDataFolder(), "config.yml"));
     }
@@ -80,6 +90,7 @@ public class BetterGoPaint extends JavaPlugin implements Listener {
                 "<white>Made with <red>\u2665</red> <white>in <gradient:black:red:gold>Germany</gradient>"
         ));
 
+        betterGoPaint = this;
         if (!Files.exists(getDataFolder().toPath())) {
             try {
                 Files.createDirectories(getDataFolder().toPath());
@@ -111,7 +122,7 @@ public class BetterGoPaint extends JavaPlugin implements Listener {
     private void registerListeners() {
         PluginManager pm = getServer().getPluginManager();
         pm.registerEvents(new ConnectListener(this), this);
-        pm.registerEvents(new InteractListener(), this);
+        pm.registerEvents(new InteractListener(this), this);
         pm.registerEvents(new InventoryListener(this), this);
     }
 
@@ -152,7 +163,7 @@ public class BetterGoPaint extends JavaPlugin implements Listener {
 
         metrics.addCustomChart(new SimplePie(
                 "faweVersion",
-                () -> Objects.requireNonNull(Fawe.instance().getVersion()).toString()
+                () -> Fawe.instance().getVersion().toString()
         ));
     }
 

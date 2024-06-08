@@ -1,5 +1,6 @@
 import io.papermc.hangarpublishplugin.model.Platforms
 import net.minecrell.pluginyml.bukkit.BukkitPluginDescription
+import net.minecrell.pluginyml.paper.PaperPluginDescription
 import xyz.jpenilla.runpaper.task.RunServer
 import kotlin.system.exitProcess
 
@@ -13,7 +14,7 @@ plugins {
     alias(libs.plugins.minotaur)
     alias(libs.plugins.shadow)
     alias(libs.plugins.hangar.publish.plugin)
-    alias(libs.plugins.plugin.yml.bukkit)
+    alias(libs.plugins.plugin.yml.paper)
     alias(libs.plugins.run.paper)
 }
 
@@ -68,21 +69,21 @@ dependencies {
     annotationProcessor(libs.cloud.annotations)
 }
 
-bukkit {
+paper {
     name = "BetterGoPaint"
     main = "net.onelitefeather.bettergopaint.BetterGoPaint"
     authors = listOf("Arcaniax", "TheMeinerLP")
-    apiVersion = "1.13"
-    depend = listOf("FastAsyncWorldEdit")
-    website = "https://github.com/OneLiteFeatherNET/BetterGoPaint"
-    softDepend = listOf("goPaint")
+    apiVersion = "1.20"
 
-    commands {
-        register("gopaint") {
-            description = "goPaint command"
-            aliases = listOf("gp")
+    serverDependencies {
+        register("FastAsyncWorldEdit") {
+            load = PaperPluginDescription.RelativeLoadOrder.BEFORE
+            required = true
         }
     }
+
+    website = "https://github.com/OneLiteFeatherNET/BetterGoPaint"
+    provides = listOf("goPaint")
 
     permissions {
         register("bettergopaint.command.admin.reload") {
