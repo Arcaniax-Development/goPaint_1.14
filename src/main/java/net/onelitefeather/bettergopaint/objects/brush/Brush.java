@@ -70,9 +70,14 @@ public abstract class Brush {
     }
 
     protected boolean passesDefaultChecks(BrushSettings brushSettings, Player player, Block block) {
-        if (brushSettings.isSurfaceMode() && !Surface.isOnSurface(block, player.getLocation())) {
-            return false;
-        }
+        return passesMaskCheck(brushSettings, player, block) && passesSurfaceCheck(brushSettings, player, block);
+    }
+
+    protected boolean passesSurfaceCheck(BrushSettings brushSettings, Player player, Block block) {
+        return !brushSettings.isSurfaceMode() || Surface.isOnSurface(block, player.getLocation());
+    }
+
+    protected boolean passesMaskCheck(BrushSettings brushSettings, Player player, Block block) {
         return !brushSettings.isMask() || block.getType().equals(brushSettings.getMask());
     }
 

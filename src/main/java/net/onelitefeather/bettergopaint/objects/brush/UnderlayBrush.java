@@ -34,7 +34,7 @@ public class UnderlayBrush extends Brush {
         performEdit(player, session -> {
             List<Block> blocks = Sphere.getBlocksInRadius(location, brushSettings.getSize());
             for (Block block : blocks) {
-                if (!passesDefaultChecks(brushSettings, player, block)) {
+                if (!passesMaskCheck(brushSettings, player, block)) {
                     continue;
                 }
 
