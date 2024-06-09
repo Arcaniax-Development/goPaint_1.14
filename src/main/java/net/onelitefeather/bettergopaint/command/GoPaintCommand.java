@@ -21,7 +21,7 @@ package net.onelitefeather.bettergopaint.command;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.onelitefeather.bettergopaint.BetterGoPaint;
 import net.onelitefeather.bettergopaint.objects.other.Settings;
-import net.onelitefeather.bettergopaint.objects.player.PlayerBrush;
+import net.onelitefeather.bettergopaint.brush.PlayerBrush;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.PluginIdentifiableCommand;
@@ -49,7 +49,7 @@ public class GoPaintCommand extends Command implements PluginIdentifiableCommand
         if (!(sender instanceof final Player p)) {
             return false;
         }
-        PlayerBrush pb = BetterGoPaint.getBrushManager().getPlayerBrush(p);
+        PlayerBrush pb = plugin.getBrushManager().getBrush(p);
         String prefix = Settings.settings().GENERIC.PREFIX;
         if (!p.hasPermission("bettergopaint.use")) {
             p.sendMessage(MiniMessage.miniMessage().deserialize(prefix + "<red>You are lacking the permission bettergopaint" +
@@ -73,16 +73,16 @@ public class GoPaintCommand extends Command implements PluginIdentifiableCommand
                 return true;
             } else if (args[0].equalsIgnoreCase("toggle")) {
                 if (pb.isEnabled()) {
-                    pb.toggleEnabled();
+                    pb.toggle();
                     p.sendMessage(MiniMessage.miniMessage().deserialize(prefix + "<red>Disabled brush"));
                 } else {
-                    pb.toggleEnabled();
+                    pb.toggle();
                     p.sendMessage(MiniMessage.miniMessage().deserialize(prefix + "<green>Enabled brush"));
                 }
                 return true;
             } else if ((args[0].equalsIgnoreCase("reload") || args[0].equalsIgnoreCase("r")) && p.hasPermission(
                     "bettergopaint.admin")) {
-                plugin.reload();
+                plugin.reloadConfig();
                 p.sendMessage(MiniMessage.miniMessage().deserialize(prefix + "<green>Reloaded"));
                 return true;
             } else if (args[0].equalsIgnoreCase("info") || args[0].equalsIgnoreCase("i")) {
@@ -104,10 +104,10 @@ public class GoPaintCommand extends Command implements PluginIdentifiableCommand
             if (args[0].equalsIgnoreCase("size") || args[0].equalsIgnoreCase("s")) {
                 try {
                     int sizeAmount = Integer.parseInt(args[1]);
-                    pb.setBrushSize(sizeAmount);
-                    p.sendMessage(MiniMessage
-                            .miniMessage()
-                            .deserialize(prefix + "<gold>Size set to: <yellow>" + pb.getBrushSize()));
+                    pb.setSize(sizeAmount);
+                    p.sendMessage(MiniMessage.miniMessage().deserialize(
+                            prefix + "<gold>Size set to: <yellow>" + pb.getSize()
+                    ));
                     return true;
                 } catch (Exception e) {
                     p.sendMessage(MiniMessage.miniMessage().deserialize(prefix + "<red>/gb size [number]"));
