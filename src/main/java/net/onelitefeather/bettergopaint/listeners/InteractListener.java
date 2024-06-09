@@ -19,12 +19,13 @@
 package net.onelitefeather.bettergopaint.listeners;
 
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
+import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.onelitefeather.bettergopaint.BetterGoPaint;
 import net.onelitefeather.bettergopaint.brush.BrushSettings;
-import net.onelitefeather.bettergopaint.objects.other.Settings;
 import net.onelitefeather.bettergopaint.brush.ExportedPlayerBrush;
 import net.onelitefeather.bettergopaint.brush.PlayerBrush;
+import net.onelitefeather.bettergopaint.objects.other.Settings;
 import org.bukkit.FluidCollisionMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -35,11 +36,10 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.beans.FeatureDescriptor;
+import java.util.Objects;
 
 public final class InteractListener implements Listener {
 
@@ -49,7 +49,6 @@ public final class InteractListener implements Listener {
         this.plugin = plugin;
     }
 
-    @SuppressWarnings("deprecation")
     @EventHandler(priority = EventPriority.LOWEST)
     public void onClick(PlayerInteractEvent event) {
         Player player = event.getPlayer();
@@ -74,8 +73,6 @@ public final class InteractListener implements Listener {
             return;
         }
 
-        ItemMeta itemMeta = item.getItemMeta();
-
         Location location;
         if (event.getAction().equals(Action.RIGHT_CLICK_AIR)) {
             Block exact = player.getTargetBlockExact(250, FluidCollisionMode.NEVER);
@@ -95,10 +92,11 @@ public final class InteractListener implements Listener {
 
         BrushSettings brushSettings;
 
-        if (itemMeta != null && itemMeta.hasDisplayName() && itemMeta.getDisplayName().startsWith(" ♦ ") && itemMeta.hasLore()) {
-            // brushSettings = new ExportedPlayerBrush(plugin, itemMeta.getDisplayName(), itemMeta.getLore());
-            // disabled until working as intended
-            brushSettings = plugin.getBrushManager().getBrush(player);
+        ItemMeta itemMeta = item.getItemMeta();
+
+        if (itemMeta != null && itemMeta.displayName() instanceof TextComponent name
+                && name.content().startsWith(" ♦ ") && itemMeta.hasLore()) {
+            brushSettings = new ExportedPlayerBrush(plugin, name, Objects.requireNonNull(itemMeta.lore()));
         } else if (item.getType().equals(Material.FEATHER)) {
             brushSettings = plugin.getBrushManager().getBrush(player);
         } else {

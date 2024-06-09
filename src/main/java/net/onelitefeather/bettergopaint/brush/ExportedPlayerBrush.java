@@ -18,13 +18,17 @@
  */
 package net.onelitefeather.bettergopaint.brush;
 
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.TextComponent;
 import net.onelitefeather.bettergopaint.BetterGoPaint;
 import net.onelitefeather.bettergopaint.objects.brush.Brush;
 import org.bukkit.Axis;
 import org.bukkit.Material;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 
 public class ExportedPlayerBrush implements BrushSettings {
@@ -47,53 +51,43 @@ public class ExportedPlayerBrush implements BrushSettings {
     private Material mask;
     private final List<Material> blocks = new ArrayList<>();
 
-    public ExportedPlayerBrush(BetterGoPaint plugin, String name, List<String> lore) {
-        brush = plugin.getBrushManager().getBrushHandler(name.replaceAll(" §b♦ ", ""));
-        for (String s : lore) {
-            if (s.startsWith("§8Size: ")) {
-                size = Integer.parseInt(s.replaceAll("§8Size: ", ""));
-            } else if (s.startsWith("§8Chance: ")) {
-                chance = Integer.parseInt(s.replaceAll("§8Chance: ", "").replaceAll("%", ""));
-            }
-            if (s.startsWith("§8Thickness: ")) {
-                thickness = Integer.parseInt(s.replaceAll("§8Thickness: ", ""));
-            }
-            if (s.startsWith("§8Axis: ")) {
-                axis = Axis.valueOf(s.replaceAll("§8Axis: ", "").toUpperCase());
-            }
-            if (s.startsWith("§8FractureDistance: ")) {
-                fractureDistance = Integer.parseInt(s.replaceAll("§8FractureDistance: ", ""));
-            }
-            if (s.startsWith("§8AngleDistance: ")) {
-                angleDistance = Integer.parseInt(s.replaceAll("§8AngleDistance: ", ""));
-            }
-            if (s.startsWith("§8AngleHeightDifference: ")) {
-                angleHeightDifference = Double.parseDouble(s.replaceAll("§8AngleHeightDifference: ", ""));
-            }
-            if (s.startsWith("§8Mixing: ")) {
-                mixingStrength = Integer.parseInt(s.replaceAll("§8Mixing: ", ""));
-            }
-            if (s.startsWith("§8Falloff: ")) {
-                falloffStrength = Integer.parseInt(s.replaceAll("§8Falloff: ", ""));
-            }
-            if (s.startsWith("§8Blocks: ")) {
-                s = s.replaceAll("§8Blocks: ", "");
-                if (!s.equals("none")) {
-                    for (String type : s.split(" ")) {
-                        blocks.add(Material.matchMaterial(type));
+    public ExportedPlayerBrush(BetterGoPaint plugin, TextComponent name, List<Component> lore) {
+        brush = plugin.getBrushManager().getBrushHandler(name.content().replace("♦", "").strip());
+        lore.stream()
+                .filter(component -> component instanceof TextComponent)
+                .map(component -> (TextComponent) component)
+                .map(TextComponent::content)
+                .forEach(string -> {
+                    if (string.startsWith("Size: ")) {
+                        size = Integer.parseInt(string.replace("Size: ", ""));
+                    } else if (string.startsWith("Chance: ")) {
+                        chance = Integer.parseInt(string.replace("Chance: ", "").replace("%", ""));
+                    } else if (string.startsWith("Thickness: ")) {
+                        thickness = Integer.parseInt(string.replace("Thickness: ", ""));
+                    } else if (string.startsWith("Axis: ")) {
+                        axis = Axis.valueOf(string.replace("Axis: ", "").toUpperCase());
+                    } else if (string.startsWith("FractureDistance: ")) {
+                        fractureDistance = Integer.parseInt(string.replace("FractureDistance: ", ""));
+                    } else if (string.startsWith("AngleDistance: ")) {
+                        angleDistance = Integer.parseInt(string.replace("AngleDistance: ", ""));
+                    } else if (string.startsWith("AngleHeightDifference: ")) {
+                        angleHeightDifference = Double.parseDouble(string.replace("AngleHeightDifference: ", ""));
+                    } else if (string.startsWith("Mixing: ")) {
+                        mixingStrength = Integer.parseInt(string.replace("Mixing: ", ""));
+                    } else if (string.startsWith("Falloff: ")) {
+                        falloffStrength = Integer.parseInt(string.replace("Falloff: ", ""));
+                    } else if (string.startsWith("Blocks: ")) {
+                        Arrays.stream(string.replace("Blocks: ", "").split(", "))
+                                .map(Material::matchMaterial)
+                                .filter(Objects::nonNull)
+                                .forEach(this.blocks::add);
+                    } else if (string.startsWith("Mask: ")) {
+                        this.mask = Material.matchMaterial(string.replace("Mask: ", ""));
+                        maskEnabled = true;
+                    } else if (string.startsWith("Surface Mode")) {
+                        surfaceMode = true;
                     }
-                }
-            }
-            if (s.startsWith("§8Mask: ")) {
-                s = s.replaceAll("§8Mask: ", "");
-                String[] type = s.split(":");
-                mask = Material.matchMaterial(type[0].toUpperCase());
-                maskEnabled = true;
-            }
-            if (s.startsWith("§8Surface Mode")) {
-                surfaceMode = true;
-            }
-        }
+                });
     }
 
     @Override
