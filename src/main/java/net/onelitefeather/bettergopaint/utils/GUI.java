@@ -290,7 +290,7 @@ public class GUI {
             inv.setItem(24, Items.create(Material.LIME_STAINED_GLASS_PANE, 1, "&7", ""));
         } else {
             inv.setItem(6, Items.create(Material.RED_STAINED_GLASS_PANE, 1, "&7", ""));
-            inv.setItem(15, Items.create(Material.PUMPKIN, 1, "&6Mask", "&c&lDisabled\n\n&7Click to toggle"));
+            inv.setItem(15, Items.create(Material.CARVED_PUMPKIN, 1, "&6Mask", "&c&lDisabled\n\n&7Click to toggle"));
             inv.setItem(24, Items.create(Material.RED_STAINED_GLASS_PANE, 1, "&7", ""));
         }
 
