@@ -19,7 +19,6 @@
 package net.onelitefeather.bettergopaint;
 
 import com.fastasyncworldedit.core.Fawe;
-import io.papermc.lib.PaperLib;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.onelitefeather.bettergopaint.brush.PlayerBrushManager;
 import net.onelitefeather.bettergopaint.command.GoPaintCommand;
@@ -63,7 +62,6 @@ public class BetterGoPaint extends JavaPlugin implements Listener {
     public void onEnable() {
         // Check if we are in a safe environment
         ServerLib.checkUnsafeForks();
-        PaperLib.suggestPaper(this);
 
         // disable if goPaint and BetterGoPaint are installed simultaneously
         if (hasOriginalGoPaint()) {
