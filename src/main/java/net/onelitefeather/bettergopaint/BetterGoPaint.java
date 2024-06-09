@@ -21,15 +21,13 @@ package net.onelitefeather.bettergopaint;
 import com.fastasyncworldedit.core.Fawe;
 import io.papermc.lib.PaperLib;
 import net.kyori.adventure.text.minimessage.MiniMessage;
+import net.onelitefeather.bettergopaint.brush.PlayerBrushManager;
 import net.onelitefeather.bettergopaint.command.GoPaintCommand;
 import net.onelitefeather.bettergopaint.command.ReloadCommand;
 import net.onelitefeather.bettergopaint.listeners.ConnectListener;
 import net.onelitefeather.bettergopaint.listeners.InteractListener;
 import net.onelitefeather.bettergopaint.listeners.InventoryListener;
 import net.onelitefeather.bettergopaint.objects.other.Settings;
-import net.onelitefeather.bettergopaint.objects.player.PlayerBrushManager;
-import net.onelitefeather.bettergopaint.utils.Constants;
-import net.onelitefeather.bettergopaint.utils.DisabledBlocks;
 import org.bstats.bukkit.Metrics;
 import org.bstats.charts.SimplePie;
 import org.bukkit.Bukkit;
@@ -45,35 +43,23 @@ import org.incendo.serverlib.ServerLib;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
+import java.util.Objects;
 import java.util.logging.Level;
-
 
 public class BetterGoPaint extends JavaPlugin implements Listener {
 
-    public static boolean plotSquaredEnabled;
-    private static PlayerBrushManager manager;
-    private static BetterGoPaint betterGoPaint;
+    private final PlayerBrushManager brushManager = new PlayerBrushManager();
+    private final Metrics metrics = new Metrics(this, 18734);
 
-    public static BetterGoPaint getGoPaintPlugin() {
-        return betterGoPaint;
+    @Override
+    public void onLoad() {
+        metrics.addCustomChart(new SimplePie(
+                "faweVersion",
+                () -> Objects.requireNonNull(Fawe.instance().getVersion()).toString()
+        ));
     }
 
-    public static PlayerBrushManager getBrushManager() {
-        return manager;
-    }
-
-    public static boolean isPlotSquaredEnabled() {
-        return plotSquaredEnabled;
-    }
-
-    public void reload() {
-        BetterGoPaint.getGoPaintPlugin().reloadConfig();
-        manager = new PlayerBrushManager();
-        Settings.settings().reload(new File(getDataFolder(), "config.yml"));
-    }
-
+    @Override
     public void onEnable() {
         // Check if we are in a safe environment
         ServerLib.checkUnsafeForks();
@@ -85,27 +71,24 @@ public class BetterGoPaint extends JavaPlugin implements Listener {
             return;
         }
 
+        reloadConfig();
+
         //noinspection UnnecessaryUnicodeEscape
         getComponentLogger().info(MiniMessage.miniMessage().deserialize(
                 "<white>Made with <red>\u2665</red> <white>in <gradient:black:red:gold>Germany</gradient>"
         ));
 
-        betterGoPaint = this;
-        if (!Files.exists(getDataFolder().toPath())) {
-            try {
-                Files.createDirectories(getDataFolder().toPath());
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        }
-        Settings.settings().reload(new File(getDataFolder(), "config.yml"));
-        enableBStats();
-
-        manager = new PlayerBrushManager();
-
         registerListeners();
         registerCommands();
-        DisabledBlocks.addBlocks();
+    }
+
+    @Override
+    public void onDisable() {
+        metrics.shutdown();
+    }
+
+    public void reloadConfig() {
+        Settings.settings().reload(this, new File(getDataFolder(), "config.yml"));
     }
 
     @SuppressWarnings("UnstableApiUsage")
@@ -158,13 +141,8 @@ public class BetterGoPaint extends JavaPlugin implements Listener {
         }
     }
 
-    private void enableBStats() {
-        Metrics metrics = new Metrics(this, Constants.BSTATS_ID);
-
-        metrics.addCustomChart(new SimplePie(
-                "faweVersion",
-                () -> Fawe.instance().getVersion().toString()
-        ));
+    public PlayerBrushManager getBrushManager() {
+        return brushManager;
     }
 
 }
