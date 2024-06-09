@@ -152,6 +152,11 @@ public class ExportedPlayerBrush implements BrushSettings {
     }
 
     @Override
+    public boolean isEnabled() {
+        return true;
+    }
+
+    @Override
     public boolean isMask() {
         return maskEnabled;
     }

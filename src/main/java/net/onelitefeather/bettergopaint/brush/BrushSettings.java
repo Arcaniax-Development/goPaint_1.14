@@ -35,6 +35,8 @@ public interface BrushSettings {
 
     Material getMask();
 
+    boolean isEnabled();
+
     boolean isMask();
 
     boolean isSurfaceMode();
