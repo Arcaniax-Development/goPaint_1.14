@@ -71,49 +71,48 @@ public class GUI {
         int x = 0;
         for (Brush b : plugin.getBrushManager().getBrushes()) {
             if (b instanceof SphereBrush) {
-                        "\n&7Click to select\n\n" + "&8Regular sphere brush"
                 inv.setItem(x, Items.createHead(HEAD_SPHERE, 1, "&6" + b.getName(),
+                        "\n&7Click to select\n\n&8Regular sphere brush"
                 ));
             } else if (b instanceof SprayBrush) {
-                inv.setItem(x, Items.createHead(headSpray, 1, "&6" + b.getName(),
-                        "\n&7Click to select\n\n" + "&8Configurable random chance brush"
                 inv.setItem(x, Items.createHead(HEAD_SPRAY, 1, "&6" + b.getName(),
+                        "\n&7Click to select\n\n&8Configurable random chance brush"
                 ));
             } else if (b instanceof SplatterBrush) {
-                        "\n&7Click to select\n\n" + "&8More chance when closer\n&8to the clicked point\n&8and configurable chance"
                 inv.setItem(x, Items.createHead(HEAD_SPLATTER, 1, "&6" + b.getName(),
+                        "\n&7Click to select\n\n&8More chance when closer\n&8to the clicked point\n&8and configurable chance"
                 ));
             } else if (b instanceof DiscBrush) {
-                        "\n&7Click to select\n\n" + "&8Paints blocks in the\n&8same selected axis\n&8from the block you clicked"
                 inv.setItem(x, Items.createHead(HEAD_DISC, 1, "&6" + b.getName(),
+                        "\n&7Click to select\n\n&8Paints blocks in the\n&8same selected axis\n&8from the block you clicked"
                 ));
             } else if (b instanceof BucketBrush) {
-                        "\n&7Click to select\n\n" + "&8Paints connected blocks\n&8with the same block type"
                 inv.setItem(x, Items.createHead(HEAD_BUCKET, 1, "&6" + b.getName(),
+                        "\n&7Click to select\n\n&8Paints connected blocks\n&8with the same block type"
                 ));
             } else if (b instanceof AngleBrush) {
-                        "\n&7Click to select\n\n" + "&8Only works on cliffs"
                 inv.setItem(x, Items.createHead(HEAD_ANGLE, 1, "&6" + b.getName(),
+                        "\n&7Click to select\n\n&8Only works on cliffs"
                 ));
             } else if (b instanceof OverlayBrush) {
-                        "\n&7Click to select\n\n" + "&8Only paints blocks\n&8that have air above it"
                 inv.setItem(x, Items.createHead(HEAD_OVERLAY, 1, "&6" + b.getName(),
+                        "\n&7Click to select\n\n&8Only paints blocks\n&8that have air above it"
                 ));
             } else if (b instanceof UnderlayBrush) {
-                        "\n&7Click to select\n\n" + "&8Only paints blocks\n&8that have no air above it"
                 inv.setItem(x, Items.createHead(HEAD_UNDERLAY, 1, "&6" + b.getName(),
+                        "\n&7Click to select\n\n&8Only paints blocks\n&8that have no air above it"
                 ));
             } else if (b instanceof FractureBrush) {
-                        "\n&7Click to select\n\n" + "&8Places blocks in cracks/fisures"
                 inv.setItem(x, Items.createHead(HEAD_FRACTURE, 1, "&6" + b.getName(),
+                        "\n&7Click to select\n\n&8Places blocks in cracks/fisures"
                 ));
             } else if (b instanceof GradientBrush) {
-                        "\n&7Click to select\n\n" + "&8Creates gradients"
                 inv.setItem(x, Items.createHead(HEAD_GRADIENT, 1, "&6" + b.getName(),
+                        "\n&7Click to select\n\n&8Creates gradients"
                 ));
             } else if (b instanceof PaintBrush) {
-                        "\n&7Click to select\n\n" + "&8Paints strokes\n&8hold shift to end"
                 inv.setItem(x, Items.createHead(HEAD_PAINT, 1, "&6" + b.getName(),
+                        "\n&7Click to select\n\n&8Paints strokes\n&8hold shift to end"
                 ));
             }
             x++;
