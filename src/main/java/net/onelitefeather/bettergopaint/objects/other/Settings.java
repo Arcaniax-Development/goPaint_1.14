@@ -19,15 +19,30 @@
 package net.onelitefeather.bettergopaint.objects.other;
 
 import com.fastasyncworldedit.core.configuration.Config;
+import net.onelitefeather.bettergopaint.BetterGoPaint;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 public final class Settings extends Config {
 
     @Ignore
-    static Settings INSTANCE = new Settings();
+    private static final Settings settings = new Settings();
+
+    public void reload(BetterGoPaint plugin, File file) {
+        if (!load(file)) {
+            try {
+                if (!file.createNewFile()) {
+                    plugin.getComponentLogger().error("Failed to create file {}", file.getName());
+                }
+            } catch (IOException e) {
+                plugin.getComponentLogger().error("Failed to create file {}", file.getName(), e);
+            }
+        }
+        save(file);
+    }
 
     @Create
     public GENERIC GENERIC;
@@ -63,6 +78,7 @@ public final class Settings extends Config {
 
         @Comment("Enables surface mode usage by default")
         public boolean SURFACE_MODE = true;
+
     }
 
     @Comment("This is related to thickness settings")
@@ -105,18 +121,7 @@ public final class Settings extends Config {
     }
 
     public static Settings settings() {
-        return INSTANCE;
+        return settings;
     }
-
-
-    public void reload(File file) {
-        load(file);
-        save(file);
-    }
-
-    private Settings() {
-        INSTANCE = this;
-    }
-
 
 }
