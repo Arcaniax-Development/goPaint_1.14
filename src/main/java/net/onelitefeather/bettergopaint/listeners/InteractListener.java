@@ -20,7 +20,6 @@ package net.onelitefeather.bettergopaint.listeners;
 
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import net.kyori.adventure.text.TextComponent;
-import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.onelitefeather.bettergopaint.BetterGoPaint;
 import net.onelitefeather.bettergopaint.brush.BrushSettings;
 import net.onelitefeather.bettergopaint.brush.ExportedPlayerBrush;
@@ -110,9 +109,9 @@ public final class InteractListener implements Listener {
         if (brushSettings.isEnabled()) {
             BukkitAdapter.adapt(player).runAsyncIfFree(() -> brushSettings.getBrush().paint(location, player, brushSettings));
         } else {
-            player.sendMessage(MiniMessage.miniMessage().deserialize(
+            player.sendRichMessage(
                     Settings.settings().GENERIC.PREFIX + "<red>Your brush is disabled, left click to enable the brush."
-            ));
+            );
         }
     }
 

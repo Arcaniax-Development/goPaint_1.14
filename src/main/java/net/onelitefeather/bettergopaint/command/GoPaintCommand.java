@@ -52,8 +52,7 @@ public class GoPaintCommand extends Command implements PluginIdentifiableCommand
         PlayerBrush pb = plugin.getBrushManager().getBrush(p);
         String prefix = Settings.settings().GENERIC.PREFIX;
         if (!p.hasPermission("bettergopaint.use")) {
-            p.sendMessage(MiniMessage.miniMessage().deserialize(prefix + "<red>You are lacking the permission bettergopaint" +
-                    ".use"));
+            p.sendRichMessage(prefix + "<red>You are lacking the permission bettergopaint.use");
             return true;
         }
         if (args.length == 0) {
@@ -69,48 +68,43 @@ public class GoPaintCommand extends Command implements PluginIdentifiableCommand
             return true;
         } else if (args.length == 1) {
             if (args[0].equalsIgnoreCase("size")) {
-                p.sendMessage(MiniMessage.miniMessage().deserialize(prefix + "<red>/gp size [number]"));
+                p.sendRichMessage(prefix + "<red>/gp size [number]");
                 return true;
             } else if (args[0].equalsIgnoreCase("toggle")) {
                 if (pb.isEnabled()) {
                     pb.toggle();
-                    p.sendMessage(MiniMessage.miniMessage().deserialize(prefix + "<red>Disabled brush"));
+                    p.sendRichMessage(prefix + "<red>Disabled brush");
                 } else {
                     pb.toggle();
-                    p.sendMessage(MiniMessage.miniMessage().deserialize(prefix + "<green>Enabled brush"));
+                    p.sendRichMessage(prefix + "<green>Enabled brush");
                 }
                 return true;
             } else if ((args[0].equalsIgnoreCase("reload") || args[0].equalsIgnoreCase("r")) && p.hasPermission(
                     "bettergopaint.admin")) {
                 plugin.reloadConfig();
-                p.sendMessage(MiniMessage.miniMessage().deserialize(prefix + "<green>Reloaded"));
+                p.sendRichMessage(prefix + "<green>Reloaded");
                 return true;
             } else if (args[0].equalsIgnoreCase("info") || args[0].equalsIgnoreCase("i")) {
-                p.sendMessage(MiniMessage.miniMessage().deserialize(prefix + "<aqua>Created by: <gold>TheMeinerLP"));
-                p.sendMessage(MiniMessage.miniMessage().deserialize(prefix + "<aqua>Links: <gold><click:open_url:https" +
-                        "://twitter.com/themeinerlp'><u>Twitter</u></click>"));
+                p.sendRichMessage(prefix + "<aqua>Created by: <gold>TheMeinerLP");
+                p.sendRichMessage(prefix + "<aqua>Links: <gold><click:open_url:https" +
+                        "://twitter.com/themeinerlp'><u>Twitter</u></click>");
                 return true;
             }
             if (p.hasPermission("bettergopaint.admin")) {
-                p.sendMessage(MiniMessage.miniMessage().deserialize(prefix + "<red>/gp size<gray>|<red>toggle<gray" +
-                        ">|<red>info" +
-                        "<gray>" +
-                        "|<red>reload"));
+                p.sendRichMessage(prefix + "<red>/gp size<gray>|<red>toggle<gray>|<red>info<gray>|<red>reload");
                 return true;
             }
-            p.sendMessage(MiniMessage.miniMessage().deserialize(prefix + "<red>/gp size<gray>|<red>toggle<gray>|<red>info"));
+            p.sendRichMessage(prefix + "<red>/gp size<gray>|<red>toggle<gray>|<red>info");
             return true;
         } else if (args.length == 2) {
             if (args[0].equalsIgnoreCase("size") || args[0].equalsIgnoreCase("s")) {
                 try {
                     int sizeAmount = Integer.parseInt(args[1]);
                     pb.setSize(sizeAmount);
-                    p.sendMessage(MiniMessage.miniMessage().deserialize(
-                            prefix + "<gold>Size set to: <yellow>" + pb.getSize()
-                    ));
+                    p.sendRichMessage(prefix + "<gold>Size set to: <yellow>" + pb.getSize());
                     return true;
                 } catch (Exception e) {
-                    p.sendMessage(MiniMessage.miniMessage().deserialize(prefix + "<red>/gb size [number]"));
+                    p.sendRichMessage(prefix + "<red>/gb size [number]");
                     return true;
                 }
             }
