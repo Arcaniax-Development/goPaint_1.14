@@ -78,7 +78,7 @@ public final class InteractListener implements Listener {
             Block exact = player.getTargetBlockExact(250, FluidCollisionMode.NEVER);
             location = exact != null ? exact.getLocation().clone() : null;
         } else {
-            location = event.getInteractionPoint();
+            location = event.getClickedBlock() != null ? event.getClickedBlock().getLocation() : null;
         }
 
         if (location == null) {
