@@ -36,38 +36,39 @@ public class Height {
         totalHeight += Math.abs(getHeight(location.clone().add(0, 0, distance))) - height;
         totalHeight += Math.abs(getHeight(location.clone().add(-distance, 0, 0))) - height;
         totalHeight += Math.abs(getHeight(location.clone().add(distance, 0, 0))) - height;
-        return (totalHeight / (double) 8) / (double) distance;
+        return (totalHeight / 8d) / distance;
     }
 
     public static double getAverageHeightDiffAngle(Location location, int distance) {
         double maxHeightDiff = 0;
         double maxHeightDiff2 = 0;
-        double diff = Math
-                .abs(getHeight(location.clone().add(distance, 0, -distance)) - getHeight(location.clone().add(-distance, 0, distance)));
+        double diff = Math.abs(getHeight(location.clone().add(distance, 0, -distance)) - getHeight(location.clone()
+                .add(-distance, 0, distance)));
         if (diff >= maxHeightDiff) {
             maxHeightDiff = diff;
             maxHeightDiff2 = maxHeightDiff;
         }
-        diff = Math
-                .abs(getHeight(location.clone().add(distance, 0, distance)) - getHeight(location.clone().add(-distance, 0, -distance)));
+        diff = Math.abs(getHeight(location.clone().add(distance, 0, distance)) - getHeight(location.clone()
+                .add(-distance, 0, -distance)));
         if (diff > maxHeightDiff) {
             maxHeightDiff = diff;
             maxHeightDiff2 = maxHeightDiff;
         }
-        diff = Math
-                .abs(getHeight(location.clone().add(distance, 0, 0)) - getHeight(location.clone().add(-distance, 0, 0)));
+        diff = Math.abs(getHeight(location.clone().add(distance, 0, 0)) - getHeight(location.clone()
+                .add(-distance, 0, 0)));
         if (diff > maxHeightDiff) {
             maxHeightDiff = diff;
             maxHeightDiff2 = maxHeightDiff;
         }
-        diff = Math
-                .abs(getHeight(location.clone().add(0, 0, -distance)) - getHeight(location.clone().add(0, 0, distance)));
+        diff = Math.abs(getHeight(location.clone().add(0, 0, -distance)) - getHeight(location.clone()
+                .add(0, 0, distance)));
         if (diff > maxHeightDiff) {
             maxHeightDiff = diff;
             maxHeightDiff2 = maxHeightDiff;
         }
 
         double height = (maxHeightDiff2 + maxHeightDiff) / 2.0;
-        return height / (double) (distance * 2);
+        return height / (distance * 2d);
     }
+
 }
