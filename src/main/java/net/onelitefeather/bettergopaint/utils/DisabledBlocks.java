@@ -26,23 +26,25 @@ import java.util.List;
 @SuppressWarnings("BooleanMethodIsAlwaysInverted")
 public class DisabledBlocks {
 
-    private static final List<Material> disabledMaterials = new ArrayList<>() {{
-        add(Material.ENCHANTING_TABLE);
-        add(Material.CHEST);
-        add(Material.END_PORTAL_FRAME);
-        add(Material.ANVIL);
-        add(Material.DISPENSER);
-        add(Material.COMMAND_BLOCK);
-        add(Material.DAYLIGHT_DETECTOR);
-        add(Material.TNT);
-        add(Material.TRAPPED_CHEST);
-        add(Material.OAK_TRAPDOOR);
-        add(Material.IRON_TRAPDOOR);
-        add(Material.BEACON);
-        add(Material.CACTUS);
-        add(Material.FURNACE);
-        add(Material.HOPPER);
-    }};
+    private static final List<Material> disabledMaterials = new ArrayList<>();
+
+    static {
+        disabledMaterials.add(Material.ENCHANTING_TABLE);
+        disabledMaterials.add(Material.CHEST);
+        disabledMaterials.add(Material.END_PORTAL_FRAME);
+        disabledMaterials.add(Material.ANVIL);
+        disabledMaterials.add(Material.DISPENSER);
+        disabledMaterials.add(Material.COMMAND_BLOCK);
+        disabledMaterials.add(Material.DAYLIGHT_DETECTOR);
+        disabledMaterials.add(Material.TNT);
+        disabledMaterials.add(Material.TRAPPED_CHEST);
+        disabledMaterials.add(Material.OAK_TRAPDOOR);
+        disabledMaterials.add(Material.IRON_TRAPDOOR);
+        disabledMaterials.add(Material.BEACON);
+        disabledMaterials.add(Material.CACTUS);
+        disabledMaterials.add(Material.FURNACE);
+        disabledMaterials.add(Material.HOPPER);
+    }
 
     public static boolean isDisabled(Material m) {
         return disabledMaterials.contains(m);
