@@ -26,7 +26,7 @@ public class Surface {
 
     public static boolean isOnSurface(Block block, Location playerLoc) {
 
-        return block.getRelative(BlockFace.UP).isEmpty();
+        return !block.getRelative(BlockFace.UP).isSolid();
 
         // keep the old logic, implement tri state surface mode
         /*
