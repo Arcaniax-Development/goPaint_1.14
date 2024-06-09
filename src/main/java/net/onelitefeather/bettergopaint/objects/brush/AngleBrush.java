@@ -18,103 +18,40 @@
  */
 package net.onelitefeather.bettergopaint.objects.brush;
 
-import com.cryptomorin.xseries.XMaterial;
-import net.onelitefeather.bettergopaint.BetterGoPaint;
-import net.onelitefeather.bettergopaint.objects.other.BlockPlace;
-import net.onelitefeather.bettergopaint.objects.other.BlockPlacer;
-import net.onelitefeather.bettergopaint.objects.other.BlockType;
-import net.onelitefeather.bettergopaint.objects.player.ExportedPlayerBrush;
-import net.onelitefeather.bettergopaint.objects.player.PlayerBrush;
+import net.onelitefeather.bettergopaint.brush.BrushSettings;
 import net.onelitefeather.bettergopaint.utils.Height;
 import net.onelitefeather.bettergopaint.utils.Sphere;
-import net.onelitefeather.bettergopaint.utils.Surface;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 public class AngleBrush extends Brush {
 
-    @SuppressWarnings({"deprecation"})
     @Override
-    public void paint(Location loc, Player p) {
-        PlayerBrush pb = BetterGoPaint.getBrushManager().getPlayerBrush(p);
-        int size = pb.getBrushSize();
-        List<BlockType> pbBlocks = pb.getBlocks();
-        if (pbBlocks.isEmpty()) {
-            return;
-        }
-        List<Block> blocks = Sphere.getBlocksInRadius(loc, size);
-        List<BlockPlace> placedBlocks = new ArrayList<>();
-        for (Block b : blocks) {
-            if ((!pb.isSurfaceModeEnabled()) || Surface.isOnSurface(b.getLocation(), p.getLocation())) {
-                if ((!pb.isMaskEnabled()) || (b.getType().equals(pb
-                        .getMask()
-                        .getMaterial()) && (XMaterial.supports(13) || b.getData() == pb.getMask().getData()))) {
-                    if (!(Height.getAverageHeightDiffAngle(b.getLocation(), 1) >= 0.1 &&
-                            Height.getAverageHeightDiffAngle(
-                                    b.getLocation(),
-                                    pb.getAngleDistance()
-                            ) >= Math.tan(Math.toRadians(pb.getMinHeightDifference())))) {
-                        Random r = new Random();
-                        int random = r.nextInt(pbBlocks.size());
-                        placedBlocks.add(
-                                new BlockPlace(
-                                        b.getLocation(),
-                                        new BlockType(pbBlocks.get(random).getMaterial(), pbBlocks.get(random).getData())
-                                ));
-                    }
+    public void paint(final Location location, final Player player, final BrushSettings brushSettings) {
+        performEdit(player, session -> {
+            List<Block> blocks = Sphere.getBlocksInRadius(location, brushSettings.getSize());
+            for (Block block : blocks) {
+                if (!passesDefaultChecks(brushSettings, player, block)) {
+                    continue;
                 }
+
+                if (Height.getAverageHeightDiffAngle(block.getLocation(), 1) >= 0.1
+                        && Height.getAverageHeightDiffAngle(block.getLocation(), brushSettings.getAngleDistance())
+                        >= Math.tan(Math.toRadians(brushSettings.getAngleHeightDifference()))) {
+                    continue;
+                }
+
+                setBlock(session, block, brushSettings.getRandomBlock());
             }
-        }
-        BlockPlacer.placeBlocks(placedBlocks, p);
+        });
     }
 
     @Override
     public String getName() {
         return "Angle Brush";
-    }
-
-    @SuppressWarnings("deprecation")
-    @Override
-    public void paint(Location loc, Player p, ExportedPlayerBrush epb) {
-        int size = epb.getBrushSize();
-        List<BlockType> epbBlocks = epb.getBlocks();
-        if (epbBlocks.isEmpty()) {
-            return;
-        }
-        List<Block> blocks = Sphere.getBlocksInRadius(loc, size);
-        List<BlockPlace> placedBlocks = new ArrayList<BlockPlace>();
-        for (Block b : blocks) {
-            if ((!epb.isSurfaceModeEnabled()) || Surface.isOnSurface(b.getLocation(), p.getLocation())) {
-                if ((!epb.isMaskEnabled()) || (b.getType().equals(epb
-                        .getMask()
-                        .getMaterial()) && (XMaterial.supports(13) || b.getData() == epb.getMask().getData()))) {
-                    if (!(Height.getAverageHeightDiffAngle(b.getLocation(), 1) >= 0.1 &&
-                            Height.getAverageHeightDiffAngle(
-                                    b.getLocation(),
-                                    epb.getAngleDistance()
-                            ) >= Math.tan(Math.toRadians(epb.getMinHeightDifference())))) {
-                        Random r = new Random();
-                        int random = r.nextInt(epbBlocks.size());
-                        placedBlocks.add(
-                                new BlockPlace(
-                                        b.getLocation(),
-                                        new BlockType(
-                                                epb.getBlocks().get(random).getMaterial(),
-                                                epb.getBlocks().get(random).getData()
-                                        )
-                                ));
-                    }
-
-                }
-            }
-        }
-        BlockPlacer.placeBlocks(placedBlocks, p);
-
     }
 
 }
