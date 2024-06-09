@@ -67,6 +67,8 @@ public class BetterGoPaint extends JavaPlugin implements Listener {
 
         // disable if goPaint and BetterGoPaint are installed simultaneously
         if (hasOriginalGoPaint()) {
+            getComponentLogger().error("BetterGoPaint is a replacement for goPaint. Please use one instead of both");
+            getComponentLogger().error("This plugin is now disabling to prevent future errors");
             this.getServer().getPluginManager().disablePlugin(this);
             return;
         }
@@ -110,17 +112,7 @@ public class BetterGoPaint extends JavaPlugin implements Listener {
     }
 
     private boolean hasOriginalGoPaint() {
-        if (getServer().getPluginManager().getPlugin("goPaint") == this) {
-            return false;
-        }
-        getComponentLogger().error(MiniMessage.miniMessage().deserialize(
-                "<red>BetterGoPaint is a replacement for goPaint. Please use one instead of both"
-        ));
-        getComponentLogger().error(MiniMessage.miniMessage().deserialize(
-                "<red>This plugin is now disabling to prevent future errors"
-        ));
-
-        return true;
+        return getServer().getPluginManager().getPlugin("goPaint") != this;
     }
 
     private @Nullable AnnotationParser<CommandSender> enableCommandSystem() {
