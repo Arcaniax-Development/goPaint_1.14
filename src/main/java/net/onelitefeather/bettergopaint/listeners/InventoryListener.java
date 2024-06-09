@@ -80,7 +80,7 @@ public class InventoryListener implements Listener {
                 } else if (e.getClick().equals(ClickType.RIGHT)) {
                     pb.cycleBrushBackwards();
                 } else if (e.getClick().equals(ClickType.SHIFT_LEFT) || e.getClick().equals(ClickType.SHIFT_RIGHT)) {
-                    p.openInventory(GUI.GenerateBrushes());
+                    p.openInventory(GUI.generateBrushes());
                 }
                 e.setCancelled(true);
             } else if (e.getRawSlot() == 12 || e.getRawSlot() == 3 || e.getRawSlot() == 21) {
