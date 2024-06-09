@@ -47,11 +47,11 @@ public class GradientBrush extends Brush {
                     continue;
                 }
 
-                double _y = (block.getLocation().getBlockY() - y) / (double) brushSettings.getSize() * blocks.size();
-                int b = (int) (_y + (brushSettings.getRandom().nextDouble() * 2 - 1)
-                        * ((double) brushSettings.getMixingStrength() / 100.0));
+                int random = (int) (((block.getLocation().getBlockY() - y) / (double) brushSettings.getSize() * blocks.size()) +
+                        (brushSettings.getRandom().nextDouble() * 2 - 1) * ((double) brushSettings.getMixingStrength() / 100.0));
+                int index = Math.clamp(random, 0, brushSettings.getBlocks().size() - 1);
 
-                setBlock(session, block, brushSettings.getBlocks().get(Math.clamp(b, 0, brushSettings.getBlocks().size() - 1)));
+                setBlock(session, block, brushSettings.getBlocks().get(index));
             }
         });
     }
