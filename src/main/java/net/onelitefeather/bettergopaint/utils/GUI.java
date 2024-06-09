@@ -320,7 +320,7 @@ public class GUI {
         }
         int x = 46;
         int size = playerBrush.getBlocks().size();
-        int chance = 100 / size;
+        int chance = size == 0 ? 0 : 100 / size;
         for (Material bt : playerBrush.getBlocks()) {
             if (chance > 64) {
                 inv.setItem(x, Items.create(bt, 1,
