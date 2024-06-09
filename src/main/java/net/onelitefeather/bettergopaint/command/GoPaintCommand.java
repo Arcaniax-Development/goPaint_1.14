@@ -57,14 +57,10 @@ public class GoPaintCommand extends Command implements PluginIdentifiableCommand
         }
         if (args.length == 0) {
             if (p.hasPermission("bettergopaint.admin")) {
-                p.sendMessage(MiniMessage
-                        .miniMessage()
-                        .deserialize(prefix + "<red>/gp size<gray>|<red>toggle<gray>|<red>info<gray>|<red>reload"));
+                p.sendRichMessage(prefix + "<red>/gp size<gray>|<red>toggle<gray>|<red>info<gray>|<red>reload");
                 return true;
             }
-            p.sendMessage(MiniMessage
-                    .miniMessage()
-                    .deserialize(prefix + "<red>/gp size<gray>|<red>toggle<gray>|<red>info<gray>"));
+            p.sendRichMessage(prefix + "<red>/gp size<gray>|<red>toggle<gray>|<red>info<gray>");
             return true;
         } else if (args.length == 1) {
             if (args[0].equalsIgnoreCase("size")) {
@@ -86,8 +82,7 @@ public class GoPaintCommand extends Command implements PluginIdentifiableCommand
                 return true;
             } else if (args[0].equalsIgnoreCase("info") || args[0].equalsIgnoreCase("i")) {
                 p.sendRichMessage(prefix + "<aqua>Created by: <gold>TheMeinerLP");
-                p.sendRichMessage(prefix + "<aqua>Links: <gold><click:open_url:https" +
-                        "://twitter.com/themeinerlp'><u>Twitter</u></click>");
+                p.sendRichMessage(prefix + "<aqua>Links: <gold><click:open_url:https://twitter.com/themeinerlp'><u>Twitter</u></click>");
                 return true;
             }
             if (p.hasPermission("bettergopaint.admin")) {
@@ -109,14 +104,10 @@ public class GoPaintCommand extends Command implements PluginIdentifiableCommand
                 }
             }
             if (p.hasPermission("bettergopaint.admin")) {
-                p.sendMessage(MiniMessage
-                        .miniMessage()
-                        .deserialize(prefix + "<red>/gp size<gray>|<red>toggle<gray>|<red>info<gray>|<red>reload"));
+                p.sendRichMessage(prefix + "<red>/gp size<gray>|<red>toggle<gray>|<red>info<gray>|<red>reload");
                 return true;
             }
-            p.sendMessage(MiniMessage
-                    .miniMessage()
-                    .deserialize(prefix + "<red>/gp size<gray>|<red>toggle<gray>|<red>info<gray>"));
+            p.sendRichMessage(prefix + "<red>/gp size<gray>|<red>toggle<gray>|<red>info<gray>");
             return true;
         }
         return false;
