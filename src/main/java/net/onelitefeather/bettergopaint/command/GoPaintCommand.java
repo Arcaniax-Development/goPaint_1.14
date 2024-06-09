@@ -18,7 +18,6 @@
  */
 package net.onelitefeather.bettergopaint.command;
 
-import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.onelitefeather.bettergopaint.BetterGoPaint;
 import net.onelitefeather.bettergopaint.objects.other.Settings;
 import net.onelitefeather.bettergopaint.brush.PlayerBrush;
