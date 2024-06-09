@@ -18,11 +18,18 @@
  */
 package net.onelitefeather.bettergopaint.listeners;
 
-import com.cryptomorin.xseries.XMaterial;
 import net.onelitefeather.bettergopaint.BetterGoPaint;
-import net.onelitefeather.bettergopaint.objects.brush.*;
-import net.onelitefeather.bettergopaint.objects.other.BlockType;
-import net.onelitefeather.bettergopaint.objects.player.PlayerBrush;
+import net.onelitefeather.bettergopaint.objects.brush.AngleBrush;
+import net.onelitefeather.bettergopaint.objects.brush.Brush;
+import net.onelitefeather.bettergopaint.objects.brush.DiscBrush;
+import net.onelitefeather.bettergopaint.objects.brush.FractureBrush;
+import net.onelitefeather.bettergopaint.objects.brush.GradientBrush;
+import net.onelitefeather.bettergopaint.objects.brush.OverlayBrush;
+import net.onelitefeather.bettergopaint.objects.brush.PaintBrush;
+import net.onelitefeather.bettergopaint.objects.brush.SplatterBrush;
+import net.onelitefeather.bettergopaint.objects.brush.SprayBrush;
+import net.onelitefeather.bettergopaint.brush.PlayerBrush;
+import net.onelitefeather.bettergopaint.objects.brush.UnderlayBrush;
 import net.onelitefeather.bettergopaint.utils.DisabledBlocks;
 import net.onelitefeather.bettergopaint.utils.GUI;
 import org.bukkit.Material;
@@ -36,10 +43,10 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 
 public class InventoryListener implements Listener {
 
-    public BetterGoPaint plugin;
+    private final BetterGoPaint plugin;
 
-    public InventoryListener(BetterGoPaint main) {
-        plugin = main;
+    public InventoryListener(BetterGoPaint plugin) {
+        this.plugin = plugin;
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
@@ -55,18 +62,16 @@ public class InventoryListener implements Listener {
                 }
                 return;
             }
-            PlayerBrush pb = BetterGoPaint.getBrushManager().getPlayerBrush(p);
+            PlayerBrush pb = plugin.getBrushManager().getBrush(p);
             if (e.getRawSlot() == 10 || e.getRawSlot() == 1 || e.getRawSlot() == 19) {
                 if (e.getClick().equals(ClickType.LEFT)) {
-                    if (e.getCursor() != null) {
-                        if (!e.getCursor().getType().isBlock()) {
-                            if (!e.getCursor().getType().equals(XMaterial.FEATHER.parseMaterial())) {
-                                pb.export(e.getCursor());
-                            }
+                    if (!e.getCursor().getType().isBlock()) {
+                        if (!e.getCursor().getType().equals(Material.FEATHER)) {
+                            pb.export(e.getCursor());
                         }
                     }
                 } else if (e.getClick().equals(ClickType.RIGHT)) {
-                    pb.toggleEnabled();
+                    pb.toggle();
                 }
                 e.setCancelled(true);
             } else if (e.getRawSlot() == 11 || e.getRawSlot() == 2 || e.getRawSlot() == 20) {
@@ -86,7 +91,7 @@ public class InventoryListener implements Listener {
                     } else if (e.getClick().equals(ClickType.RIGHT)) {
                         pb.decreaseChance();
                     }
-                } else if (b instanceof OverlayBrush) {
+                } else if (b instanceof OverlayBrush || b instanceof UnderlayBrush) {
                     if (e.getClick().equals(ClickType.LEFT)) {
                         pb.increaseThickness();
                     } else if (e.getClick().equals(ClickType.RIGHT)) {
@@ -160,12 +165,9 @@ public class InventoryListener implements Listener {
                     slot = e.getRawSlot() - 45;
                 }
                 if (e.getClick().equals(ClickType.LEFT)) {
-                    if (e.getCursor() != null && e.getCursor().getType().isBlock() && e
-                            .getCursor()
-                            .getType()
-                            .isSolid() && (!DisabledBlocks
-                            .isDisabled(e.getCursor().getType()))) {
-                        pb.addBlock(new BlockType(e.getCursor().getType(), e.getCursor().getDurability()), slot);
+                    if (e.getCursor().getType().isBlock() && e.getCursor().getType().isSolid()
+                            && !DisabledBlocks.isDisabled(e.getCursor().getType())) {
+                        pb.addBlock(e.getCursor().getType(), slot);
                     }
                 } else if (e.getClick().equals(ClickType.RIGHT)) {
                     pb.removeBlock(slot);
@@ -173,11 +175,9 @@ public class InventoryListener implements Listener {
                 e.setCancelled(true);
             } else if (e.getRawSlot() == 43 || e.getRawSlot() == 52) {
                 if (e.getClick().equals(ClickType.LEFT)) {
-                    if (e.getCursor() != null && e.getCursor().getType().isBlock() && e
-                            .getCursor()
-                            .getType()
-                            .isSolid() && (!DisabledBlocks.isDisabled(e.getCursor().getType()))) {
-                        pb.setMask(new BlockType(e.getCursor().getType(), e.getCursor().getDurability()));
+                    if (e.getCursor().getType().isBlock() && e.getCursor().getType().isSolid()
+                            && (!DisabledBlocks.isDisabled(e.getCursor().getType()))) {
+                        pb.setMask(e.getCursor().getType());
                     }
                 }
                 e.setCancelled(true);
@@ -216,5 +216,4 @@ public class InventoryListener implements Listener {
             e.getWhoClicked().closeInventory();
         }
     }
-
 }

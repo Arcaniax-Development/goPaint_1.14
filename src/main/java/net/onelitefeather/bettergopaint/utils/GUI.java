@@ -18,9 +18,9 @@
  */
 package net.onelitefeather.bettergopaint.utils;
 
-import com.cryptomorin.xseries.XMaterial;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import net.onelitefeather.bettergopaint.BetterGoPaint;
-import net.onelitefeather.bettergopaint.objects.brush.SplatterBrush;
 import net.onelitefeather.bettergopaint.objects.brush.AngleBrush;
 import net.onelitefeather.bettergopaint.objects.brush.Brush;
 import net.onelitefeather.bettergopaint.objects.brush.BucketBrush;
@@ -30,14 +30,18 @@ import net.onelitefeather.bettergopaint.objects.brush.GradientBrush;
 import net.onelitefeather.bettergopaint.objects.brush.OverlayBrush;
 import net.onelitefeather.bettergopaint.objects.brush.PaintBrush;
 import net.onelitefeather.bettergopaint.objects.brush.SphereBrush;
+import net.onelitefeather.bettergopaint.objects.brush.SplatterBrush;
 import net.onelitefeather.bettergopaint.objects.brush.SprayBrush;
-import net.onelitefeather.bettergopaint.objects.other.BlockType;
-import net.onelitefeather.bettergopaint.objects.player.PlayerBrush;
+import net.onelitefeather.bettergopaint.brush.PlayerBrush;
+import net.onelitefeather.bettergopaint.objects.brush.UnderlayBrush;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.plugin.java.JavaPlugin;
 
 public class GUI {
+
+    private static final BetterGoPaint plugin = JavaPlugin.getPlugin(BetterGoPaint.class);
 
     private static final String headSphere = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZmU5OGY0ODU2MDE0N2MwYTJkNGVkYzE3ZjZkOTg1ZThlYjVkOTRiZDcyZmM2MDc0NGE1YThmMmQ5MDVhMTgifX19";
     private static final String headSpray = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjg4MGY3NjVlYTgwZGVlMzcwODJkY2RmZDk4MTJlZTM2ZmRhODg0ODY5MmE4NDFiZWMxYmJkOWVkNTFiYTIyIn19fQ==";
@@ -46,26 +50,26 @@ public class GUI {
     private static final String headBucket = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTAxOGI0NTc0OTM5Nzg4YTJhZDU1NTJiOTEyZDY3ODEwNjk4ODhjNTEyMzRhNGExM2VhZGI3ZDRjOTc5YzkzIn19fQ==";
     private static final String headAngle = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNmRlNDQ4ZjBkYmU3NmJiOGE4MzJjOGYzYjJhMDNkMzViZDRlMjc4NWZhNWU4Mjk4YzI2MTU1MDNmNDdmZmEyIn19fQ==";
     private static final String headOverlay = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZGYzMWQ2Zjk2NTRmODc0ZWE5MDk3YWRlZWEwYzk2OTk2ZTc4ZTNmZDM3NTRmYmY5ZWJlOTYzYWRhZDliZTRjIn19fQ==";
+    private static final String headUnderlay = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzIzNDQ2OTkwZjU4YjY1M2FiNWYwZTdhZjNmZGM3NTYwOTEyNzVmNGMzYzJkZDQxYzdkODYyZGQzZjkyZTg0YSJ9fX0=";
     private static final String headFracture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMjNkZjczZWVlNjIyNGM1YzVkOTQ4ZDJhMzQ1ZGUyNWYyMDhjYmQ5YWY3MTA4Y2UxZTFiNjFhNTg2ZGU5OGIyIn19fQ==";
     private static final String headGradient = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNjA2MmRhM2QzYjhmMWZkMzUzNDNjYzI3OWZiMGZlNWNmNGE1N2I1YWJjNDMxZmJiNzhhNzNiZjJhZjY3NGYifX19";
     private static final String headPaint = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODBiM2E5ZGZhYmVmYmRkOTQ5YjIxN2JiZDRmYTlhNDg2YmQwYzNmMGNhYjBkMGI5ZGZhMjRjMzMyZGQzZTM0MiJ9fX0=";
     private static final String headBlend = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNWU5MTg0YWYxZGU3ZTViN2M0YWQ0MTFjNTZhZjRmOTMzNjY1MzYxNTkyOWJjOTVkNzEzYjdhNDJjZmYzZmJhZCJ9fX0=";
 
-    public static Inventory Generate(PlayerBrush pb) {
-        Inventory inv = Bukkit.createInventory(null, 54, "§1goPaint Menu");
-        Update(inv, pb);
+    public static Inventory create(PlayerBrush pb) {
+        Inventory inv = Bukkit.createInventory(null, 54, Component.text("goPaint Menu", NamedTextColor.DARK_BLUE));
+        update(inv, pb);
         return inv;
     }
 
     public static Inventory GenerateBrushes() {
-        Inventory inv = Bukkit.createInventory(null, 27, "§1goPaint Brushes");
-        Items item = new Items();
+        Inventory inv = Bukkit.createInventory(null, 27, Component.text("goPaint Brushes", NamedTextColor.DARK_BLUE));
         // FILLER
         for (int x = 0; x < 27; x++) {
             inv.setItem(
                     x,
-                    item.create(XMaterial.GRAY_STAINED_GLASS_PANE.parseMaterial(),
-                            (short) XMaterial.GRAY_STAINED_GLASS_PANE.getData(),
+                    Items.create(
+                            Material.GRAY_STAINED_GLASS_PANE,
                             1,
                             "&7",
                             ""
@@ -73,87 +77,105 @@ public class GUI {
             );
         }
         int x = 0;
-        for (Brush b : BetterGoPaint.getBrushManager().getBrushes()) {
+        for (Brush b : plugin.getBrushManager().getBrushes()) {
             if (b instanceof SphereBrush) {
                 inv.setItem(
                         x,
-                        item.createHead(headSphere,
+                        Items.createHead(
+                                headSphere,
                                 1,
                                 "&6" + b.getName(),
-                                "___&7Click to select______" + "&8Regular sphere brush"
+                                "\n&7Click to select\n\n" + "&8Regular sphere brush"
                         )
                 );
             } else if (b instanceof SprayBrush) {
                 inv.setItem(
                         x,
-                        item.createHead(headSpray,
+                        Items.createHead(
+                                headSpray,
                                 1,
                                 "&6" + b.getName(),
-                                "___&7Click to select______" + "&8Configurable random chance brush"
+                                "\n&7Click to select\n\n" + "&8Configurable random chance brush"
                         )
                 );
             } else if (b instanceof SplatterBrush) {
                 inv.setItem(
                         x,
-                        item.createHead(headSplatter,
+                        Items.createHead(
+                                headSplatter,
                                 1,
                                 "&6" + b.getName(),
-                                "___&7Click to select______" + "&8More chance when closer___&8to the clicked point___&8and configurable chance"
+                                "\n&7Click to select\n\n" + "&8More chance when closer\n&8to the clicked point\n&8and configurable chance"
                         )
                 );
             } else if (b instanceof DiscBrush) {
                 inv.setItem(
                         x,
-                        item.createHead(headDisc,
+                        Items.createHead(
+                                headDisc,
                                 1,
                                 "&6" + b.getName(),
-                                "___&7Click to select______" + "&8Paints blocks in the___&8same selected axis___&8from the block you clicked"
+                                "\n&7Click to select\n\n" + "&8Paints blocks in the\n&8same selected axis\n&8from the block you clicked"
                         )
                 );
             } else if (b instanceof BucketBrush) {
                 inv.setItem(
                         x,
-                        item.createHead(headBucket,
+                        Items.createHead(
+                                headBucket,
                                 1,
                                 "&6" + b.getName(),
-                                "___&7Click to select______" + "&8Paints connected blocks___&8with the same block type"
+                                "\n&7Click to select\n\n" + "&8Paints connected blocks\n&8with the same block type"
                         )
                 );
             } else if (b instanceof AngleBrush) {
                 inv.setItem(
                         x,
-                        item.createHead(headAngle, 1, "&6" + b.getName(), "___&7Click to select______" + "&8Only works on cliffs")
+                        Items.createHead(headAngle, 1, "&6" + b.getName(), "\n&7Click to select\n\n" + "&8Only works on cliffs")
                 );
             } else if (b instanceof OverlayBrush) {
                 inv.setItem(
                         x,
-                        item.createHead(headOverlay,
+                        Items.createHead(
+                                headOverlay,
                                 1,
                                 "&6" + b.getName(),
-                                "___&7Click to select______" + "&8Only paints blocks___&8that have air above it"
+                                "\n&7Click to select\n\n" + "&8Only paints blocks\n&8that have air above it"
+                        )
+                );
+            } else if (b instanceof UnderlayBrush) {
+                inv.setItem(
+                        x,
+                        Items.createHead(
+                                headUnderlay,
+                                1,
+                                "&6" + b.getName(),
+                                "\n&7Click to select\n\n" + "&8Only paints blocks\n&8that have no air above it"
                         )
                 );
             } else if (b instanceof FractureBrush) {
                 inv.setItem(
                         x,
-                        item.createHead(headFracture,
+                        Items.createHead(
+                                headFracture,
                                 1,
                                 "&6" + b.getName(),
-                                "___&7Click to select______" + "&8Places blocks in cracks/fisures"
+                                "\n&7Click to select\n\n" + "&8Places blocks in cracks/fisures"
                         )
                 );
             } else if (b instanceof GradientBrush) {
                 inv.setItem(
                         x,
-                        item.createHead(headGradient, 1, "&6" + b.getName(), "___&7Click to select______" + "&8Creates gradients")
+                        Items.createHead(headGradient, 1, "&6" + b.getName(), "\n&7Click to select\n\n" + "&8Creates gradients")
                 );
             } else if (b instanceof PaintBrush) {
                 inv.setItem(
                         x,
-                        item.createHead(headPaint,
+                        Items.createHead(
+                                headPaint,
                                 1,
                                 "&6" + b.getName(),
-                                "___&7Click to select______" + "&8Paints strokes___&8hold shift to end"
+                                "\n&7Click to select\n\n" + "&8Paints strokes\n&8hold shift to end"
                         )
                 );
             }
@@ -162,17 +184,15 @@ public class GUI {
         return inv;
     }
 
-    public static void Update(Inventory inv, PlayerBrush pb) {
-        Items item = new Items();
+    public static void update(Inventory inv, PlayerBrush pb) {
         Brush b = pb.getBrush();
 
         // FILLER
         for (int x = 0; x < 54; x++) {
             inv.setItem(
                     x,
-                    item.create(
-                            XMaterial.GRAY_STAINED_GLASS_PANE.parseMaterial(),
-                            (short) XMaterial.GRAY_STAINED_GLASS_PANE.getData(),
+                    Items.create(
+                            Material.GRAY_STAINED_GLASS_PANE,
                             1,
                             "&7",
                             ""
@@ -184,8 +204,8 @@ public class GUI {
         if (pb.isEnabled()) {
             inv.setItem(
                     1,
-                    item.create(XMaterial.LIME_STAINED_GLASS_PANE.parseMaterial(),
-                            (short) XMaterial.LIME_STAINED_GLASS_PANE.getData(),
+                    Items.create(
+                            Material.LIME_STAINED_GLASS_PANE,
                             1,
                             "&7",
                             ""
@@ -193,17 +213,17 @@ public class GUI {
             );
             inv.setItem(
                     10,
-                    item.create(Material.FEATHER,
-                            (short) 0,
+                    Items.create(
+                            Material.FEATHER,
                             1,
                             "&6goPaint Brush",
-                            "&a&lEnabled______&7Left click with item to export___&7Right click to toggle"
+                            "&a&lEnabled\n\n&7Left click with item to export\n&7Right click to toggle"
                     )
             );
             inv.setItem(
                     19,
-                    item.create(XMaterial.LIME_STAINED_GLASS_PANE.parseMaterial(),
-                            (short) XMaterial.LIME_STAINED_GLASS_PANE.getData(),
+                    Items.create(
+                            Material.LIME_STAINED_GLASS_PANE,
                             1,
                             "&7",
                             ""
@@ -212,8 +232,8 @@ public class GUI {
         } else {
             inv.setItem(
                     1,
-                    item.create(XMaterial.RED_STAINED_GLASS_PANE.parseMaterial(),
-                            (short) XMaterial.RED_STAINED_GLASS_PANE.getData(),
+                    Items.create(
+                            Material.RED_STAINED_GLASS_PANE,
                             1,
                             "&7",
                             ""
@@ -221,17 +241,17 @@ public class GUI {
             );
             inv.setItem(
                     10,
-                    item.create(Material.FEATHER,
-                            (short) 0,
+                    Items.create(
+                            Material.FEATHER,
                             1,
                             "&6goPaint Brush",
-                            "&c&lDisabled______&7Left click with item to export___&7Right click to toggle"
+                            "&c&lDisabled\n\n&7Left click with item to export\n&7Right click to toggle"
                     )
             );
             inv.setItem(
                     19,
-                    item.create(XMaterial.RED_STAINED_GLASS_PANE.parseMaterial(),
-                            (short) XMaterial.RED_STAINED_GLASS_PANE.getData(),
+                    Items.create(
+                            Material.RED_STAINED_GLASS_PANE,
                             1,
                             "&7",
                             ""
@@ -242,8 +262,8 @@ public class GUI {
         // Brushes + Chance
         inv.setItem(
                 2,
-                item.create(XMaterial.ORANGE_STAINED_GLASS_PANE.parseMaterial(),
-                        (short) XMaterial.ORANGE_STAINED_GLASS_PANE.getData(),
+                Items.create(
+                        Material.ORANGE_STAINED_GLASS_PANE,
                         1,
                         "&7",
                         ""
@@ -251,102 +271,122 @@ public class GUI {
         );
 
 
-        String clicks = "___&7Shift click to select___&7Click to cycle brush______";
+        String clicks = "\n&7Shift click to select\n&7Click to cycle brush\n\n";
         if (b instanceof SphereBrush) {
             inv.setItem(
                     11,
-                    item.createHead(headSphere,
+                    Items.createHead(
+                            headSphere,
                             1,
                             "&6Selected Brush type",
-                            clicks + BetterGoPaint.getBrushManager().getBrushLore(b.getName())
+                            clicks + plugin.getBrushManager().getBrushLore(b.getName())
                     )
             );
         } else if (b instanceof SprayBrush) {
             inv.setItem(
                     11,
-                    item.createHead(headSpray,
+                    Items.createHead(
+                            headSpray,
                             1,
                             "&6Selected Brush type",
-                            clicks + BetterGoPaint.getBrushManager().getBrushLore(b.getName())
+                            clicks + plugin.getBrushManager().getBrushLore(b.getName())
                     )
             );
         } else if (b instanceof SplatterBrush) {
             inv.setItem(
                     11,
-                    item.createHead(headSplatter,
+                    Items.createHead(
+                            headSplatter,
                             1,
                             "&6Selected Brush type",
-                            clicks + BetterGoPaint.getBrushManager().getBrushLore(b.getName())
+                            clicks + plugin.getBrushManager().getBrushLore(b.getName())
                     )
             );
         } else if (b instanceof DiscBrush) {
             inv.setItem(
                     11,
-                    item.createHead(headDisc,
+                    Items.createHead(
+                            headDisc,
                             1,
                             "&6Selected Brush type",
-                            clicks + BetterGoPaint.getBrushManager().getBrushLore(b.getName())
+                            clicks + plugin.getBrushManager().getBrushLore(b.getName())
                     )
             );
         } else if (b instanceof BucketBrush) {
             inv.setItem(
                     11,
-                    item.createHead(headBucket,
+                    Items.createHead(
+                            headBucket,
                             1,
                             "&6Selected Brush type",
-                            clicks + BetterGoPaint.getBrushManager().getBrushLore(b.getName())
+                            clicks + plugin.getBrushManager().getBrushLore(b.getName())
                     )
             );
         } else if (b instanceof AngleBrush) {
             inv.setItem(
                     11,
-                    item.createHead(headAngle,
+                    Items.createHead(
+                            headAngle,
                             1,
                             "&6Selected Brush type",
-                            clicks + BetterGoPaint.getBrushManager().getBrushLore(b.getName())
+                            clicks + plugin.getBrushManager().getBrushLore(b.getName())
                     )
             );
         } else if (b instanceof OverlayBrush) {
             inv.setItem(
                     11,
-                    item.createHead(headOverlay,
+                    Items.createHead(
+                            headOverlay,
                             1,
                             "&6Selected Brush type",
-                            clicks + BetterGoPaint.getBrushManager().getBrushLore(b.getName())
+                            clicks + plugin.getBrushManager().getBrushLore(b.getName())
+                    )
+            );
+        } else if (b instanceof UnderlayBrush) {
+            inv.setItem(
+                    11,
+                    Items.createHead(
+                            headUnderlay,
+                            1,
+                            "&6Selected Brush type",
+                            clicks + plugin.getBrushManager().getBrushLore(b.getName())
                     )
             );
         } else if (b instanceof FractureBrush) {
             inv.setItem(
                     11,
-                    item.createHead(headFracture,
+                    Items.createHead(
+                            headFracture,
                             1,
                             "&6Selected Brush type",
-                            clicks + BetterGoPaint.getBrushManager().getBrushLore(b.getName())
+                            clicks + plugin.getBrushManager().getBrushLore(b.getName())
                     )
             );
         } else if (b instanceof GradientBrush) {
             inv.setItem(
                     11,
-                    item.createHead(headGradient,
+                    Items.createHead(
+                            headGradient,
                             1,
                             "&6Selected Brush type",
-                            clicks + BetterGoPaint.getBrushManager().getBrushLore(b.getName())
+                            clicks + plugin.getBrushManager().getBrushLore(b.getName())
                     )
             );
         } else if (b instanceof PaintBrush) {
             inv.setItem(
                     11,
-                    item.createHead(headPaint,
+                    Items.createHead(
+                            headPaint,
                             1,
                             "&6Selected Brush type",
-                            clicks + BetterGoPaint.getBrushManager().getBrushLore(b.getName())
+                            clicks + plugin.getBrushManager().getBrushLore(b.getName())
                     )
             );
         }
         inv.setItem(
                 20,
-                item.create(XMaterial.ORANGE_STAINED_GLASS_PANE.parseMaterial(),
-                        (short) XMaterial.ORANGE_STAINED_GLASS_PANE.getData(),
+                Items.create(
+                        Material.ORANGE_STAINED_GLASS_PANE,
                         1,
                         "&7",
                         ""
@@ -357,8 +397,8 @@ public class GUI {
         if (b instanceof SprayBrush) {
             inv.setItem(
                     3,
-                    item.create(XMaterial.WHITE_STAINED_GLASS_PANE.parseMaterial(),
-                            (short) XMaterial.WHITE_STAINED_GLASS_PANE.getData(),
+                    Items.create(
+                            Material.WHITE_STAINED_GLASS_PANE,
                             1,
                             "&7",
                             ""
@@ -366,17 +406,17 @@ public class GUI {
             );
             inv.setItem(
                     12,
-                    item.create(XMaterial.GOLD_NUGGET.parseMaterial(),
-                            (short) 0,
+                    Items.create(
+                            Material.GOLD_NUGGET,
                             1,
                             "&6Place chance: &e" + pb.getChance() + "%",
-                            "___&7Left click to increase___&7Right click to decrease"
+                            "\n&7Left click to increase\n&7Right click to decrease"
                     )
             );
             inv.setItem(
                     21,
-                    item.create(XMaterial.WHITE_STAINED_GLASS_PANE.parseMaterial(),
-                            (short) XMaterial.WHITE_STAINED_GLASS_PANE.getData(),
+                    Items.create(
+                            Material.WHITE_STAINED_GLASS_PANE,
                             1,
                             "&7",
                             ""
@@ -388,8 +428,8 @@ public class GUI {
         if (b instanceof DiscBrush) {
             inv.setItem(
                     3,
-                    item.create(XMaterial.WHITE_STAINED_GLASS_PANE.parseMaterial(),
-                            (short) XMaterial.WHITE_STAINED_GLASS_PANE.getData(),
+                    Items.create(
+                            Material.WHITE_STAINED_GLASS_PANE,
                             1,
                             "&7",
                             ""
@@ -397,17 +437,17 @@ public class GUI {
             );
             inv.setItem(
                     12,
-                    item.create(XMaterial.COMPASS.parseMaterial(),
-                            (short) 0,
+                    Items.create(
+                            Material.COMPASS,
                             1,
                             "&6Axis: &e" + pb.getAxis(),
-                            "___&7Click to change"
+                            "\n&7Click to change"
                     )
             );
             inv.setItem(
                     21,
-                    item.create(XMaterial.WHITE_STAINED_GLASS_PANE.parseMaterial(),
-                            (short) XMaterial.WHITE_STAINED_GLASS_PANE.getData(),
+                    Items.create(
+                            Material.WHITE_STAINED_GLASS_PANE,
                             1,
                             "&7",
                             ""
@@ -417,11 +457,11 @@ public class GUI {
 
 
         // thickness
-        if (b instanceof OverlayBrush) {
+        if (b instanceof OverlayBrush || b instanceof UnderlayBrush) {
             inv.setItem(
                     3,
-                    item.create(XMaterial.WHITE_STAINED_GLASS_PANE.parseMaterial(),
-                            (short) XMaterial.WHITE_STAINED_GLASS_PANE.getData(),
+                    Items.create(
+                            Material.WHITE_STAINED_GLASS_PANE,
                             1,
                             "&7",
                             ""
@@ -429,17 +469,17 @@ public class GUI {
             );
             inv.setItem(
                     12,
-                    item.create(XMaterial.BOOK.parseMaterial(),
-                            (short) 0,
+                    Items.create(
+                            Material.BOOK,
                             1,
                             "&6Layer Thickness: &e" + pb.getThickness(),
-                            "___&7Left click to increase___&7Right click to decrease"
+                            "\n&7Left click to increase\n&7Right click to decrease"
                     )
             );
             inv.setItem(
                     21,
-                    item.create(XMaterial.WHITE_STAINED_GLASS_PANE.parseMaterial(),
-                            (short) XMaterial.WHITE_STAINED_GLASS_PANE.getData(),
+                    Items.create(
+                            Material.WHITE_STAINED_GLASS_PANE,
                             1,
                             "&7",
                             ""
@@ -451,8 +491,8 @@ public class GUI {
         if (b instanceof AngleBrush) {
             inv.setItem(
                     3,
-                    item.create(XMaterial.WHITE_STAINED_GLASS_PANE.parseMaterial(),
-                            (short) XMaterial.WHITE_STAINED_GLASS_PANE.getData(),
+                    Items.create(
+                            Material.WHITE_STAINED_GLASS_PANE,
                             1,
                             "&7",
                             ""
@@ -460,17 +500,17 @@ public class GUI {
             );
             inv.setItem(
                     12,
-                    item.create(XMaterial.DAYLIGHT_DETECTOR.parseMaterial(),
-                            (short) 0,
+                    Items.create(
+                            Material.DAYLIGHT_DETECTOR,
                             1,
                             "&6Angle Check Distance: &e" + pb.getAngleDistance(),
-                            "___&7Left click to increase___&7Right click to decrease"
+                            "\n&7Left click to increase\n&7Right click to decrease"
                     )
             );
             inv.setItem(
                     21,
-                    item.create(XMaterial.WHITE_STAINED_GLASS_PANE.parseMaterial(),
-                            (short) XMaterial.WHITE_STAINED_GLASS_PANE.getData(),
+                    Items.create(
+                            Material.WHITE_STAINED_GLASS_PANE,
                             1,
                             "&7",
                             ""
@@ -479,8 +519,8 @@ public class GUI {
 
             inv.setItem(
                     4,
-                    item.create(XMaterial.WHITE_STAINED_GLASS_PANE.parseMaterial(),
-                            (short) XMaterial.WHITE_STAINED_GLASS_PANE.getData(),
+                    Items.create(
+                            Material.WHITE_STAINED_GLASS_PANE,
                             1,
                             "&7",
                             ""
@@ -488,17 +528,17 @@ public class GUI {
             );
             inv.setItem(
                     13,
-                    item.create(XMaterial.BLAZE_ROD.parseMaterial(),
-                            (short) 0,
+                    Items.create(
+                            Material.BLAZE_ROD,
                             1,
-                            "&6Maximum Angle: &e" + pb.getMinHeightDifference() + "°",
-                            "___&7Left click to increase___&7Right click to decrease___&7Shift click to change by 15"
+                            "&6Maximum Angle: &e" + pb.getAngleHeightDifference() + "°",
+                            "\n&7Left click to increase\n&7Right click to decrease\n&7Shift click to change by 15"
                     )
             );
             inv.setItem(
                     22,
-                    item.create(XMaterial.WHITE_STAINED_GLASS_PANE.parseMaterial(),
-                            (short) XMaterial.WHITE_STAINED_GLASS_PANE.getData(),
+                    Items.create(
+                            Material.WHITE_STAINED_GLASS_PANE,
                             1,
                             "&7",
                             ""
@@ -510,8 +550,8 @@ public class GUI {
         if (b instanceof FractureBrush) {
             inv.setItem(
                     3,
-                    item.create(XMaterial.WHITE_STAINED_GLASS_PANE.parseMaterial(),
-                            (short) XMaterial.WHITE_STAINED_GLASS_PANE.getData(),
+                    Items.create(
+                            Material.WHITE_STAINED_GLASS_PANE,
                             1,
                             "&7",
                             ""
@@ -519,17 +559,17 @@ public class GUI {
             );
             inv.setItem(
                     12,
-                    item.create(XMaterial.DAYLIGHT_DETECTOR.parseMaterial(),
-                            (short) 0,
+                    Items.create(
+                            Material.DAYLIGHT_DETECTOR,
                             1,
                             "&6Fracture Check Distance: &e" + pb.getFractureDistance(),
-                            "___&7Left click to increase___&7Right click to decrease"
+                            "\n&7Left click to increase\n&7Right click to decrease"
                     )
             );
             inv.setItem(
                     21,
-                    item.create(XMaterial.WHITE_STAINED_GLASS_PANE.parseMaterial(),
-                            (short) XMaterial.WHITE_STAINED_GLASS_PANE.getData(),
+                    Items.create(
+                            Material.WHITE_STAINED_GLASS_PANE,
                             1,
                             "&7",
                             ""
@@ -541,8 +581,8 @@ public class GUI {
         if (b instanceof GradientBrush) {
             inv.setItem(
                     4,
-                    item.create(XMaterial.WHITE_STAINED_GLASS_PANE.parseMaterial(),
-                            (short) XMaterial.WHITE_STAINED_GLASS_PANE.getData(),
+                    Items.create(
+                            Material.WHITE_STAINED_GLASS_PANE,
                             1,
                             "&7",
                             ""
@@ -550,17 +590,17 @@ public class GUI {
             );
             inv.setItem(
                     13,
-                    item.create(XMaterial.MAGMA_CREAM.parseMaterial(),
-                            (short) 0,
+                    Items.create(
+                            Material.MAGMA_CREAM,
                             1,
                             "&6Mixing Strength: &e" + pb.getMixingStrength() + "%",
-                            "___&7Left click to increase___&7Right click to decrease"
+                            "\n&7Left click to increase\n&7Right click to decrease"
                     )
             );
             inv.setItem(
                     22,
-                    item.create(XMaterial.WHITE_STAINED_GLASS_PANE.parseMaterial(),
-                            (short) XMaterial.WHITE_STAINED_GLASS_PANE.getData(),
+                    Items.create(
+                            Material.WHITE_STAINED_GLASS_PANE,
                             1,
                             "&7",
                             ""
@@ -571,8 +611,8 @@ public class GUI {
         if (b instanceof SplatterBrush || b instanceof PaintBrush || b instanceof GradientBrush) {
             inv.setItem(
                     3,
-                    item.create(XMaterial.WHITE_STAINED_GLASS_PANE.parseMaterial(),
-                            (short) XMaterial.WHITE_STAINED_GLASS_PANE.getData(),
+                    Items.create(
+                            Material.WHITE_STAINED_GLASS_PANE,
                             1,
                             "&7",
                             ""
@@ -580,17 +620,17 @@ public class GUI {
             );
             inv.setItem(
                     12,
-                    item.create(XMaterial.BLAZE_POWDER.parseMaterial(),
-                            (short) 0,
+                    Items.create(
+                            Material.BLAZE_POWDER,
                             1,
                             "&6Falloff Strength: &e" + pb.getFalloffStrength() + "%",
-                            "___&7Left click to increase___&7Right click to decrease"
+                            "\n&7Left click to increase\n&7Right click to decrease"
                     )
             );
             inv.setItem(
                     21,
-                    item.create(XMaterial.WHITE_STAINED_GLASS_PANE.parseMaterial(),
-                            (short) XMaterial.WHITE_STAINED_GLASS_PANE.getData(),
+                    Items.create(
+                            Material.WHITE_STAINED_GLASS_PANE,
                             1,
                             "&7",
                             ""
@@ -602,8 +642,8 @@ public class GUI {
         // Size
         inv.setItem(
                 5,
-                item.create(XMaterial.WHITE_STAINED_GLASS_PANE.parseMaterial(),
-                        (short) XMaterial.WHITE_STAINED_GLASS_PANE.getData(),
+                Items.create(
+                        Material.WHITE_STAINED_GLASS_PANE,
                         1,
                         "&7",
                         ""
@@ -611,17 +651,17 @@ public class GUI {
         );
         inv.setItem(
                 14,
-                item.create(XMaterial.BROWN_MUSHROOM.parseMaterial(),
-                        (short) 0,
+                Items.create(
+                        Material.BROWN_MUSHROOM,
                         1,
-                        "&6Brush Size: &e" + pb.getBrushSize(),
-                        "___&7Left click to increase___&7Right click to decrease___&7Shift click to change by 10"
+                        "&6Brush Size: &e" + pb.getSize(),
+                        "\n&7Left click to increase\n&7Right click to decrease\n&7Shift click to change by 10"
                 )
         );
         inv.setItem(
                 23,
-                item.create(XMaterial.WHITE_STAINED_GLASS_PANE.parseMaterial(),
-                        (short) XMaterial.WHITE_STAINED_GLASS_PANE.getData(),
+                Items.create(
+                        Material.WHITE_STAINED_GLASS_PANE,
                         1,
                         "&7",
                         ""
@@ -629,11 +669,11 @@ public class GUI {
         );
 
         // Mask toggle
-        if (pb.isMaskEnabled()) {
+        if (pb.isMask()) {
             inv.setItem(
                     6,
-                    item.create(XMaterial.LIME_STAINED_GLASS_PANE.parseMaterial(),
-                            (short) XMaterial.LIME_STAINED_GLASS_PANE.getData(),
+                    Items.create(
+                            Material.LIME_STAINED_GLASS_PANE,
                             1,
                             "&7",
                             ""
@@ -641,17 +681,17 @@ public class GUI {
             );
             inv.setItem(
                     15,
-                    item.create(XMaterial.JACK_O_LANTERN.parseMaterial(),
-                            (short) 0,
+                    Items.create(
+                            Material.JACK_O_LANTERN,
                             1,
                             "&6Mask",
-                            "&a&lEnabled______&7Click to toggle"
+                            "&a&lEnabled\n\n&7Click to toggle"
                     )
             );
             inv.setItem(
                     24,
-                    item.create(XMaterial.LIME_STAINED_GLASS_PANE.parseMaterial(),
-                            (short) XMaterial.LIME_STAINED_GLASS_PANE.getData(),
+                    Items.create(
+                            Material.LIME_STAINED_GLASS_PANE,
                             1,
                             "&7",
                             ""
@@ -660,8 +700,8 @@ public class GUI {
         } else {
             inv.setItem(
                     6,
-                    item.create(XMaterial.RED_STAINED_GLASS_PANE.parseMaterial(),
-                            (short) XMaterial.RED_STAINED_GLASS_PANE.getData(),
+                    Items.create(
+                            Material.RED_STAINED_GLASS_PANE,
                             1,
                             "&7",
                             ""
@@ -669,12 +709,12 @@ public class GUI {
             );
             inv.setItem(
                     15,
-                    item.create(XMaterial.PUMPKIN.parseMaterial(), (short) 0, 1, "&6Mask", "&c&lDisabled______&7Click to toggle")
+                    Items.create(Material.PUMPKIN, 1, "&6Mask", "&c&lDisabled\n\n&7Click to toggle")
             );
             inv.setItem(
                     24,
-                    item.create(XMaterial.RED_STAINED_GLASS_PANE.parseMaterial(),
-                            (short) XMaterial.RED_STAINED_GLASS_PANE.getData(),
+                    Items.create(
+                            Material.RED_STAINED_GLASS_PANE,
                             1,
                             "&7",
                             ""
@@ -683,11 +723,11 @@ public class GUI {
         }
 
         // Surface Mode toggle
-        if (pb.isSurfaceModeEnabled()) {
+        if (pb.isSurfaceMode()) {
             inv.setItem(
                     7,
-                    item.create(XMaterial.LIME_STAINED_GLASS_PANE.parseMaterial(),
-                            (short) XMaterial.LIME_STAINED_GLASS_PANE.getData(),
+                    Items.create(
+                            Material.LIME_STAINED_GLASS_PANE,
                             1,
                             "&7",
                             ""
@@ -695,17 +735,17 @@ public class GUI {
             );
             inv.setItem(
                     16,
-                    item.create(XMaterial.LIGHT_WEIGHTED_PRESSURE_PLATE.parseMaterial(),
-                            (short) 0,
+                    Items.create(
+                            Material.LIGHT_WEIGHTED_PRESSURE_PLATE,
                             1,
                             "&6Surface Mode",
-                            "&a&lEnabled______&7Click to toggle"
+                            "&a&lEnabled\n\n&7Click to toggle"
                     )
             );
             inv.setItem(
                     25,
-                    item.create(XMaterial.LIME_STAINED_GLASS_PANE.parseMaterial(),
-                            (short) XMaterial.LIME_STAINED_GLASS_PANE.getData(),
+                    Items.create(
+                            Material.LIME_STAINED_GLASS_PANE,
                             1,
                             "&7",
                             ""
@@ -714,8 +754,8 @@ public class GUI {
         } else {
             inv.setItem(
                     7,
-                    item.create(XMaterial.RED_STAINED_GLASS_PANE.parseMaterial(),
-                            (short) XMaterial.RED_STAINED_GLASS_PANE.getData(),
+                    Items.create(
+                            Material.RED_STAINED_GLASS_PANE,
                             1,
                             "&7",
                             ""
@@ -723,17 +763,17 @@ public class GUI {
             );
             inv.setItem(
                     16,
-                    item.create(XMaterial.LIGHT_WEIGHTED_PRESSURE_PLATE.parseMaterial(),
-                            (short) 0,
+                    Items.create(
+                            Material.LIGHT_WEIGHTED_PRESSURE_PLATE,
                             1,
                             "&6Surface Mode",
-                            "&c&lDisabled______&7Click to toggle"
+                            "&c&lDisabled\n\n&7Click to toggle"
                     )
             );
             inv.setItem(
                     25,
-                    item.create(XMaterial.RED_STAINED_GLASS_PANE.parseMaterial(),
-                            (short) XMaterial.RED_STAINED_GLASS_PANE.getData(),
+                    Items.create(
+                            Material.RED_STAINED_GLASS_PANE,
                             1,
                             "&7",
                             ""
@@ -745,8 +785,8 @@ public class GUI {
         for (int x = 37; x <= 41; x++) {
             inv.setItem(
                     x,
-                    item.create(XMaterial.YELLOW_STAINED_GLASS_PANE.parseMaterial(),
-                            (short) XMaterial.YELLOW_STAINED_GLASS_PANE.getData(),
+                    Items.create(
+                            Material.YELLOW_STAINED_GLASS_PANE,
                             1,
                             "&7",
                             ""
@@ -756,33 +796,31 @@ public class GUI {
         for (int x = 46; x <= 50; x++) {
             inv.setItem(
                     x,
-                    item.create(XMaterial.BARRIER.parseMaterial(), (short) 0, 1, "&cEmpty Slot", "___&7Click with a block to set")
+                    Items.create(Material.BARRIER, 1, "&cEmpty Slot", "\n&7Click with a block to set")
             );
         }
         int x = 46;
         int size = pb.getBlocks().size();
-        for (BlockType bt : pb.getBlocks()) {
-            Material mat = bt.getMaterial();
-            short data = bt.getData();
-            int chance = (int) Math.floor(100 / size);
+        for (Material bt : pb.getBlocks()) {
+            int chance = (int) (double) (100 / size);
             if (chance > 64) {
                 inv.setItem(
                         x,
-                        item.create(mat,
-                                data,
+                        Items.create(
+                                bt,
                                 1,
-                                "&aSlot " + (x - 45) + " &7" + (int) Math.floor(100 / size) + "%",
-                                "___&7Left click with a block to change___&7Right click to clear"
+                                "&aSlot " + (x - 45) + " &7" + (int) (double) (100 / size) + "%",
+                                "\n&7Left click with a block to change\n&7Right click to clear"
                         )
                 );
             } else {
                 inv.setItem(
                         x,
-                        item.create(mat,
-                                data,
-                                (int) Math.floor(100 / size),
-                                "&aSlot " + (x - 45) + " &7" + (int) Math.floor(100 / size) + "%",
-                                "___&7Left click with a block to change___&7Right click to clear"
+                        Items.create(
+                                bt,
+                                (int) (double) (100 / size),
+                                "&aSlot " + (x - 45) + " &7" + (int) (double) (100 / size) + "%",
+                                "\n&7Left click with a block to change\n&7Right click to clear"
                         )
                 );
             }
@@ -792,17 +830,16 @@ public class GUI {
         // Mask Block
         inv.setItem(
                 43,
-                item.create(XMaterial.YELLOW_STAINED_GLASS_PANE.parseMaterial(),
-                        (short) XMaterial.YELLOW_STAINED_GLASS_PANE.getData(),
+                Items.create(
+                        Material.YELLOW_STAINED_GLASS_PANE,
                         1,
                         "&7",
                         ""
                 )
         );
-        BlockType bt = pb.getMask();
         inv.setItem(
                 52,
-                item.create(bt.getMaterial(), bt.getData(), 1, "&6Current Mask", "___&7Left click with a block to change")
+                Items.create(pb.getMask(), 1, "&6Current Mask", "\n&7Left click with a block to change")
         );
     }
 

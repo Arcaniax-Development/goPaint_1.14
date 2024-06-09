@@ -18,14 +18,14 @@
  */
 package net.onelitefeather.bettergopaint.listeners;
 
-import com.cryptomorin.xseries.XMaterial;
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.onelitefeather.bettergopaint.BetterGoPaint;
 import net.onelitefeather.bettergopaint.objects.other.Settings;
-import net.onelitefeather.bettergopaint.objects.player.ExportedPlayerBrush;
-import net.onelitefeather.bettergopaint.objects.player.PlayerBrush;
-import net.kyori.adventure.text.minimessage.MiniMessage;
+import net.onelitefeather.bettergopaint.brush.ExportedPlayerBrush;
+import net.onelitefeather.bettergopaint.brush.PlayerBrush;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -33,15 +33,20 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 public final class InteractListener implements Listener {
+
+    private final BetterGoPaint plugin;
+
+    public InteractListener(BetterGoPaint plugin) {
+        this.plugin = plugin;
+    }
 
     @SuppressWarnings("deprecation")
     @EventHandler(priority = EventPriority.LOWEST)
     public void onClick(PlayerInteractEvent event) {
-        if (event.getAction().equals(Action.PHYSICAL)) {
-            return;
-        }
         if (EquipmentSlot.OFF_HAND.equals(event.getHand())) {
             return;
         }
@@ -50,66 +55,73 @@ public final class InteractListener implements Listener {
             return;
         }
 
-        if ((event.getAction().equals(Action.RIGHT_CLICK_AIR) || event.getAction().equals(Action.RIGHT_CLICK_BLOCK))) {
-            if (event.getPlayer().getItemInHand().hasItemMeta() && event
-                    .getPlayer()
-                    .getItemInHand()
-                    .getItemMeta()
-                    .hasDisplayName() && event
-                    .getPlayer()
-                    .getItemInHand()
-                    .getItemMeta()
-                    .getDisplayName()
-                    .startsWith(" <aqua>♦ ") && event.getPlayer().getItemInHand().getItemMeta().hasLore()) {
-                final ExportedPlayerBrush epb = new ExportedPlayerBrush(event
-                        .getPlayer()
-                        .getItemInHand()
-                        .getItemMeta()
-                        .getDisplayName(), event.getPlayer().getItemInHand().getItemMeta().getLore());
-                final Player p = event.getPlayer();
-                final Location loc;
-                if (event.getAction().equals(Action.RIGHT_CLICK_AIR)) {
-                    loc = p.getTargetBlock(null, 250).getLocation().clone();
-                } else {
-                    loc = event.getClickedBlock().getLocation().clone();
-                }
-                BukkitAdapter.adapt(p).runAsyncIfFree(() -> epb.getBrush().paint(loc, p, epb));
-            }
+        ItemStack item = event.getItem();
+        if (item == null) {
+            return;
         }
-        if (event.getPlayer().getItemInHand().getType() == XMaterial.FEATHER.parseMaterial() && (event
-                .getAction()
-                .equals(Action.RIGHT_CLICK_AIR) || event.getAction().equals(Action.RIGHT_CLICK_BLOCK))) {
+
+
+        if (event.getAction().isLeftClick() && event.getMaterial().equals(Material.FEATHER)) {
             event.setCancelled(true);
-            final Player p = event.getPlayer();
-            final Location loc;
+            PlayerBrush brush = plugin.getBrushManager().getBrush(event.getPlayer());
+            event.getPlayer().openInventory(brush.getInventory());
+            return;
+        }
+
+        if (!event.getAction().isRightClick()) {
+            return;
+        }
+
+        ItemMeta itemMeta = item.getItemMeta();
+
+        if (itemMeta != null
+                && itemMeta.hasDisplayName()
+                && itemMeta.getDisplayName().startsWith(" <aqua>♦ ")
+                && itemMeta.hasLore()) {
+            ExportedPlayerBrush brush = new ExportedPlayerBrush(plugin, itemMeta.getDisplayName(), itemMeta.getLore());
+            Player player = event.getPlayer();
+            Location location;
             if (event.getAction().equals(Action.RIGHT_CLICK_AIR)) {
-                loc = p.getTargetBlock(null, 250).getLocation().clone();
+                location = player.getTargetBlock(null, 250).getLocation().clone();
             } else {
-                loc = event.getClickedBlock().getLocation().clone();
+                location = event.getInteractionPoint();
+            }
+
+            if (brush.getBlocks().isEmpty()) {
+                return;
+            }
+            BukkitAdapter.adapt(player).runAsyncIfFree(() -> brush.getBrush().paint(location, player, brush));
+            return;
+        }
+
+        if (item.getType() == Material.FEATHER) {
+            event.setCancelled(true);
+            final Player player = event.getPlayer();
+            final Location location;
+            if (event.getAction().equals(Action.RIGHT_CLICK_AIR)) {
+                location = player.getTargetBlock(null, 250).getLocation().clone();
+            } else {
+                location = event.getClickedBlock().getLocation().clone();
             }
             if ((!event.getPlayer().hasPermission("bettergopaint.world.bypass")) && (Settings.settings().GENERIC.DISABLED_WORLDS
-                    .contains(loc.getWorld().getName()))) {
+                    .contains(location.getWorld().getName()))) {
                 return;
             }
-            if (loc.getBlock().getType().equals(XMaterial.AIR.parseMaterial())) {
+            if (location.getBlock().isEmpty()) {
                 return;
             }
-            final PlayerBrush pb = BetterGoPaint.getBrushManager().getPlayerBrush(p);
+            final PlayerBrush brush = plugin.getBrushManager().getBrush(player);
 
-            if (pb.isEnabled()) {
-                BukkitAdapter.adapt(p).runAsyncIfFree(() -> pb.getBrush().paint(loc, p));
+            if (brush.isEnabled()) {
+                if (brush.getBlocks().isEmpty()) {
+                    return;
+                }
+                BukkitAdapter.adapt(player).runAsyncIfFree(() -> brush.getBrush().paint(location, player, brush));
             } else {
-                p.sendMessage(MiniMessage.miniMessage().deserialize(Settings.settings().GENERIC.PREFIX + "<red>Your brush is " +
-                        "disabled, left click to enable the brush."));
+                player.sendMessage(MiniMessage.miniMessage().deserialize(
+                        Settings.settings().GENERIC.PREFIX + "<red>Your brush is disabled, left click to enable the brush."
+                ));
             }
-        }
-        if (event.getPlayer().getItemInHand().getType() == XMaterial.FEATHER.parseMaterial() && (event
-                .getAction()
-                .equals(Action.LEFT_CLICK_AIR) || event.getAction().equals(Action.LEFT_CLICK_BLOCK))) {
-            event.setCancelled(true);
-            Player p = event.getPlayer();
-            PlayerBrush pb = BetterGoPaint.getBrushManager().getPlayerBrush(p);
-            p.openInventory(pb.getInventory());
         }
     }
 
