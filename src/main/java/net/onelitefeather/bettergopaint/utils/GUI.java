@@ -43,18 +43,18 @@ public class GUI {
 
     private static final BetterGoPaint plugin = JavaPlugin.getPlugin(BetterGoPaint.class);
 
-    private static final String headSphere = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZmU5OGY0ODU2MDE0N2MwYTJkNGVkYzE3ZjZkOTg1ZThlYjVkOTRiZDcyZmM2MDc0NGE1YThmMmQ5MDVhMTgifX19";
-    private static final String headSpray = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjg4MGY3NjVlYTgwZGVlMzcwODJkY2RmZDk4MTJlZTM2ZmRhODg0ODY5MmE4NDFiZWMxYmJkOWVkNTFiYTIyIn19fQ==";
-    private static final String headSplatter = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzMzODI5MmUyZTY5ZjA5MDY5NGNlZjY3MmJiNzZmMWQ4Mzc1OGQxMjc0NGJiNmZmYzY4MzRmZGJjMWE5ODMifX19";
-    private static final String headDisc = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjFmMjgyNTBkMWU0MjBhNjUxMWIwMzk2NDg2OGZjYTJmNTYzN2UzYWJhNzlmNGExNjNmNGE4ZDYxM2JlIn19fQ==";
-    private static final String headBucket = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTAxOGI0NTc0OTM5Nzg4YTJhZDU1NTJiOTEyZDY3ODEwNjk4ODhjNTEyMzRhNGExM2VhZGI3ZDRjOTc5YzkzIn19fQ==";
-    private static final String headAngle = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNmRlNDQ4ZjBkYmU3NmJiOGE4MzJjOGYzYjJhMDNkMzViZDRlMjc4NWZhNWU4Mjk4YzI2MTU1MDNmNDdmZmEyIn19fQ==";
-    private static final String headOverlay = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZGYzMWQ2Zjk2NTRmODc0ZWE5MDk3YWRlZWEwYzk2OTk2ZTc4ZTNmZDM3NTRmYmY5ZWJlOTYzYWRhZDliZTRjIn19fQ==";
-    private static final String headUnderlay = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzIzNDQ2OTkwZjU4YjY1M2FiNWYwZTdhZjNmZGM3NTYwOTEyNzVmNGMzYzJkZDQxYzdkODYyZGQzZjkyZTg0YSJ9fX0=";
-    private static final String headFracture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMjNkZjczZWVlNjIyNGM1YzVkOTQ4ZDJhMzQ1ZGUyNWYyMDhjYmQ5YWY3MTA4Y2UxZTFiNjFhNTg2ZGU5OGIyIn19fQ==";
-    private static final String headGradient = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNjA2MmRhM2QzYjhmMWZkMzUzNDNjYzI3OWZiMGZlNWNmNGE1N2I1YWJjNDMxZmJiNzhhNzNiZjJhZjY3NGYifX19";
-    private static final String headPaint = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODBiM2E5ZGZhYmVmYmRkOTQ5YjIxN2JiZDRmYTlhNDg2YmQwYzNmMGNhYjBkMGI5ZGZhMjRjMzMyZGQzZTM0MiJ9fX0=";
-    private static final String headBlend = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNWU5MTg0YWYxZGU3ZTViN2M0YWQ0MTFjNTZhZjRmOTMzNjY1MzYxNTkyOWJjOTVkNzEzYjdhNDJjZmYzZmJhZCJ9fX0=";
+    private static final String HEAD_SPHERE = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZmU5OGY0ODU2MDE0N2MwYTJkNGVkYzE3ZjZkOTg1ZThlYjVkOTRiZDcyZmM2MDc0NGE1YThmMmQ5MDVhMTgifX19";
+    private static final String HEAD_SPRAY = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjg4MGY3NjVlYTgwZGVlMzcwODJkY2RmZDk4MTJlZTM2ZmRhODg0ODY5MmE4NDFiZWMxYmJkOWVkNTFiYTIyIn19fQ==";
+    private static final String HEAD_SPLATTER = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzMzODI5MmUyZTY5ZjA5MDY5NGNlZjY3MmJiNzZmMWQ4Mzc1OGQxMjc0NGJiNmZmYzY4MzRmZGJjMWE5ODMifX19";
+    private static final String HEAD_DISC = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjFmMjgyNTBkMWU0MjBhNjUxMWIwMzk2NDg2OGZjYTJmNTYzN2UzYWJhNzlmNGExNjNmNGE4ZDYxM2JlIn19fQ==";
+    private static final String HEAD_BUCKET = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTAxOGI0NTc0OTM5Nzg4YTJhZDU1NTJiOTEyZDY3ODEwNjk4ODhjNTEyMzRhNGExM2VhZGI3ZDRjOTc5YzkzIn19fQ==";
+    private static final String HEAD_ANGLE = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNmRlNDQ4ZjBkYmU3NmJiOGE4MzJjOGYzYjJhMDNkMzViZDRlMjc4NWZhNWU4Mjk4YzI2MTU1MDNmNDdmZmEyIn19fQ==";
+    private static final String HEAD_OVERLAY = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZGYzMWQ2Zjk2NTRmODc0ZWE5MDk3YWRlZWEwYzk2OTk2ZTc4ZTNmZDM3NTRmYmY5ZWJlOTYzYWRhZDliZTRjIn19fQ==";
+    private static final String HEAD_UNDERLAY = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzIzNDQ2OTkwZjU4YjY1M2FiNWYwZTdhZjNmZGM3NTYwOTEyNzVmNGMzYzJkZDQxYzdkODYyZGQzZjkyZTg0YSJ9fX0=";
+    private static final String HEAD_FRACTURE = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMjNkZjczZWVlNjIyNGM1YzVkOTQ4ZDJhMzQ1ZGUyNWYyMDhjYmQ5YWY3MTA4Y2UxZTFiNjFhNTg2ZGU5OGIyIn19fQ==";
+    private static final String HEAD_GRADIENT = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNjA2MmRhM2QzYjhmMWZkMzUzNDNjYzI3OWZiMGZlNWNmNGE1N2I1YWJjNDMxZmJiNzhhNzNiZjJhZjY3NGYifX19";
+    private static final String HEAD_PAINT = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODBiM2E5ZGZhYmVmYmRkOTQ5YjIxN2JiZDRmYTlhNDg2YmQwYzNmMGNhYjBkMGI5ZGZhMjRjMzMyZGQzZTM0MiJ9fX0=";
+    private static final String HEAD_BLEND = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNWU5MTg0YWYxZGU3ZTViN2M0YWQ0MTFjNTZhZjRmOTMzNjY1MzYxNTkyOWJjOTVkNzEzYjdhNDJjZmYzZmJhZCJ9fX0=";
 
     public static Inventory create(PlayerBrush pb) {
         Inventory inv = Bukkit.createInventory(null, 54, Component.text("goPaint Menu", NamedTextColor.DARK_BLUE));
@@ -71,48 +71,49 @@ public class GUI {
         int x = 0;
         for (Brush b : plugin.getBrushManager().getBrushes()) {
             if (b instanceof SphereBrush) {
-                inv.setItem(x, Items.createHead(headSphere, 1, "&6" + b.getName(),
                         "\n&7Click to select\n\n" + "&8Regular sphere brush"
+                inv.setItem(x, Items.createHead(HEAD_SPHERE, 1, "&6" + b.getName(),
                 ));
             } else if (b instanceof SprayBrush) {
                 inv.setItem(x, Items.createHead(headSpray, 1, "&6" + b.getName(),
                         "\n&7Click to select\n\n" + "&8Configurable random chance brush"
+                inv.setItem(x, Items.createHead(HEAD_SPRAY, 1, "&6" + b.getName(),
                 ));
             } else if (b instanceof SplatterBrush) {
-                inv.setItem(x, Items.createHead(headSplatter, 1, "&6" + b.getName(),
                         "\n&7Click to select\n\n" + "&8More chance when closer\n&8to the clicked point\n&8and configurable chance"
+                inv.setItem(x, Items.createHead(HEAD_SPLATTER, 1, "&6" + b.getName(),
                 ));
             } else if (b instanceof DiscBrush) {
-                inv.setItem(x, Items.createHead(headDisc, 1, "&6" + b.getName(),
                         "\n&7Click to select\n\n" + "&8Paints blocks in the\n&8same selected axis\n&8from the block you clicked"
+                inv.setItem(x, Items.createHead(HEAD_DISC, 1, "&6" + b.getName(),
                 ));
             } else if (b instanceof BucketBrush) {
-                inv.setItem(x, Items.createHead(headBucket, 1, "&6" + b.getName(),
                         "\n&7Click to select\n\n" + "&8Paints connected blocks\n&8with the same block type"
+                inv.setItem(x, Items.createHead(HEAD_BUCKET, 1, "&6" + b.getName(),
                 ));
             } else if (b instanceof AngleBrush) {
-                inv.setItem(x, Items.createHead(headAngle, 1, "&6" + b.getName(),
                         "\n&7Click to select\n\n" + "&8Only works on cliffs"
+                inv.setItem(x, Items.createHead(HEAD_ANGLE, 1, "&6" + b.getName(),
                 ));
             } else if (b instanceof OverlayBrush) {
-                inv.setItem(x, Items.createHead(headOverlay, 1, "&6" + b.getName(),
                         "\n&7Click to select\n\n" + "&8Only paints blocks\n&8that have air above it"
+                inv.setItem(x, Items.createHead(HEAD_OVERLAY, 1, "&6" + b.getName(),
                 ));
             } else if (b instanceof UnderlayBrush) {
-                inv.setItem(x, Items.createHead(headUnderlay, 1, "&6" + b.getName(),
                         "\n&7Click to select\n\n" + "&8Only paints blocks\n&8that have no air above it"
+                inv.setItem(x, Items.createHead(HEAD_UNDERLAY, 1, "&6" + b.getName(),
                 ));
             } else if (b instanceof FractureBrush) {
-                inv.setItem(x, Items.createHead(headFracture, 1, "&6" + b.getName(),
                         "\n&7Click to select\n\n" + "&8Places blocks in cracks/fisures"
+                inv.setItem(x, Items.createHead(HEAD_FRACTURE, 1, "&6" + b.getName(),
                 ));
             } else if (b instanceof GradientBrush) {
-                inv.setItem(x, Items.createHead(headGradient, 1, "&6" + b.getName(),
                         "\n&7Click to select\n\n" + "&8Creates gradients"
+                inv.setItem(x, Items.createHead(HEAD_GRADIENT, 1, "&6" + b.getName(),
                 ));
             } else if (b instanceof PaintBrush) {
-                inv.setItem(x, Items.createHead(headPaint, 1, "&6" + b.getName(),
                         "\n&7Click to select\n\n" + "&8Paints strokes\n&8hold shift to end"
+                inv.setItem(x, Items.createHead(HEAD_PAINT, 1, "&6" + b.getName(),
                 ));
             }
             x++;
@@ -149,47 +150,47 @@ public class GUI {
 
         String clicks = "\n&7Shift click to select\n&7Click to cycle brush\n\n";
         if (brush instanceof SphereBrush) {
-            inv.setItem(11, Items.createHead(headSphere, 1, "&6Selected Brush type",
+            inv.setItem(11, Items.createHead(HEAD_SPHERE, 1, "&6Selected Brush type",
                     clicks + plugin.getBrushManager().getBrushLore(brush.getName())
             ));
         } else if (brush instanceof SprayBrush) {
-            inv.setItem(11, Items.createHead(headSpray, 1, "&6Selected Brush type",
+            inv.setItem(11, Items.createHead(HEAD_SPRAY, 1, "&6Selected Brush type",
                     clicks + plugin.getBrushManager().getBrushLore(brush.getName())
             ));
         } else if (brush instanceof SplatterBrush) {
-            inv.setItem(11, Items.createHead(headSplatter, 1, "&6Selected Brush type",
+            inv.setItem(11, Items.createHead(HEAD_SPLATTER, 1, "&6Selected Brush type",
                     clicks + plugin.getBrushManager().getBrushLore(brush.getName())
             ));
         } else if (brush instanceof DiscBrush) {
-            inv.setItem(11, Items.createHead(headDisc, 1, "&6Selected Brush type",
+            inv.setItem(11, Items.createHead(HEAD_DISC, 1, "&6Selected Brush type",
                     clicks + plugin.getBrushManager().getBrushLore(brush.getName())
             ));
         } else if (brush instanceof BucketBrush) {
-            inv.setItem(11, Items.createHead(headBucket, 1, "&6Selected Brush type",
+            inv.setItem(11, Items.createHead(HEAD_BUCKET, 1, "&6Selected Brush type",
                     clicks + plugin.getBrushManager().getBrushLore(brush.getName())
             ));
         } else if (brush instanceof AngleBrush) {
-            inv.setItem(11, Items.createHead(headAngle, 1, "&6Selected Brush type",
+            inv.setItem(11, Items.createHead(HEAD_ANGLE, 1, "&6Selected Brush type",
                     clicks + plugin.getBrushManager().getBrushLore(brush.getName())
             ));
         } else if (brush instanceof OverlayBrush) {
-            inv.setItem(11, Items.createHead(headOverlay, 1, "&6Selected Brush type",
+            inv.setItem(11, Items.createHead(HEAD_OVERLAY, 1, "&6Selected Brush type",
                     clicks + plugin.getBrushManager().getBrushLore(brush.getName())
             ));
         } else if (brush instanceof UnderlayBrush) {
-            inv.setItem(11, Items.createHead(headUnderlay, 1, "&6Selected Brush type",
+            inv.setItem(11, Items.createHead(HEAD_UNDERLAY, 1, "&6Selected Brush type",
                     clicks + plugin.getBrushManager().getBrushLore(brush.getName())
             ));
         } else if (brush instanceof FractureBrush) {
-            inv.setItem(11, Items.createHead(headFracture, 1, "&6Selected Brush type",
+            inv.setItem(11, Items.createHead(HEAD_FRACTURE, 1, "&6Selected Brush type",
                     clicks + plugin.getBrushManager().getBrushLore(brush.getName())
             ));
         } else if (brush instanceof GradientBrush) {
-            inv.setItem(11, Items.createHead(headGradient, 1, "&6Selected Brush type",
+            inv.setItem(11, Items.createHead(HEAD_GRADIENT, 1, "&6Selected Brush type",
                     clicks + plugin.getBrushManager().getBrushLore(brush.getName())
             ));
         } else if (brush instanceof PaintBrush) {
-            inv.setItem(11, Items.createHead(headPaint, 1, "&6Selected Brush type",
+            inv.setItem(11, Items.createHead(HEAD_PAINT, 1, "&6Selected Brush type",
                     clicks + plugin.getBrushManager().getBrushLore(brush.getName())
             ));
         }
