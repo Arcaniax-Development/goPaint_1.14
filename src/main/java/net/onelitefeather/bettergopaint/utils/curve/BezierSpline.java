@@ -34,7 +34,7 @@ public class BezierSpline {
     private Location anchorPoint;
 
     public BezierSpline() {
-        knotsList = new LinkedList<Location>();
+        knotsList = new LinkedList<>();
         segments = new BezierSplineSegment[0];
         length = 0;
     }
@@ -127,10 +127,8 @@ public class BezierSpline {
     public Location getPoint(int n, double f) {
         assert (n < segments.length);
         assert (0 <= f && f <= 1);
-        Location result = new Location(knots[0].getWorld(), 0, 0, 0);
         BezierSplineSegment segment = segments[n];
-        result = segment.getPoint(f);
-        return result;
+        return segment.getPoint(f);
     }
 
     public double getdTdS(double f) {
@@ -329,10 +327,7 @@ public class BezierSpline {
         if (knots == null) {
             return "0 points.";
         }
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append(knots.length);
-        stringBuilder.append(" points.");
-        return stringBuilder.toString();
+        return knots.length + " points.";
     }
 
     public String toName() {
