@@ -33,7 +33,7 @@ import java.util.List;
 
 public class GoPaintCommand extends Command implements PluginIdentifiableCommand {
 
-    public static BetterGoPaint plugin;
+    private final BetterGoPaint plugin;
 
     public GoPaintCommand(BetterGoPaint main) {
         super("gopaint", "goPaint command", "/gp size|toggle|info|reload", List.of("gp"));
