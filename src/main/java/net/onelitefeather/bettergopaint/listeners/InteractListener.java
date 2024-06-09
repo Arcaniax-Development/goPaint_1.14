@@ -21,11 +21,14 @@ package net.onelitefeather.bettergopaint.listeners;
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.onelitefeather.bettergopaint.BetterGoPaint;
+import net.onelitefeather.bettergopaint.brush.BrushSettings;
 import net.onelitefeather.bettergopaint.objects.other.Settings;
 import net.onelitefeather.bettergopaint.brush.ExportedPlayerBrush;
 import net.onelitefeather.bettergopaint.brush.PlayerBrush;
+import org.bukkit.FluidCollisionMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -35,6 +38,8 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+
+import java.beans.FeatureDescriptor;
 
 public final class InteractListener implements Listener {
 
@@ -47,11 +52,9 @@ public final class InteractListener implements Listener {
     @SuppressWarnings("deprecation")
     @EventHandler(priority = EventPriority.LOWEST)
     public void onClick(PlayerInteractEvent event) {
-        if (EquipmentSlot.OFF_HAND.equals(event.getHand())) {
-            return;
-        }
+        Player player = event.getPlayer();
 
-        if (!event.getPlayer().hasPermission("bettergopaint.use")) {
+        if (!player.hasPermission("bettergopaint.use")) {
             return;
         }
 
@@ -60,11 +63,10 @@ public final class InteractListener implements Listener {
             return;
         }
 
-
-        if (event.getAction().isLeftClick() && event.getMaterial().equals(Material.FEATHER)) {
+        if (event.getAction().isLeftClick() && item.getType().equals(Material.FEATHER)) {
+            PlayerBrush brush = plugin.getBrushManager().getBrush(player);
+            player.openInventory(brush.getInventory());
             event.setCancelled(true);
-            PlayerBrush brush = plugin.getBrushManager().getBrush(event.getPlayer());
-            event.getPlayer().openInventory(brush.getInventory());
             return;
         }
 
@@ -74,54 +76,45 @@ public final class InteractListener implements Listener {
 
         ItemMeta itemMeta = item.getItemMeta();
 
-        if (itemMeta != null
-                && itemMeta.hasDisplayName()
-                && itemMeta.getDisplayName().startsWith(" <aqua>♦ ")
-                && itemMeta.hasLore()) {
-            ExportedPlayerBrush brush = new ExportedPlayerBrush(plugin, itemMeta.getDisplayName(), itemMeta.getLore());
-            Player player = event.getPlayer();
-            Location location;
-            if (event.getAction().equals(Action.RIGHT_CLICK_AIR)) {
-                location = player.getTargetBlock(null, 250).getLocation().clone();
-            } else {
-                location = event.getInteractionPoint();
-            }
+        Location location;
+        if (event.getAction().equals(Action.RIGHT_CLICK_AIR)) {
+            Block exact = player.getTargetBlockExact(250, FluidCollisionMode.NEVER);
+            location = exact != null ? exact.getLocation().clone() : null;
+        } else {
+            location = event.getInteractionPoint();
+        }
 
-            if (brush.getBlocks().isEmpty()) {
-                return;
-            }
-            BukkitAdapter.adapt(player).runAsyncIfFree(() -> brush.getBrush().paint(location, player, brush));
+        if (location == null) {
             return;
         }
 
-        if (item.getType() == Material.FEATHER) {
-            event.setCancelled(true);
-            final Player player = event.getPlayer();
-            final Location location;
-            if (event.getAction().equals(Action.RIGHT_CLICK_AIR)) {
-                location = player.getTargetBlock(null, 250).getLocation().clone();
-            } else {
-                location = event.getClickedBlock().getLocation().clone();
-            }
-            if ((!event.getPlayer().hasPermission("bettergopaint.world.bypass")) && (Settings.settings().GENERIC.DISABLED_WORLDS
-                    .contains(location.getWorld().getName()))) {
-                return;
-            }
-            if (location.getBlock().isEmpty()) {
-                return;
-            }
-            final PlayerBrush brush = plugin.getBrushManager().getBrush(player);
+        if ((!player.hasPermission("bettergopaint.world.bypass")) && (Settings.settings().GENERIC.DISABLED_WORLDS
+                .contains(location.getWorld().getName()))) {
+            return;
+        }
 
-            if (brush.isEnabled()) {
-                if (brush.getBlocks().isEmpty()) {
-                    return;
-                }
-                BukkitAdapter.adapt(player).runAsyncIfFree(() -> brush.getBrush().paint(location, player, brush));
-            } else {
-                player.sendMessage(MiniMessage.miniMessage().deserialize(
-                        Settings.settings().GENERIC.PREFIX + "<red>Your brush is disabled, left click to enable the brush."
-                ));
-            }
+        BrushSettings brushSettings;
+
+        if (itemMeta != null && itemMeta.hasDisplayName() && itemMeta.getDisplayName().startsWith(" ♦ ") && itemMeta.hasLore()) {
+            // brushSettings = new ExportedPlayerBrush(plugin, itemMeta.getDisplayName(), itemMeta.getLore());
+            // disabled until working as intended
+            brushSettings = plugin.getBrushManager().getBrush(player);
+        } else if (item.getType().equals(Material.FEATHER)) {
+            brushSettings = plugin.getBrushManager().getBrush(player);
+        } else {
+            return;
+        }
+
+        if (brushSettings.getBlocks().isEmpty()) {
+            return;
+        }
+
+        if (brushSettings.isEnabled()) {
+            BukkitAdapter.adapt(player).runAsyncIfFree(() -> brushSettings.getBrush().paint(location, player, brushSettings));
+        } else {
+            player.sendMessage(MiniMessage.miniMessage().deserialize(
+                    Settings.settings().GENERIC.PREFIX + "<red>Your brush is disabled, left click to enable the brush."
+            ));
         }
     }
 
