@@ -202,21 +202,10 @@ public class InventoryListener implements Listener {
                 }
                 return;
             }
-            PlayerBrush pb = BetterGoPaint.getBrushManager().getPlayerBrush(p);
-            boolean check = false;
-            if (XMaterial.supports(13)) {
-                if (e.getCurrentItem().getType().equals(XMaterial.PLAYER_HEAD.parseMaterial())) {
-                    check = true;
-                }
-            } else {
-                if (e.getCurrentItem().getType().equals(Material.getMaterial("SKULL_ITEM"))) {
-                    check = true;
-                }
-            }
-            if (check) {
-                pb.setBrush(BetterGoPaint
-                        .getBrushManager()
-                        .getBrush(e.getCurrentItem().getItemMeta().getDisplayName().replaceAll("§6", "")));
+            PlayerBrush pb = plugin.getBrushManager().getBrush(p);
+            if (e.getCurrentItem().getType().equals(Material.PLAYER_HEAD)) {
+                pb.setBrush(plugin.getBrushManager()
+                        .getBrushHandler(e.getCurrentItem().getItemMeta().getDisplayName().replaceAll("§6", "")));
                 pb.updateInventory();
                 p.openInventory(pb.getInventory());
                 e.setCancelled(true);

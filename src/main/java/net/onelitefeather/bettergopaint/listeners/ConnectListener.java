@@ -26,15 +26,15 @@ import org.bukkit.event.player.PlayerQuitEvent;
 
 public class ConnectListener implements Listener {
 
-    public BetterGoPaint plugin;
+    private final BetterGoPaint plugin;
 
-    public ConnectListener(BetterGoPaint main) {
-        plugin = main;
+    public ConnectListener(BetterGoPaint plugin) {
+        this.plugin = plugin;
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
-    public void onQuit(PlayerQuitEvent e) {
-        BetterGoPaint.getBrushManager().removePlayerBrush(e.getPlayer());
+    public void onQuit(PlayerQuitEvent event) {
+        plugin.getBrushManager().removeBrush(event.getPlayer());
     }
 
 }
