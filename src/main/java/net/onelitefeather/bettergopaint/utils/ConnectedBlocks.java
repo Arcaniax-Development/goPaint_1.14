@@ -19,49 +19,49 @@
 package net.onelitefeather.bettergopaint.utils;
 
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 
-import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
+import java.util.Set;
 
 public class ConnectedBlocks {
 
-    @SuppressWarnings("deprecation")
-    public static List<Block> getConnectedBlocks(Location loc, List<Block> blocks) {
-        Block startBlock = loc.getBlock();
-        Material mat = startBlock.getType();
-        short data = startBlock.getData();
-        List<Block> connectCheckBlocks = new ArrayList<Block>();
-        List<Block> hasBeenChecked = new ArrayList<Block>();
-        List<Block> connected = new ArrayList<Block>();
-        int x = 0;
-        connectCheckBlocks.add(startBlock);
-        connected.add(startBlock);
-        while (!connectCheckBlocks.isEmpty() && x < 5000) {
-            Block b = connectCheckBlocks.get(0);
-            for (Block block : getBlocksAround(b)) {
-                if ((!connected.contains(block)) && (!hasBeenChecked.contains(block)) && blocks.contains(block) && block.getType() == mat && block.getData() == data) {
-                    connectCheckBlocks.add(block);
-                    connected.add(block);
-                    x++;
-                }
-            }
-            hasBeenChecked.add(b);
-            connectCheckBlocks.remove(b);
-        }
-        return connected;
-    }
+    private static final BlockFace[] faces = new BlockFace[]{
+            BlockFace.NORTH,
+            BlockFace.EAST,
+            BlockFace.SOUTH,
+            BlockFace.WEST,
+            BlockFace.UP,
+            BlockFace.DOWN,
+    };
 
-    private static List<Block> getBlocksAround(Block b) {
-        List<Block> blocks = new ArrayList<Block>();
-        blocks.add(b.getLocation().clone().add(-1, 0, 0).getBlock());
-        blocks.add(b.getLocation().clone().add(+1, 0, 0).getBlock());
-        blocks.add(b.getLocation().clone().add(0, -1, 0).getBlock());
-        blocks.add(b.getLocation().clone().add(0, +1, 0).getBlock());
-        blocks.add(b.getLocation().clone().add(0, 0, -1).getBlock());
-        blocks.add(b.getLocation().clone().add(0, 0, +1).getBlock());
-        return blocks;
+    public static Set<Block> getConnectedBlocks(Location loc, List<Block> blocks) {
+        Block startBlock = loc.getBlock();
+        Set<Block> connected = new HashSet<>();
+        Queue<Block> toCheck = new LinkedList<>();
+
+        toCheck.add(startBlock);
+        connected.add(startBlock);
+
+        while (!toCheck.isEmpty() && connected.size() < blocks.size()) {
+            Block current = toCheck.poll();
+            List<Block> neighbors = Arrays.stream(faces)
+                    .map(current::getRelative)
+                    .filter(relative -> relative.getType().equals(startBlock.getType())
+                            && !connected.contains(relative)
+                            && blocks.contains(relative))
+                    .toList();
+
+            connected.addAll(neighbors);
+            toCheck.addAll(neighbors);
+        }
+
+        return connected;
     }
 
 }

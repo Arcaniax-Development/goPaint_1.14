@@ -18,79 +18,56 @@
  */
 package net.onelitefeather.bettergopaint.utils;
 
-import com.cryptomorin.xseries.XMaterial;
 import org.bukkit.Location;
 
 public class Height {
 
-    public static int getHeight(Location loc) {
-        if (loc.getBlock().getType().equals(XMaterial.AIR.parseMaterial())) {
-            while (loc.getBlock().getType().equals(XMaterial.AIR.parseMaterial())) {
-                loc.add(0, -1, 0);
-                if (loc.getBlockY() < 0) {
-                    return 1;
-                }
-            }
-            return loc.getBlockY() + 1;
-        } else {
-            while (!(loc.getBlock().getType().equals(XMaterial.AIR.parseMaterial()))) {
-                loc.add(0, 1, 0);
-                if (loc.getBlockY() > 254) {
-                    return 254;
-                }
-            }
-            return loc.getBlockY();
-        }
+    public static int getHeight(Location location) {
+        return location.getWorld().getHighestBlockYAt(location);
     }
 
-    public static double getAverageHeightDiffFracture(Location l, int height, int dis) {
+    public static double getAverageHeightDiffFracture(Location location, int height, int distance) {
         double totalHeight = 0;
-        totalHeight += Math.abs(getHeight(l.clone().add(dis, 0, -dis))) - height;
-        totalHeight += Math.abs(getHeight(l.clone().add(dis, 0, dis))) - height;
-        totalHeight += Math.abs(getHeight(l.clone().add(-dis, 0, dis))) - height;
-        totalHeight += Math.abs(getHeight(l.clone().add(-dis, 0, -dis))) - height;
-        totalHeight += Math.abs(getHeight(l.clone().add(0, 0, -dis))) - height;
-        totalHeight += Math.abs(getHeight(l.clone().add(0, 0, dis))) - height;
-        totalHeight += Math.abs(getHeight(l.clone().add(-dis, 0, 0))) - height;
-        totalHeight += Math.abs(getHeight(l.clone().add(dis, 0, 0))) - height;
-        return (totalHeight / (double) 8) / (double) dis;
+        totalHeight += Math.abs(getHeight(location.clone().add(distance, 0, -distance))) - height;
+        totalHeight += Math.abs(getHeight(location.clone().add(distance, 0, distance))) - height;
+        totalHeight += Math.abs(getHeight(location.clone().add(-distance, 0, distance))) - height;
+        totalHeight += Math.abs(getHeight(location.clone().add(-distance, 0, -distance))) - height;
+        totalHeight += Math.abs(getHeight(location.clone().add(0, 0, -distance))) - height;
+        totalHeight += Math.abs(getHeight(location.clone().add(0, 0, distance))) - height;
+        totalHeight += Math.abs(getHeight(location.clone().add(-distance, 0, 0))) - height;
+        totalHeight += Math.abs(getHeight(location.clone().add(distance, 0, 0))) - height;
+        return (totalHeight / (double) 8) / (double) distance;
     }
 
-    public static double getAverageHeightDiffAngle(Location l, int dis) {
+    public static double getAverageHeightDiffAngle(Location location, int distance) {
         double maxHeightDiff = 0;
         double maxHeightDiff2 = 0;
         double diff = Math
-                .abs(getHeight( l.clone().add(dis, 0, -dis)) - getHeight( l.clone().add(-dis, 0, dis)));
+                .abs(getHeight(location.clone().add(distance, 0, -distance)) - getHeight(location.clone().add(-distance, 0, distance)));
         if (diff >= maxHeightDiff) {
             maxHeightDiff = diff;
             maxHeightDiff2 = maxHeightDiff;
         }
         diff = Math
-                .abs(getHeight( l.clone().add(dis, 0, dis)) - getHeight( l.clone().add(-dis, 0, -dis)));
+                .abs(getHeight(location.clone().add(distance, 0, distance)) - getHeight(location.clone().add(-distance, 0, -distance)));
         if (diff > maxHeightDiff) {
             maxHeightDiff = diff;
             maxHeightDiff2 = maxHeightDiff;
         }
         diff = Math
-                .abs(getHeight( l.clone().add(dis, 0, 0)) - getHeight( l.clone().add(-dis, 0, 0)));
+                .abs(getHeight(location.clone().add(distance, 0, 0)) - getHeight(location.clone().add(-distance, 0, 0)));
         if (diff > maxHeightDiff) {
             maxHeightDiff = diff;
             maxHeightDiff2 = maxHeightDiff;
         }
         diff = Math
-                .abs(getHeight( l.clone().add(0, 0, -dis)) - getHeight( l.clone().add(0, 0, dis)));
+                .abs(getHeight(location.clone().add(0, 0, -distance)) - getHeight(location.clone().add(0, 0, distance)));
         if (diff > maxHeightDiff) {
             maxHeightDiff = diff;
             maxHeightDiff2 = maxHeightDiff;
         }
 
         double height = (maxHeightDiff2 + maxHeightDiff) / 2.0;
-        return height / (double) (dis * 2);
+        return height / (double) (distance * 2);
     }
-
-    public static boolean isOnTop(Location loc, int thickness) {
-        int height = getHeight(loc.clone());
-        return height - loc.getBlockY() <= thickness;
-    }
-
 }

@@ -19,42 +19,51 @@
 package net.onelitefeather.bettergopaint.utils;
 
 import org.bukkit.Location;
-import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 
 public class Surface {
 
-    public static boolean isOnSurface(Location blockLoc, Location playerLoc) {
+    public static boolean isOnSurface(Block block, Location playerLoc) {
+
+        return block.getRelative(BlockFace.UP).isEmpty();
+
+        // keep the old logic, implement tri state surface mode
+        /*
+        Location location = block.getLocation();
+
         playerLoc.add(0, 1.5, 0);
-        double distanceX = playerLoc.getX() - blockLoc.getX();
-        double distanceY = playerLoc.getY() - blockLoc.getY();
-        double distanceZ = playerLoc.getZ() - blockLoc.getZ();
+        double distanceX = playerLoc.getX() - block.getX();
+        double distanceY = playerLoc.getY() - block.getY();
+        double distanceZ = playerLoc.getZ() - block.getZ();
         if (distanceX > 1) {
-            blockLoc.add(1, 0, 0);
+            location.add(1, 0, 0);
         } else if (distanceX > 0) {
-            blockLoc.add(0.5, 0, 0);
+            location.add(0.5, 0, 0);
         }
         if (distanceY > 1) {
-            blockLoc.add(0, 1, 0);
+            location.add(0, 1, 0);
         } else if (distanceY > 0) {
-            blockLoc.add(0, 0.5, 0);
+            location.add(0, 0.5, 0);
         }
         if (distanceZ > 1) {
-            blockLoc.add(0, 0, 1);
+            location.add(0, 0, 1);
         } else if (distanceZ > 0) {
-            blockLoc.add(0, 0, 0.5);
+            location.add(0, 0, 0.5);
         }
 
-        double distance = blockLoc.distance(playerLoc);
+        double distance = location.distance(playerLoc);
         for (int x = 1; x < distance; x++) {
             double moveX = distanceX * (x / distance);
             double moveY = distanceY * (x / distance);
             double moveZ = distanceZ * (x / distance);
-            Location checkLoc = blockLoc.clone().add(moveX, moveY, moveZ);
-            if (checkLoc.getBlock().getType() != Material.AIR) {
+            Location checkLoc = location.add(moveX, moveY, moveZ);
+            if (!checkLoc.getBlock().isEmpty()) {
                 return false;
             }
         }
         return true;
+         */
     }
 
 }

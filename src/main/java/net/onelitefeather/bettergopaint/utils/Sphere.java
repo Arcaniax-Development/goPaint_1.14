@@ -18,7 +18,7 @@
  */
 package net.onelitefeather.bettergopaint.utils;
 
-import com.cryptomorin.xseries.XMaterial;
+import org.bukkit.Axis;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 
@@ -27,30 +27,78 @@ import java.util.List;
 
 public class Sphere {
 
-    public static List<Block> getBlocksInRadius(Location middlePoint, double d) {
+    public static List<Block> getBlocksInRadius(Location middlePoint, double radius) {
         List<Block> blocks = new ArrayList<>();
-        for (Block b : getBlocksInRadiusWithAir(middlePoint, d)) {
-            if (BlockUtils.isLoaded(b.getLocation()) && (!b.getType()
-                    .equals(XMaterial.AIR.parseMaterial()))) {
-                blocks.add(b);
+        for (Block block : getBlocksInRadiusWithAir(middlePoint, radius)) {
+            if (block.getChunk().isLoaded() && !block.isEmpty()) {
+                blocks.add(block);
             }
         }
         return blocks;
     }
 
-    public static List<Block> getBlocksInRadiusWithAir(Location middlePoint, double d) {
+    public static List<Block> getBlocksInRadiusWithAir(Location middlePoint, double radius) {
         List<Block> blocks = new ArrayList<>();
-        Location loc1 = middlePoint.clone().add(-d / 2, -d / 2, -d / 2).getBlock().getLocation();
-        Location loc2 = middlePoint.clone().add(+d / 2, +d / 2, +d / 2).getBlock().getLocation();
-        for (double x = loc1.getX(); x <= loc2.getX(); x++) {
-            for (double y = loc1.getY(); y <= loc2.getY(); y++) {
-                for (double z = loc1.getZ(); z <= loc2.getZ(); z++) {
+        Location loc1 = middlePoint.clone().add(-radius / 2, -radius / 2, -radius / 2).getBlock().getLocation();
+        Location loc2 = middlePoint.clone().add(radius / 2, radius / 2, radius / 2).getBlock().getLocation();
+        for (int x = loc1.getBlockX(); x <= loc2.getBlockX(); x++) {
+            for (int y = loc1.getBlockY(); y <= loc2.getBlockY(); y++) {
+                for (int z = loc1.getBlockZ(); z <= loc2.getBlockZ(); z++) {
                     Location loc = new Location(loc1.getWorld(), x, y, z);
-                    if (loc.distance(middlePoint) < (d / 2)) {
+                    if (loc.distance(middlePoint) < (radius / 2)) {
                         blocks.add(loc.getBlock());
                     }
                 }
             }
+        }
+        return blocks;
+    }
+
+    public static List<Block> getBlocksInRadiusWithAxis(Location middlePoint, double radius, Axis axis) {
+        List<Block> blocks = new ArrayList<>();
+        Location loc1 = middlePoint.clone().add(-radius / 2, -radius / 2, -radius / 2).getBlock().getLocation();
+        Location loc2 = middlePoint.clone().add(radius / 2, radius / 2, radius / 2).getBlock().getLocation();
+
+        switch (axis) {
+            case Y:
+                for (int x = loc1.getBlockX(); x <= loc2.getBlockX(); x++) {
+                    for (int z = loc1.getBlockZ(); z <= loc2.getBlockZ(); z++) {
+                        Location loc = new Location(loc1.getWorld(), x, middlePoint.getBlockY(), z);
+                        if (!loc.getChunk().isLoaded() || loc.getBlock().isEmpty()) {
+                            continue;
+                        }
+                        if (loc.distance(middlePoint) < (radius / 2)) {
+                            blocks.add(loc.getBlock());
+                        }
+                    }
+                }
+                break;
+            case X:
+                for (int y = loc1.getBlockY(); y <= loc2.getBlockY(); y++) {
+                    for (int z = loc1.getBlockZ(); z <= loc2.getBlockZ(); z++) {
+                        Location loc = new Location(loc1.getWorld(), middlePoint.getBlockX(), y, z);
+                        if (!loc.getChunk().isLoaded() || loc.getBlock().isEmpty()) {
+                            continue;
+                        }
+                        if (loc.distance(middlePoint) < (radius / 2)) {
+                            blocks.add(loc.getBlock());
+                        }
+                    }
+                }
+                break;
+            case Z:
+                for (int x = loc1.getBlockX(); x <= loc2.getBlockX(); x++) {
+                    for (int y = loc1.getBlockY(); y <= loc2.getBlockY(); y++) {
+                        Location loc = new Location(loc1.getWorld(), x, y, middlePoint.getBlockZ());
+                        if (!loc.getChunk().isLoaded() || loc.getBlock().isEmpty()) {
+                            continue;
+                        }
+                        if (loc.distance(middlePoint) < (radius / 2)) {
+                            blocks.add(loc.getBlock());
+                        }
+                    }
+                }
+                break;
         }
         return blocks;
     }
