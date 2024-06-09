@@ -1,7 +1,6 @@
 [versions]
 minecraft = "1.20.6-R0.1-SNAPSHOT"
 intellectualsites = "1.27"
-xseries = "9.4.0"
 bstats = "3.0.2"
 cloud-minecraft = "2.0.0-beta.8"
 cloud-annotations = "2.0.0-rc.2"
@@ -12,7 +11,6 @@ fawe-bom = { group = "com.intellectualsites.bom", name = "bom-newest", version.r
 fawe-bukkit = { group = "com.fastasyncworldedit", name = "FastAsyncWorldEdit-Bukkit" }
 serverlib = { group = "dev.notmyfault.serverlib", name = "ServerLib" }
 paperlib = { group = "io.papermc", name = "paperlib" }
-xseries = { group = "com.github.cryptomorin", name = "XSeries", version.ref = "xseries" }
 bstats = { group = "org.bstats", name = "bstats-bukkit", version.ref = "bstats" }
 cloud-annotations = { group = "org.incendo", name = "cloud-annotations", version.ref = "cloud-annotations" }
 cloud-minecraft-extras = { group = "org.incendo", name = "cloud-minecraft-extras", version.ref = "cloud-minecraft" }
