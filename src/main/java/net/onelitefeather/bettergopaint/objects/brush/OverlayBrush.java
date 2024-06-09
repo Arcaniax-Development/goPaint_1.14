@@ -49,7 +49,7 @@ public class OverlayBrush extends Brush {
 
     private boolean isOverlay(Block block, int thickness) {
         for (int i = 1; i <= thickness; i++) {
-            if (block.getRelative(BlockFace.UP, i).isEmpty()) {
+            if (!block.getRelative(BlockFace.UP, i).isSolid()) {
                 return true;
             }
         }
