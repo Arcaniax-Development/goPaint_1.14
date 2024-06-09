@@ -52,11 +52,9 @@ public class PaintBrush extends Brush {
         selectedPoints.remove(player.getUniqueId());
 
         performEdit(player, session -> {
-            List<Block> blocks = Sphere.getBlocksInRadiusWithAir(locations.getFirst(), brushSettings.getSize());
+            Location first = locations.getFirst();
+            List<Block> blocks = Sphere.getBlocksInRadiusWithAir(first, brushSettings.getSize());
             for (Block block : blocks) {
-                if (!passesDefaultChecks(brushSettings, player, block)) {
-                    continue;
-                }
 
                 if (Height.getAverageHeightDiffAngle(block.getLocation(), 1) >= 0.1
                         && Height.getAverageHeightDiffAngle(block.getLocation(), brushSettings.getAngleDistance())
@@ -64,7 +62,7 @@ public class PaintBrush extends Brush {
                     continue;
                 }
 
-                double rate = (block.getLocation().distance(locations.getFirst()) - (brushSettings.getSize() / 2.0)
+                double rate = (block.getLocation().distance(first) - (brushSettings.getSize() / 2.0)
                         * ((100.0 - brushSettings.getFalloffStrength()) / 100.0)) / ((brushSettings.getSize() / 2.0)
                         - (brushSettings.getSize() / 2.0) * ((100.0 - brushSettings.getFalloffStrength()) / 100.0));
 
@@ -76,28 +74,22 @@ public class PaintBrush extends Brush {
                 newCurve.add(block.getLocation());
                 for (Location location : locations) {
                     newCurve.add(block.getLocation().clone().add(
-                            location.getX() - locations.getFirst().getX(),
-                            location.getY() - locations.getFirst().getY(),
-                            location.getZ() - locations.getFirst().getZ()
+                            location.getX() - first.getX(),
+                            location.getY() - first.getY(),
+                            location.getZ() - first.getZ()
                     ));
                 }
                 BezierSpline spline = new BezierSpline(newCurve);
                 double maxCount = (spline.getCurveLength() * 2.5) + 1;
 
                 for (int y = 0; y <= maxCount; y++) {
-                    Location location = spline
-                            .getPoint(((double) y / maxCount) * (locations.size() - 1))
-                            .getBlock().getLocation();
+                    Block point = spline.getPoint((y / maxCount) * (locations.size() - 1)).getBlock();
 
-                    if (!location.getChunk().isLoaded() || location.getBlock().isEmpty()) {
+                    if (point.isEmpty() || !passesDefaultChecks(brushSettings, player, point)) {
                         continue;
                     }
 
-                    if (!passesDefaultChecks(brushSettings, player, block)) {
-                        continue;
-                    }
-
-                    setBlock(session, location.getBlock(), brushSettings.getRandomBlock());
+                    setBlock(session, point, brushSettings.getRandomBlock());
                 }
             }
         });
