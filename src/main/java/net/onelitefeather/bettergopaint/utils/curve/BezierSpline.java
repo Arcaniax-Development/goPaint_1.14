@@ -116,11 +116,11 @@ public class BezierSpline {
         return i + segments[i].getT(blocks - current);
     }
 
-    public Location getPoint(double f) {
-        if (f >= segments.length) {
+    public Location getPoint(double point) {
+        if (point >= segments.length) {
             return getPoint(segments.length - 1, 1);
         } else {
-            return getPoint((int) Math.floor(f), f - Math.floor(f));
+            return getPoint((int) Math.floor(point), point - Math.floor(point));
         }
     }
 
