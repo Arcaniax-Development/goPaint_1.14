@@ -66,7 +66,6 @@ public class PlayerBrushManager {
     }
 
     public String getBrushLore(String name) {
-        // &eSphere Brush\n&8Spray Brush\n&8Splatter Brush\n&8Disc Brush\n&8Bucket Brush\n&8Angle Brush\n&8Overlay Brush
         StringBuilder s = new StringBuilder();
         for (Brush b : brushes) {
             if (b.getName().equalsIgnoreCase(name)) {
