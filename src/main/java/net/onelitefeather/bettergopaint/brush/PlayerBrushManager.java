@@ -55,32 +55,32 @@ public class PlayerBrushManager {
         brushes.add(new PaintBrush());
     }
 
-    public PlayerBrush getBrush(Player p) {
-        if (playerBrushes.containsKey(p.getName())) {
-            return playerBrushes.get(p.getName());
+    public PlayerBrush getBrush(Player player) {
+        if (playerBrushes.containsKey(player.getName())) {
+            return playerBrushes.get(player.getName());
         } else {
             PlayerBrush pb = new PlayerBrush(this);
-            playerBrushes.put(p.getName(), pb);
+            playerBrushes.put(player.getName(), pb);
             return pb;
         }
     }
 
     public String getBrushLore(String name) {
-        StringBuilder s = new StringBuilder();
-        for (Brush b : brushes) {
-            if (b.getName().equalsIgnoreCase(name)) {
-                s.append("&e").append(b.getName()).append("\n");
+        StringBuilder lore = new StringBuilder();
+        for (Brush brush : brushes) {
+            if (brush.getName().equalsIgnoreCase(name)) {
+                lore.append("&e").append(brush.getName()).append("\n");
             } else {
-                s.append("&8").append(b.getName()).append("\n");
+                lore.append("&8").append(brush.getName()).append("\n");
             }
         }
-        return s.substring(0, s.length());
+        return lore.substring(0, lore.length());
     }
 
     public Brush getBrushHandler(String name) {
-        for (Brush b : brushes) {
-            if (b.getName().equalsIgnoreCase(name)) {
-                return b;
+        for (Brush brush : brushes) {
+            if (brush.getName().equalsIgnoreCase(name)) {
+                return brush;
             }
         }
         return brushes.getFirst();
@@ -105,11 +105,11 @@ public class PlayerBrushManager {
         return brushes.getFirst();
     }
 
-    public Brush cycleBack(Brush b) {
-        if (b == null) {
+    public Brush cycleBack(Brush brush) {
+        if (brush == null) {
             return brushes.getFirst();
         }
-        int back = brushes.indexOf(b) - 1;
+        int back = brushes.indexOf(brush) - 1;
         if (back >= 0) {
             return brushes.get(back);
         }
