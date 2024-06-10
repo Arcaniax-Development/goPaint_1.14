@@ -84,7 +84,7 @@ public class PlayerBrush implements BrushSettings {
         falloffStrength = 50;
         mixingStrength = 50;
         axis = Axis.Y;
-        brush = brushManager.cycle(null);
+        brush = brushManager.cycleForward(null);
         size = Settings.settings().GENERIC.DEFAULT_SIZE;
         blocks.add(Material.STONE);
         mask = Material.SPONGE;
@@ -232,7 +232,7 @@ public class PlayerBrush implements BrushSettings {
     }
 
     public void cycleBrush() {
-        brush = brushManager.cycle(brush);
+        brush = brushManager.cycleForward(brush);
         updateInventory();
     }
 

@@ -95,7 +95,7 @@ public class PlayerBrushManager {
         playerBrushes.remove(player.getName());
     }
 
-    public Brush cycle(Brush brush) {
+    public Brush cycleForward(Brush brush) {
         if (brush == null) {
             return brushes.getFirst();
         }
