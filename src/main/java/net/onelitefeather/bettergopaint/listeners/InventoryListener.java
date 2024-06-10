@@ -41,7 +41,7 @@ import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryAction;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
-public class InventoryListener implements Listener {
+public final class InventoryListener implements Listener {
 
     private final BetterGoPaint plugin;
 
