@@ -29,29 +29,30 @@ import java.util.List;
 
 public class AngleBrush extends Brush {
 
+    private static final String HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNmRlNDQ4ZjBkYmU3NmJiOGE4MzJjOGYzYjJhMDNkMzViZDRlMjc4NWZhNWU4Mjk4YzI2MTU1MDNmNDdmZmEyIn19fQ==";
+    @Override
+    public String getHead() {
+        return HEAD;
+    }
+
     @Override
     public void paint(final Location location, final Player player, final BrushSettings brushSettings) {
         performEdit(player, session -> {
-            List<Block> blocks = Sphere.getBlocksInRadius(location, brushSettings.getSize());
+            List<Block> blocks = Sphere.getBlocksInRadius(location, brushSettings.size());
             for (Block block : blocks) {
                 if (!passesDefaultChecks(brushSettings, player, block)) {
                     continue;
                 }
 
                 if (Height.getAverageHeightDiffAngle(block.getLocation(), 1) >= 0.1
-                        && Height.getAverageHeightDiffAngle(block.getLocation(), brushSettings.getAngleDistance())
-                        >= Math.tan(Math.toRadians(brushSettings.getAngleHeightDifference()))) {
+                        && Height.getAverageHeightDiffAngle(block.getLocation(), brushSettings.angleDistance())
+                        >= Math.tan(Math.toRadians(brushSettings.angleHeightDifference()))) {
                     continue;
                 }
 
-                setBlock(session, block, brushSettings.getRandomBlock());
+                setBlock(session, block, brushSettings.randomBlock());
             }
         });
-    }
-
-    @Override
-    public String getName() {
-        return "Angle Brush";
     }
 
 }

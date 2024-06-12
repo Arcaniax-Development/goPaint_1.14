@@ -38,6 +38,7 @@ import java.util.function.Consumer;
 public abstract class Brush {
 
     public abstract void paint(Location location, Player player, BrushSettings brushSettings);
+    public abstract String getHead();
 
     public abstract String getName();
 
