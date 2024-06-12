@@ -32,7 +32,7 @@ public class Surface {
      * @return true if the block is on the surface, false otherwise
      */
     public static boolean isDirectlyOnSurface(Block block) {
-        return !block.isEmpty() && block.getRelative(BlockFace.UP).isEmpty();
+        return block.isSolid() && !block.getRelative(BlockFace.UP).isSolid();
     }
 
     /**
