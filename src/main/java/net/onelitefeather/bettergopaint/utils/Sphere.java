@@ -83,7 +83,7 @@ public class Sphere {
     }
 
     private static boolean passesDefaultChecks(Location location, Location middlePoint, int radius) {
-        return location.getChunk().isLoaded() && location.distance(middlePoint) < radius / 2d;
+        return location.distance(middlePoint) < radius / 2d;
     }
 
 }
