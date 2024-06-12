@@ -130,7 +130,7 @@ public abstract class Brush {
      * @return true if the block passes the surface check, false otherwise.
      */
     protected boolean passesSurfaceCheck(@NotNull BrushSettings brushSettings, @NotNull Player player, @NotNull Block block) {
-        return Surface.isOnSurface(block, brushSettings, player.getLocation());
+        return Surface.isOnSurface(block, brushSettings.surfaceMode(), player.getLocation());
     }
 
     /**
