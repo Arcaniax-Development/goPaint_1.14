@@ -24,7 +24,7 @@ import com.sk89q.worldedit.MaxChangedBlocksException;
 import com.sk89q.worldedit.WorldEdit;
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldedit.bukkit.BukkitPlayer;
-import com.sk89q.worldedit.math.Vector3;
+import com.sk89q.worldedit.math.BlockVector3;
 import net.onelitefeather.bettergopaint.brush.BrushSettings;
 import net.onelitefeather.bettergopaint.utils.Surface;
 import org.bukkit.Location;
@@ -84,15 +84,10 @@ public abstract class Brush {
             @NotNull Block block,
             @NotNull Material material
     ) throws MaxChangedBlocksException {
-
-        Vector3 v = Vector3.at(block.getX(), block.getY(), block.getZ());
-        if (session.getMask() != null && !session.getMask().test(v.toBlockPoint())) {
-            return;
+        BlockVector3 vector = BlockVector3.at(block.getX(), block.getY(), block.getZ());
+        if (session.getMask() == null || session.getMask().test(vector)) {
+            session.setBlock(vector, BukkitAdapter.asBlockType(material));
         }
-        session.setBlock(
-                block.getX(), block.getY(), block.getZ(),
-                BukkitAdapter.asBlockType(material)
-        );
     }
 
     /**
