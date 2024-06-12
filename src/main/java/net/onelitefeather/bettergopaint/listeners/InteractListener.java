@@ -113,7 +113,9 @@ public final class InteractListener implements Listener {
         }
 
         if (brushSettings.enabled()) {
-            BukkitAdapter.adapt(player).runAsyncIfFree(() -> brushSettings.brush().paint(location, player, brushSettings));
+            BukkitAdapter.adapt(player).runAction(
+                    () -> brushSettings.brush().paint(location, player, brushSettings), false, true
+            );
         } else {
             player.sendRichMessage(
                     Settings.settings().GENERIC.PREFIX + "<red>Your brush is disabled, left click to enable the brush."
