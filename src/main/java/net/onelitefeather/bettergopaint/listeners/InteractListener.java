@@ -52,7 +52,7 @@ public final class InteractListener implements Listener {
     public void onClick(PlayerInteractEvent event) {
         Player player = event.getPlayer();
 
-        if (!player.hasPermission("bettergopaint.use")) {
+        if (!player.hasPermission(BetterGoPaint.USE_PERMISSION)) {
             return;
         }
 
@@ -85,7 +85,7 @@ public final class InteractListener implements Listener {
             return;
         }
 
-        if (!player.hasPermission("bettergopaint.world.bypass") && Settings.settings().GENERIC.DISABLED_WORLDS
+        if (!player.hasPermission(BetterGoPaint.WORLD_BYPASS_PERMISSION) && Settings.settings().GENERIC.DISABLED_WORLDS
                 .contains(location.getWorld().getName())) {
             return;
         }

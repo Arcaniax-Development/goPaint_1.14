@@ -51,6 +51,11 @@ public class BetterGoPaint extends JavaPlugin implements Listener {
 
     public static final @NotNull String PAPER_DOCS = "https://jd.papermc.io/paper/1.20.6/org/bukkit/Material.html#enum-constant-summary";
 
+    public static final @NotNull String USE_PERMISSION = "bettergopaint.use";
+    public static final @NotNull String ADMIN_PERMISSION = "bettergopaint.admin";
+    public static final @NotNull String RELOAD_PERMISSION = "bettergopaint.command.admin.reload";
+    public static final @NotNull String WORLD_BYPASS_PERMISSION = "bettergopaint.world.bypass";
+
     private final @NotNull PlayerBrushManager brushManager = new PlayerBrushManager();
     private final @NotNull Metrics metrics = new Metrics(this, 18734);
 

@@ -50,12 +50,12 @@ public class GoPaintCommand extends Command implements PluginIdentifiableCommand
         }
         PlayerBrush pb = plugin.getBrushManager().getBrush(p);
         String prefix = Settings.settings().GENERIC.PREFIX;
-        if (!p.hasPermission("bettergopaint.use")) {
+        if (!p.hasPermission(BetterGoPaint.USE_PERMISSION)) {
             p.sendRichMessage(prefix + "<red>You are lacking the permission bettergopaint.use");
             return true;
         }
         if (args.length == 0) {
-            if (p.hasPermission("bettergopaint.admin")) {
+            if (p.hasPermission(BetterGoPaint.ADMIN_PERMISSION)) {
                 p.sendRichMessage(prefix + "<red>/gp size<gray>|<red>toggle<gray>|<red>info<gray>|<red>reload");
                 return true;
             }
@@ -75,7 +75,7 @@ public class GoPaintCommand extends Command implements PluginIdentifiableCommand
                 }
                 return true;
             } else if ((args[0].equalsIgnoreCase("reload") || args[0].equalsIgnoreCase("r")) && p.hasPermission(
-                    "bettergopaint.admin")) {
+                    BetterGoPaint.ADMIN_PERMISSION)) {
                 plugin.reloadConfig();
                 p.sendRichMessage(prefix + "<green>Reloaded");
                 return true;
@@ -84,7 +84,7 @@ public class GoPaintCommand extends Command implements PluginIdentifiableCommand
                 p.sendRichMessage(prefix + "<aqua>Links: <gold><click:open_url:https://twitter.com/themeinerlp'><u>Twitter</u></click>");
                 return true;
             }
-            if (p.hasPermission("bettergopaint.admin")) {
+            if (p.hasPermission(BetterGoPaint.ADMIN_PERMISSION)) {
                 p.sendRichMessage(prefix + "<red>/gp size<gray>|<red>toggle<gray>|<red>info<gray>|<red>reload");
                 return true;
             }
@@ -102,7 +102,7 @@ public class GoPaintCommand extends Command implements PluginIdentifiableCommand
                     return true;
                 }
             }
-            if (p.hasPermission("bettergopaint.admin")) {
+            if (p.hasPermission(BetterGoPaint.ADMIN_PERMISSION)) {
                 p.sendRichMessage(prefix + "<red>/gp size<gray>|<red>toggle<gray>|<red>info<gray>|<red>reload");
                 return true;
             }
