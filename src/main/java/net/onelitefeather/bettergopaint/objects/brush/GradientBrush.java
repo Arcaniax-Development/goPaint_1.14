@@ -28,6 +28,7 @@ import java.util.List;
 
 public class GradientBrush extends Brush {
 
+    private static final String DESCRIPTION = "Creates gradients";
     private static final String HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNjA2MmRhM2QzYjhmMWZkMzUzNDNjYzI3OWZiMGZlNWNmNGE1N2I1YWJjNDMxZmJiNzhhNzNiZjJhZjY3NGYifX19";
     private static final String NAME = "Gradient Brush";
 

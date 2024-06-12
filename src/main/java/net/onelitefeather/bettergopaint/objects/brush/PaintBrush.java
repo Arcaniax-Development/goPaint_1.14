@@ -35,6 +35,7 @@ import java.util.UUID;
 
 public class PaintBrush extends Brush {
 
+    private static final String DESCRIPTION = "Paints strokes\n&8hold shift to end";
     private static final String HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODBiM2E5ZGZhYmVmYmRkOTQ5YjIxN2JiZDRmYTlhNDg2YmQwYzNmMGNhYjBkMGI5ZGZhMjRjMzMyZGQzZTM0MiJ9fX0=";
     private static final String NAME = "Paint Brush";
 

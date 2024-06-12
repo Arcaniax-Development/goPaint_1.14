@@ -29,6 +29,7 @@ import java.util.List;
 
 public class AngleBrush extends Brush {
 
+    private static final String DESCRIPTION = "Only works on cliffs";
     private static final String HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNmRlNDQ4ZjBkYmU3NmJiOGE4MzJjOGYzYjJhMDNkMzViZDRlMjc4NWZhNWU4Mjk4YzI2MTU1MDNmNDdmZmEyIn19fQ==";
     private static final String NAME = "Angle Brush";
 

@@ -30,6 +30,7 @@ import java.util.Set;
 
 public class BucketBrush extends Brush {
 
+    private static final String DESCRIPTION = "Paints connected blocks\n&8with the same block type";
     private static final String HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTAxOGI0NTc0OTM5Nzg4YTJhZDU1NTJiOTEyZDY3ODEwNjk4ODhjNTEyMzRhNGExM2VhZGI3ZDRjOTc5YzkzIn19fQ==";
     private static final String NAME = "Bucket Brush";
 
