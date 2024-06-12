@@ -25,7 +25,12 @@ import org.bukkit.block.BlockFace;
 
 public class Surface {
 
-    public static boolean isOnSurface(Block block, Location playerLoc) {
+    /**
+     * Checks if the given block is on the surface.
+     *
+     * @param block the block to check
+     * @return true if the block is on the surface, false otherwise
+     */
     public static boolean isDirectlyOnSurface(Block block) {
         return !block.isEmpty() && block.getRelative(BlockFace.UP).isEmpty();
     }

@@ -20,9 +20,11 @@ package net.onelitefeather.bettergopaint.brush;
 
 import net.kyori.adventure.text.TextComponent;
 import net.onelitefeather.bettergopaint.objects.brush.Brush;
+import net.onelitefeather.bettergopaint.objects.other.SurfaceMode;
 import org.bukkit.Axis;
 import org.bukkit.Material;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
@@ -33,22 +35,60 @@ import java.util.Random;
 
 public interface BrushSettings {
 
+    /**
+     * Returns the axis used by the brush settings.
+     *
+     * @return the axis used by the brush settings
+     */
     @NotNull
     Axis axis();
 
+    /**
+     * Returns the brush used by the brush settings.
+     *
+     * @return The brush used by the brush settings.
+     */
     @NotNull
     Brush brush();
 
+    /**
+     * Returns the list of blocks used by the brush settings.
+     *
+     * @return the list of blocks used by the brush settings
+     */
     @NotNull
     List<Material> blocks();
 
+    /**
+     * Retrieves the mask material used by the brush settings.
+     *
+     * @return The mask material.
+     * @deprecated the mask-material is going to be replaced with a WorldEdit Mask
+     */
     @NotNull
+    @Deprecated(since = "1.1.0-SNAPSHOT")
+    @ApiStatus.ScheduledForRemoval(inVersion = "1.2.0")
     Material mask();
 
+    /**
+     * Checks if the brush is enabled.
+     *
+     * @return true if the brush is enabled, false otherwise
+     */
     boolean enabled();
 
+    /**
+     * Checks if the mask is enabled.
+     *
+     * @return true if the mask is enabled, false otherwise.
+     */
     boolean maskEnabled();
 
+    /**
+     * Returns the surface mode used by the brush settings.
+     *
+     * @return The surface mode used by the brush settings.
+     */
     SurfaceMode surfaceMode();
 
     double angleHeightDifference();
