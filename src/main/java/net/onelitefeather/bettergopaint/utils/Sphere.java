@@ -21,6 +21,7 @@ package net.onelitefeather.bettergopaint.utils;
 import org.bukkit.Axis;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -38,7 +39,7 @@ public class Sphere {
      * @param air         Whether air blocks should be included.
      * @return A stream of blocks within the specified radius.
      */
-    public static Stream<Block> getBlocksInRadius(Location middlePoint, int radius, @Nullable Axis axis, boolean air) {
+    public static Stream<Block> getBlocksInRadius(@NotNull Location middlePoint, int radius, @Nullable Axis axis, boolean air) {
         List<Block> blocks = new ArrayList<>();
         Location loc1 = middlePoint.clone().add(-radius / 2d, -radius / 2d, -radius / 2d).getBlock().getLocation();
         Location loc2 = middlePoint.clone().add(radius / 2d, radius / 2d, radius / 2d).getBlock().getLocation();
@@ -91,7 +92,7 @@ public class Sphere {
         return blocks.stream().filter(block -> !block.isEmpty());
     }
 
-    private static boolean passesDefaultChecks(Location location, Location middlePoint, int radius) {
+    private static boolean passesDefaultChecks(@NotNull Location location, @NotNull Location middlePoint, int radius) {
         return location.distance(middlePoint) < radius / 2d;
     }
 

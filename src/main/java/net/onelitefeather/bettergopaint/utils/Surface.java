@@ -22,6 +22,7 @@ import net.onelitefeather.bettergopaint.objects.other.SurfaceMode;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.jetbrains.annotations.NotNull;
 
 public class Surface {
 
@@ -31,7 +32,7 @@ public class Surface {
      * @param block the block to check
      * @return true if the block is on the surface, false otherwise
      */
-    public static boolean isDirectlyOnSurface(Block block) {
+    public static boolean isDirectlyOnSurface(@NotNull Block block) {
         return block.isSolid() && !block.getRelative(BlockFace.UP).isSolid();
     }
 
@@ -42,7 +43,7 @@ public class Surface {
      * @param playerLoc the player's location
      * @return true if the block is on the surface from the player's location, false otherwise
      */
-    public static boolean isRelativelyOnSurface(Block block, Location playerLoc) {
+    public static boolean isRelativelyOnSurface(@NotNull Block block, @NotNull Location playerLoc) {
         Location location = block.getLocation();
 
         playerLoc.add(0, 1.5, 0);
@@ -81,12 +82,12 @@ public class Surface {
     /**
      * Checks if a given block is on the surface based on the specified surface mode and location.
      *
-     * @param block        the block to check
-     * @param surfaceMode  the surface mode to use for the check
-     * @param location     the location to use for the check
+     * @param block       the block to check
+     * @param surfaceMode the surface mode to use for the check
+     * @param location    the location to use for the check
      * @return true if the block is on the surface based on the surface mode and location, false otherwise
      */
-    public static boolean isOnSurface(Block block, SurfaceMode surfaceMode, Location location) {
+    public static boolean isOnSurface(@NotNull Block block, @NotNull SurfaceMode surfaceMode, @NotNull Location location) {
         return switch (surfaceMode) {
             case RELATIVE -> isRelativelyOnSurface(block, location);
             case DIRECT -> isDirectlyOnSurface(block);

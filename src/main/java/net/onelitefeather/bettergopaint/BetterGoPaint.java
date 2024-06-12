@@ -39,6 +39,7 @@ import org.incendo.cloud.bukkit.CloudBukkitCapabilities;
 import org.incendo.cloud.execution.ExecutionCoordinator;
 import org.incendo.cloud.paper.LegacyPaperCommandManager;
 import org.incendo.serverlib.ServerLib;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
@@ -47,8 +48,8 @@ import java.util.logging.Level;
 
 public class BetterGoPaint extends JavaPlugin implements Listener {
 
-    private final PlayerBrushManager brushManager = new PlayerBrushManager();
-    private final Metrics metrics = new Metrics(this, 18734);
+    private final @NotNull PlayerBrushManager brushManager = new PlayerBrushManager();
+    private final @NotNull Metrics metrics = new Metrics(this, 18734);
 
     @Override
     public void onLoad() {
@@ -131,7 +132,7 @@ public class BetterGoPaint extends JavaPlugin implements Listener {
         }
     }
 
-    public PlayerBrushManager getBrushManager() {
+    public @NotNull PlayerBrushManager getBrushManager() {
         return brushManager;
     }
 

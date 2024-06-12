@@ -19,14 +19,15 @@
 package net.onelitefeather.bettergopaint.utils;
 
 import org.bukkit.Location;
+import org.jetbrains.annotations.NotNull;
 
 public class Height {
 
-    public static int getHeight(Location location) {
+    public static int getHeight(@NotNull Location location) {
         return location.getWorld().getHighestBlockYAt(location);
     }
 
-    public static double getAverageHeightDiffFracture(Location location, int height, int distance) {
+    public static double getAverageHeightDiffFracture(@NotNull Location location, int height, int distance) {
         double totalHeight = 0;
         totalHeight += Math.abs(getHeight(location.clone().add(distance, 0, -distance))) - height;
         totalHeight += Math.abs(getHeight(location.clone().add(distance, 0, distance))) - height;
@@ -39,7 +40,7 @@ public class Height {
         return (totalHeight / 8d) / distance;
     }
 
-    public static double getAverageHeightDiffAngle(Location location, int distance) {
+    public static double getAverageHeightDiffAngle(@NotNull Location location, int distance) {
         double maxHeightDiff = 0;
         double maxHeightDiff2 = 0;
         double diff = Math.abs(getHeight(location.clone().add(distance, 0, -distance)) - getHeight(location.clone()
