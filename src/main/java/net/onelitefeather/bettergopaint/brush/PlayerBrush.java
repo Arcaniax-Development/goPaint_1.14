@@ -398,6 +398,7 @@ public final class PlayerBrush implements BrushSettings {
 
     public void export(ItemStack itemStack) {
         List<String> lore = new ArrayList<>();
+        lore.add("");
         lore.add("Size: " + size);
         if (brush() instanceof SprayBrush) {
             lore.add("Chance: " + chance() + "%");
