@@ -26,7 +26,7 @@ import org.bukkit.Material;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -94,11 +94,11 @@ public record ExportedPlayerBrush(
 
         private final @NotNull Brush brush;
 
-        private @Nullable Material mask;
-        private @NotNull List<Material> blocks = new ArrayList<>();
+        private @NotNull List<Material> blocks = Collections.emptyList();
+        private @NotNull Axis axis = Settings.settings().GENERIC.DEFAULT_AXIS;
+        private @NotNull SurfaceMode surfaceMode = SurfaceMode.DISABLED;
 
-        private @NotNull Axis axis = Axis.Y; // todo: configurable default
-        private @NotNull SurfaceMode surfaceMode = Settings.settings().GENERIC.SURFACE_MODE;
+        private @Nullable Material mask;
 
         private int size;
         private int chance;

@@ -83,13 +83,13 @@ public final class PlayerBrush implements BrushSettings {
         fractureDistance = Settings.settings().FRACTURE.DEFAULT_FRACTURE_DISTANCE;
         angleDistance = Settings.settings().ANGLE.DEFAULT_ANGLE_DISTANCE;
         angleHeightDifference = Settings.settings().ANGLE.DEFAULT_ANGLE_HEIGHT_DIFFERENCE;
-        falloffStrength = 50;
-        mixingStrength = 50;
-        axis = Axis.Y;
-        brush = brushManager.cycleForward(null);
+        falloffStrength = Settings.settings().GENERIC.DEFAULT_FALLOFF_STRENGTH;
+        mixingStrength = Settings.settings().GENERIC.DEFAULT_MIXING_STRENGTH;
+        axis = Settings.settings().GENERIC.DEFAULT_AXIS;
         size = Settings.settings().GENERIC.DEFAULT_SIZE;
+        mask = Settings.settings().GENERIC.DEFAULT_MASK;
+        brush = brushManager.cycleForward(null);
         blocks.add(Material.STONE);
-        mask = Material.SPONGE;
         gui = GUI.create(this);
     }
 

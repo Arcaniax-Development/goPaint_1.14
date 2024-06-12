@@ -20,6 +20,8 @@ package net.onelitefeather.bettergopaint.objects.other;
 
 import com.fastasyncworldedit.core.configuration.Config;
 import net.onelitefeather.bettergopaint.BetterGoPaint;
+import org.bukkit.Axis;
+import org.bukkit.Material;
 
 import java.io.File;
 import java.io.IOException;
@@ -65,6 +67,12 @@ public final class Settings extends Config {
         public int DEFAULT_SIZE = 10;
         @Comment("Default chance for some brushes")
         public int DEFAULT_CHANCE = 50;
+        @Comment({"Default axis for disc brush", "Possible values: X, Y, Z"})
+        public Axis DEFAULT_AXIS = Axis.Y;
+        @Comment("Default paint falloff strength")
+        public int DEFAULT_FALLOFF_STRENGTH = 50;
+        @Comment("Default paint mixing strength")
+        public int DEFAULT_MIXING_STRENGTH = 50;
         @Comment("Prefix of the plugin")
         public String PREFIX = "<aqua>BetterGoPaint > </aqua>";
         @Comment("World there are disabled to used brushes")
@@ -76,7 +84,13 @@ public final class Settings extends Config {
         @Comment("Enables mask usage by default")
         public boolean MASK_ENABLED = true;
 
-        @Comment({"direct surface mode usage by default", "Possible values: DIRECT, DISABLED, RELATIVE"})
+        @Comment({
+                "Default mask to apply",
+                "Possible values: https://jd.papermc.io/paper/1.20.6/org/bukkit/Material.html#enum-constant-summary"
+        })
+        public Material DEFAULT_MASK = Material.SPONGE;
+
+        @Comment({"Direct surface mode usage by default", "Possible values: DIRECT, DISABLED, RELATIVE"})
         public SurfaceMode SURFACE_MODE = SurfaceMode.DIRECT;
 
     }
