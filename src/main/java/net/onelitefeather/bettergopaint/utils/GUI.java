@@ -198,21 +198,7 @@ public class GUI {
         }
 
         // Surface Mode toggle
-        if (playerBrush.surfaceMode()) {
-            inv.setItem(7, Items.create(Material.LIME_STAINED_GLASS_PANE, 1, "&7", ""));
-            inv.setItem(16, Items.create(Material.LIGHT_WEIGHTED_PRESSURE_PLATE, 1,
-                    "&6Surface Mode",
-                    "&a&lEnabled\n\n&7Click to toggle"
-            ));
-            inv.setItem(25, Items.create(Material.LIME_STAINED_GLASS_PANE, 1, "&7", ""));
-        } else {
-            inv.setItem(7, Items.create(Material.RED_STAINED_GLASS_PANE, 1, "&7", ""));
-            inv.setItem(16, Items.create(Material.LIGHT_WEIGHTED_PRESSURE_PLATE, 1,
-                    "&6Surface Mode",
-                    "&c&lDisabled\n\n&7Click to toggle"
-            ));
-            inv.setItem(25, Items.create(Material.RED_STAINED_GLASS_PANE, 1, "&7", ""));
-        }
+        addSurfaceModeSwitch(inv, playerBrush);
 
         // Place Block
         for (int x = 37; x <= 41; x++) {
@@ -242,6 +228,26 @@ public class GUI {
         // Mask Block
         inv.setItem(43, Items.create(Material.YELLOW_STAINED_GLASS_PANE, 1, "&7", ""));
         inv.setItem(52, Items.create(playerBrush.mask(), 1, "&6Current Mask", "\n&7Left click with a block to change"));
+    }
+
+    private static void addSurfaceModeSwitch(Inventory inv, PlayerBrush playerBrush) {
+        Material pane = switch (playerBrush.surfaceMode()) {
+            case DIRECT -> Material.LIME_STAINED_GLASS_PANE;
+            case DISABLED -> Material.RED_STAINED_GLASS_PANE;
+            case RELATIVE -> Material.ORANGE_STAINED_GLASS_PANE;
+        };
+        String color = switch (playerBrush.surfaceMode()) {
+            case DIRECT -> "&a";
+            case DISABLED -> "&c";
+            case RELATIVE -> "&6";
+        };
+
+        inv.setItem(7, Items.create(pane, 1, "&7", ""));
+        inv.setItem(16, Items.create(Material.LIGHT_WEIGHTED_PRESSURE_PLATE, 1,
+                "&6Surface Mode",
+                color + "&l" + playerBrush.surfaceMode().getName() + "\n\n&7Click to toggle"
+        ));
+        inv.setItem(25, Items.create(pane, 1, "&7", ""));
     }
 
 }

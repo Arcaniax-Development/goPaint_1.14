@@ -157,7 +157,7 @@ public final class InventoryListener implements Listener {
                 pb.toggleMask();
                 e.setCancelled(true);
             } else if (e.getRawSlot() == 16 || e.getRawSlot() == 7 || e.getRawSlot() == 25) {
-                pb.toggleSurfaceMode();
+                pb.cycleSurfaceMode();
                 e.setCancelled(true);
             } else if ((e.getRawSlot() >= 37 && e.getRawSlot() <= 41) || (e.getRawSlot() >= 46 && e.getRawSlot() <= 50)) {
                 int slot;

@@ -18,6 +18,7 @@
  */
 package net.onelitefeather.bettergopaint.utils;
 
+import net.onelitefeather.bettergopaint.brush.BrushSettings;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -25,11 +26,18 @@ import org.bukkit.block.BlockFace;
 public class Surface {
 
     public static boolean isOnSurface(Block block, Location playerLoc) {
+    public static boolean isDirectlyOnSurface(Block block) {
+        return !block.isEmpty() && block.getRelative(BlockFace.UP).isEmpty();
+    }
 
-        return !block.getRelative(BlockFace.UP).isSolid();
-
-        // keep the old logic, implement tri state surface mode
-        /*
+    /**
+     * Checks if a block is on the surface, taking into account the player's location.
+     *
+     * @param block     the block to check if the player is near
+     * @param playerLoc the player's location
+     * @return true if the block is on the surface from the player's location, false otherwise
+     */
+    public static boolean isRelativelyOnSurface(Block block, Location playerLoc) {
         Location location = block.getLocation();
 
         playerLoc.add(0, 1.5, 0);
@@ -63,7 +71,14 @@ public class Surface {
             }
         }
         return true;
-         */
+    }
+
+    public static boolean isOnSurface(Block block, BrushSettings brushSettings, Location location) {
+        return switch (brushSettings.surfaceMode()) {
+            case RELATIVE -> isRelativelyOnSurface(block, location);
+            case DIRECT -> isDirectlyOnSurface(block);
+            case DISABLED -> true;
+        };
     }
 
 }

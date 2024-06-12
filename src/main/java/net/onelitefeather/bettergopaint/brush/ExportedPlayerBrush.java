@@ -19,6 +19,8 @@
 package net.onelitefeather.bettergopaint.brush;
 
 import net.onelitefeather.bettergopaint.objects.brush.Brush;
+import net.onelitefeather.bettergopaint.objects.other.Settings;
+import net.onelitefeather.bettergopaint.objects.other.SurfaceMode;
 import org.bukkit.Axis;
 import org.bukkit.Material;
 import org.jetbrains.annotations.NotNull;
@@ -33,7 +35,7 @@ public record ExportedPlayerBrush(
         @Nullable Material mask,
         @NotNull List<Material> blocks,
         @NotNull Axis axis,
-        boolean surfaceMode,
+        SurfaceMode surfaceMode,
         int size,
         int chance,
         int thickness,
@@ -96,8 +98,8 @@ public record ExportedPlayerBrush(
         private @NotNull List<Material> blocks = new ArrayList<>();
 
         private @NotNull Axis axis = Axis.Y; // todo: configurable default
+        private @NotNull SurfaceMode surfaceMode = Settings.settings().GENERIC.SURFACE_MODE;
 
-        private boolean surfaceMode;
         private int size;
         private int chance;
         private int thickness;
@@ -111,7 +113,7 @@ public record ExportedPlayerBrush(
             this.brush = brush;
         }
 
-        public @NotNull Builder surfaceMode(boolean surfaceMode) {
+        public @NotNull Builder surfaceMode(SurfaceMode surfaceMode) {
             this.surfaceMode = surfaceMode;
             return this;
         }

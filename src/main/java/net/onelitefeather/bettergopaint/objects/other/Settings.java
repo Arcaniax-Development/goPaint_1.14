@@ -76,8 +76,8 @@ public final class Settings extends Config {
         @Comment("Enables mask usage by default")
         public boolean MASK_ENABLED = true;
 
-        @Comment("Enables surface mode usage by default")
-        public boolean SURFACE_MODE = true;
+        @Comment({"direct surface mode usage by default", "Possible values: DIRECT, DISABLED, RELATIVE"})
+        public SurfaceMode SURFACE_MODE = SurfaceMode.DIRECT;
 
     }
 

@@ -49,7 +49,7 @@ public interface BrushSettings {
 
     boolean maskEnabled();
 
-    boolean surfaceMode();
+    SurfaceMode surfaceMode();
 
     double angleHeightDifference();
 
@@ -108,8 +108,9 @@ public interface BrushSettings {
                                             .toList());
                                 } else if (string.startsWith("Mask: ")) {
                                     builder.mask(Material.matchMaterial(string.replace("Mask: ", "")));
-                                } else if (string.startsWith("Surface Mode")) {
-                                    builder.surfaceMode(true);
+                                } else if (string.startsWith("Surface Mode: ")) {
+                                    SurfaceMode.byName(string.replace("Surface Mode: ", ""))
+                                            .ifPresent(builder::surfaceMode);
                                 }
                             }));
                     return builder;

@@ -32,6 +32,7 @@ import net.onelitefeather.bettergopaint.objects.brush.SplatterBrush;
 import net.onelitefeather.bettergopaint.objects.brush.SprayBrush;
 import net.onelitefeather.bettergopaint.objects.brush.UnderlayBrush;
 import net.onelitefeather.bettergopaint.objects.other.Settings;
+import net.onelitefeather.bettergopaint.objects.other.SurfaceMode;
 import net.onelitefeather.bettergopaint.utils.GUI;
 import org.bukkit.Axis;
 import org.bukkit.Material;
@@ -52,7 +53,6 @@ public final class PlayerBrush implements BrushSettings {
     private final @NotNull PlayerBrushManager brushManager;
     private final @NotNull Random random = new Random();
 
-    private boolean surfaceMode;
     private boolean maskEnabled;
     private boolean enabled;
     private int size;
@@ -64,6 +64,7 @@ public final class PlayerBrush implements BrushSettings {
     private int mixingStrength;
     private double angleHeightDifference;
     private @NotNull Axis axis;
+    private @NotNull SurfaceMode surfaceMode;
 
     private @NotNull Brush brush;
     private @NotNull Material mask;
@@ -165,7 +166,7 @@ public final class PlayerBrush implements BrushSettings {
     }
 
     @Override
-    public boolean surfaceMode() {
+    public SurfaceMode surfaceMode() {
         return surfaceMode;
     }
 
@@ -377,8 +378,12 @@ public final class PlayerBrush implements BrushSettings {
         updateInventory();
     }
 
-    public void toggleSurfaceMode() {
-        surfaceMode = !surfaceMode;
+    public void cycleSurfaceMode() {
+        surfaceMode = switch (surfaceMode) {
+            case DIRECT -> SurfaceMode.RELATIVE;
+            case RELATIVE -> SurfaceMode.DISABLED;
+            case DISABLED -> SurfaceMode.DIRECT;
+        };
         updateInventory();
     }
 
@@ -419,8 +424,8 @@ public final class PlayerBrush implements BrushSettings {
         if (maskEnabled()) {
             lore.add("Mask: " + mask().getKey().asMinimalString());
         }
-        if (surfaceMode()) {
-            lore.add("Surface Mode");
+        if (!surfaceMode().equals(SurfaceMode.DISABLED)) {
+            lore.add("Surface Mode: " + surfaceMode.getName());
         }
 
         itemStack.editMeta(itemMeta -> {
