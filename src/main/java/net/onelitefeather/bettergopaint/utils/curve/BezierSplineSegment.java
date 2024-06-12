@@ -43,7 +43,7 @@ public class BezierSplineSegment {
         return curveLength;
     }
 
-    public void setX(Double xflat2) {
+    public void setX(double xflat2) {
         p0.setX(xflat2);
         p1.setX(xflat2);
         p2.setX(xflat2);
@@ -51,7 +51,7 @@ public class BezierSplineSegment {
         xFlat = xflat2;
     }
 
-    public void setY(Double yflat2) {
+    public void setY(double yflat2) {
         p0.setY(yflat2);
         p1.setY(yflat2);
         p2.setY(yflat2);
@@ -59,7 +59,7 @@ public class BezierSplineSegment {
         yFlat = yflat2;
     }
 
-    public void setZ(Double zflat2) {
+    public void setZ(double zflat2) {
         p0.setZ(zflat2);
         p1.setZ(zflat2);
         p2.setZ(zflat2);
@@ -138,7 +138,7 @@ public class BezierSplineSegment {
         int i = 0;
         for (i = 0; i < 20; i++) {
             if (d == lengths[i]) {
-                return i / 19;
+                return i / 19d;
             }
             if (d < lengths[i]) {
                 break;
