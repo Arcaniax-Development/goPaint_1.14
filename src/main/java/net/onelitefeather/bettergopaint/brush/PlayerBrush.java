@@ -43,6 +43,7 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -51,7 +52,7 @@ import java.util.stream.Collectors;
 public final class PlayerBrush implements BrushSettings {
 
     private final @NotNull PlayerBrushManager brushManager;
-    private final @NotNull Random random = new Random();
+    private final @NotNull Random random = new SecureRandom();
 
     private boolean maskEnabled;
     private boolean enabled;

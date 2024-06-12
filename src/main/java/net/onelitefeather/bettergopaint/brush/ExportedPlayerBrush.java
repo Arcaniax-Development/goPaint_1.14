@@ -27,6 +27,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.security.SecureRandom;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -50,7 +51,7 @@ public record ExportedPlayerBrush(
         double angleHeightDifference
 ) implements BrushSettings {
 
-    private static final @NotNull Random RANDOM = new Random();
+    private static final @NotNull Random RANDOM = new SecureRandom();
 
     public ExportedPlayerBrush(@NotNull Builder builder) {
         this(
