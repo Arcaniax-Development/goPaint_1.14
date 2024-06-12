@@ -86,7 +86,7 @@ public abstract class Brush {
     }
 
     protected boolean passesMaskCheck(@NotNull BrushSettings brushSettings, @NotNull Block block) {
-        return block.getType().equals(brushSettings.mask());
+        return !brushSettings.maskEnabled() || block.getType().equals(brushSettings.mask());
     }
 
 }
