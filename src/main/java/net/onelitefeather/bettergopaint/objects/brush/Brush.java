@@ -37,26 +37,40 @@ import java.util.function.Consumer;
 
 public abstract class Brush {
 
+    private final @NotNull String name, description, head;
+
+    protected Brush(@NotNull String name, @NotNull String description, @NotNull String head) {
+        this.description = description;
+        this.name = name;
+        this.head = head;
+    }
+
     /**
      * Retrieves the description of the brush.
      *
      * @return The description of the brush.
      */
-    public abstract @NotNull String getDescription();
+    public @NotNull String getDescription() {
+        return description;
+    }
 
     /**
      * Retrieves the head of the brush.
      *
      * @return The head of the brush.
      */
-    public abstract @NotNull String getHead();
+    public @NotNull String getHead() {
+        return head;
+    }
 
     /**
      * Retrieves the name of the brush.
      *
      * @return The name of the brush.
      */
-    public abstract @NotNull String getName();
+    public @NotNull String getName() {
+        return name;
+    }
 
     /**
      * Performs a painting action using the provided location, player, and brush settings.

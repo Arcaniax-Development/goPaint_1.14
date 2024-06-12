@@ -33,19 +33,8 @@ public class DiscBrush extends Brush {
     private static final @NotNull String HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjFmMjgyNTBkMWU0MjBhNjUxMWIwMzk2NDg2OGZjYTJmNTYzN2UzYWJhNzlmNGExNjNmNGE4ZDYxM2JlIn19fQ==";
     private static final @NotNull String NAME = "Disc Brush";
 
-    @Override
-    public @NotNull String getDescription() {
-        return DESCRIPTION;
-    }
-
-    @Override
-    public @NotNull String getHead() {
-        return HEAD;
-    }
-
-    @Override
-    public @NotNull String getName() {
-        return NAME;
+    public DiscBrush() {
+        super(NAME, DESCRIPTION, HEAD);
     }
 
     @Override

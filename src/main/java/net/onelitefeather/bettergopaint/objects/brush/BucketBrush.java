@@ -35,19 +35,8 @@ public class BucketBrush extends Brush {
     private static final @NotNull String HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTAxOGI0NTc0OTM5Nzg4YTJhZDU1NTJiOTEyZDY3ODEwNjk4ODhjNTEyMzRhNGExM2VhZGI3ZDRjOTc5YzkzIn19fQ==";
     private static final @NotNull String NAME = "Bucket Brush";
 
-    @Override
-    public @NotNull String getDescription() {
-        return DESCRIPTION;
-    }
-
-    @Override
-    public @NotNull String getHead() {
-        return HEAD;
-    }
-
-    @Override
-    public @NotNull String getName() {
-        return NAME;
+    public BucketBrush() {
+        super(NAME, DESCRIPTION, HEAD);
     }
 
     @Override
