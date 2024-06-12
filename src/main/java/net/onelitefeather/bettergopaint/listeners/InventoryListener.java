@@ -222,7 +222,8 @@ public final class InventoryListener implements Listener {
         }
 
         //noinspection deprecation
-        plugin.getBrushManager().getBrushHandler(itemMeta.getDisplayName()).ifPresent(brush -> {
+        String name = itemMeta.getDisplayName().replace("§6", "");
+        plugin.getBrushManager().getBrushHandler(name).ifPresent(brush -> {
             playerBrush.setBrush(brush);
             playerBrush.updateInventory();
             player.openInventory(playerBrush.getInventory());
