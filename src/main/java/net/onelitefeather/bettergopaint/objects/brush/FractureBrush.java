@@ -46,15 +46,15 @@ public class FractureBrush extends Brush {
     ) {
         performEdit(player, session -> {
             Stream<Block> blocks = Sphere.getBlocksInRadius(location, brushSettings.size(), null, false);
-            blocks.filter(block -> passesDefaultChecks(brushSettings, player, block))
+            blocks.filter(block -> passesMaskCheck(brushSettings, block))
                     .filter(block -> Height.getAverageHeightDiffFracture(
                             block.getLocation(),
-                            Height.getHeight(block.getLocation()),
+                            Height.getNearestNonEmptyBlock(block.getLocation()),
                             1
                     ) >= 0.1)
                     .filter(block -> Height.getAverageHeightDiffFracture(
                             block.getLocation(),
-                            Height.getHeight(block.getLocation()),
+                            Height.getNearestNonEmptyBlock(block.getLocation()),
                             brushSettings.fractureDistance()
                     ) >= 0.1)
                     .forEach(block -> setBlock(session, block, brushSettings.randomBlock()));
