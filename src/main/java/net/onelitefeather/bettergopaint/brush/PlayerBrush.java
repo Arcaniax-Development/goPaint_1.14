@@ -233,7 +233,7 @@ public final class PlayerBrush implements BrushSettings {
         }
     }
 
-    public void cycleBrush() {
+    public void cycleBrushForward() {
         brush = brushManager.cycleForward(brush);
         updateInventory();
     }
