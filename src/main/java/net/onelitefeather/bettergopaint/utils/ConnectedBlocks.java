@@ -28,6 +28,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 import java.util.Set;
+import java.util.stream.Stream;
 
 public class ConnectedBlocks {
 
@@ -40,7 +41,7 @@ public class ConnectedBlocks {
             BlockFace.DOWN,
     };
 
-    public static Set<Block> getConnectedBlocks(Location loc, List<Block> blocks) {
+    public static Stream<Block> getConnectedBlocks(Location loc, List<Block> blocks) {
         Block startBlock = loc.getBlock();
         Set<Block> connected = new HashSet<>();
         Queue<Block> toCheck = new LinkedList<>();
@@ -61,7 +62,7 @@ public class ConnectedBlocks {
             toCheck.addAll(neighbors);
         }
 
-        return connected;
+        return connected.stream();
     }
 
 }

@@ -26,7 +26,7 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.List;
+import java.util.stream.Stream;
 
 public class OverlayBrush extends Brush {
 
@@ -50,26 +50,22 @@ public class OverlayBrush extends Brush {
     }
 
     @Override
-    public void paint(final @NotNull Location location, final @NotNull Player player, final @NotNull BrushSettings brushSettings) {
+    public void paint(
+            @NotNull Location location,
+            @NotNull Player player,
+            @NotNull BrushSettings brushSettings
+    ) {
         performEdit(player, session -> {
-            List<Block> blocks = Sphere.getBlocksInRadius(location, brushSettings.size());
-            for (Block block : blocks) {
-                if (!passesDefaultChecks(brushSettings, player, block)) {
-                    continue;
-                }
-
-                if (!isOverlay(block, brushSettings.thickness())) {
-                    continue;
-                }
-
-                setBlock(session, block, brushSettings.randomBlock());
-            }
+            Stream<Block> blocks = Sphere.getBlocksInRadius(location, brushSettings.size());
+            blocks.filter(block -> passesMaskCheck(brushSettings, block))
+                    .filter(block -> isOverlay(block, brushSettings.thickness()))
+                    .forEach(block -> setBlock(session, block, brushSettings.randomBlock()));
         });
     }
 
     private boolean isOverlay(Block block, int thickness) {
         for (int i = 1; i <= thickness; i++) {
-            if (!block.getRelative(BlockFace.UP, i).isSolid()) {
+            if (block.isSolid() && !block.getRelative(BlockFace.UP, i).isSolid()) {
                 return true;
             }
         }

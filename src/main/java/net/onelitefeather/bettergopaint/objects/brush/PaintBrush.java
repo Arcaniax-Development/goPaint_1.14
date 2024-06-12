@@ -33,6 +33,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Stream;
 
 public class PaintBrush extends Brush {
 
@@ -58,7 +59,11 @@ public class PaintBrush extends Brush {
     private static final HashMap<UUID, List<Location>> selectedPoints = new HashMap<>();
 
     @Override
-    public void paint(final @NotNull Location target, final @NotNull Player player, final @NotNull BrushSettings brushSettings) {
+    public void paint(
+            @NotNull Location target,
+            @NotNull Player player,
+            @NotNull BrushSettings brushSettings
+    ) {
         String prefix = Settings.settings().GENERIC.PREFIX;
 
         List<Location> locations = selectedPoints.computeIfAbsent(player.getUniqueId(), ignored -> new ArrayList<>());
@@ -73,13 +78,12 @@ public class PaintBrush extends Brush {
 
         performEdit(player, session -> {
             Location first = locations.getFirst();
-            List<Block> blocks = Sphere.getBlocksInRadiusWithAir(first, brushSettings.size());
-            for (Block block : blocks) {
-
+            Stream<Block> blocks = Sphere.getBlocksInRadius(first, brushSettings.size(), brushSettings.axis());
+            blocks.forEach(block -> {
                 if (Height.getAverageHeightDiffAngle(block.getLocation(), 1) >= 0.1
                         && Height.getAverageHeightDiffAngle(block.getLocation(), brushSettings.angleDistance())
                         >= Math.tan(Math.toRadians(brushSettings.angleHeightDifference()))) {
-                    continue;
+                    return;
                 }
 
                 double rate = (block.getLocation().distance(first) - (brushSettings.size() / 2.0)
@@ -87,7 +91,7 @@ public class PaintBrush extends Brush {
                         - (brushSettings.size() / 2.0) * ((100.0 - brushSettings.falloffStrength()) / 100.0));
 
                 if (brushSettings.random().nextDouble() <= rate) {
-                    continue;
+                    return;
                 }
 
                 LinkedList<Location> newCurve = new LinkedList<>();
@@ -101,7 +105,6 @@ public class PaintBrush extends Brush {
                 }
                 BezierSpline spline = new BezierSpline(newCurve);
                 double maxCount = (spline.getCurveLength() * 2.5) + 1;
-
                 for (int y = 0; y <= maxCount; y++) {
                     Block point = spline.getPoint((y / maxCount) * (locations.size() - 1)).getBlock();
 
@@ -111,7 +114,7 @@ public class PaintBrush extends Brush {
 
                     setBlock(session, point, brushSettings.randomBlock());
                 }
-            }
+            });
         });
     }
 

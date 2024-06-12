@@ -25,7 +25,7 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.List;
+import java.util.stream.Stream;
 
 public class GradientBrush extends Brush {
 
@@ -49,30 +49,28 @@ public class GradientBrush extends Brush {
     }
 
     @Override
-    public void paint(final @NotNull Location location, final @NotNull Player player, final @NotNull BrushSettings brushSettings) {
+    public void paint(
+            @NotNull Location location,
+            @NotNull Player player,
+            @NotNull BrushSettings brushSettings
+    ) {
         performEdit(player, session -> {
             double y = location.getBlockY() - ((double) brushSettings.size() / 2.0);
-            List<Block> blocks = Sphere.getBlocksInRadius(location, brushSettings.size());
-            for (Block block : blocks) {
-                if (!passesDefaultChecks(brushSettings, player, block)) {
-                    continue;
-                }
-
+            Stream<Block> blocks = Sphere.getBlocksInRadius(location, brushSettings.size());
+            blocks.filter(block -> passesDefaultChecks(brushSettings, player, block)).filter(block -> {
                 double rate = (block.getLocation().distance(location) - ((double) brushSettings.size() / 2.0)
                         * ((100.0 - (double) brushSettings.falloffStrength()) / 100.0))
                         / (((double) brushSettings.size() / 2.0) - ((double) brushSettings.size() / 2.0)
                         * ((100.0 - (double) brushSettings.falloffStrength()) / 100.0));
 
-                if (brushSettings.random().nextDouble() <= rate) {
-                    continue;
-                }
-
-                int random = (int) (((block.getLocation().getBlockY() - y) / (double) brushSettings.size() * blocks.size()) +
+                return brushSettings.random().nextDouble() > rate;
+            }).forEach(block -> {
+                int random = (int) (((block.getLocation().getBlockY() - y) / (double) brushSettings.size() * blocks.count()) +
                         (brushSettings.random().nextDouble() * 2 - 1) * ((double) brushSettings.mixingStrength() / 100.0));
                 int index = Math.clamp(random, 0, brushSettings.blocks().size() - 1);
 
                 setBlock(session, block, brushSettings.blocks().get(index));
-            }
+            });
         });
     }
 

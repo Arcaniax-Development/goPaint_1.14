@@ -26,7 +26,7 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.List;
+import java.util.stream.Stream;
 
 public class AngleBrush extends Brush {
 
@@ -50,22 +50,18 @@ public class AngleBrush extends Brush {
     }
 
     @Override
-    public void paint(final @NotNull Location location, final @NotNull Player player, final @NotNull BrushSettings brushSettings) {
+    public void paint(
+            @NotNull Location location,
+            @NotNull Player player,
+            @NotNull BrushSettings brushSettings
+    ) {
         performEdit(player, session -> {
-            List<Block> blocks = Sphere.getBlocksInRadius(location, brushSettings.size());
-            for (Block block : blocks) {
-                if (!passesDefaultChecks(brushSettings, player, block)) {
-                    continue;
-                }
-
-                if (Height.getAverageHeightDiffAngle(block.getLocation(), 1) >= 0.1
-                        && Height.getAverageHeightDiffAngle(block.getLocation(), brushSettings.angleDistance())
-                        >= Math.tan(Math.toRadians(brushSettings.angleHeightDifference()))) {
-                    continue;
-                }
-
-                setBlock(session, block, brushSettings.randomBlock());
-            }
+            Stream<Block> blocks = Sphere.getBlocksInRadius(location, brushSettings.size());
+            blocks.filter(block -> passesDefaultChecks(brushSettings, player, block))
+                    .filter(block -> Height.getAverageHeightDiffAngle(block.getLocation(), 1) >= 0.1
+                            && Height.getAverageHeightDiffAngle(block.getLocation(), brushSettings.angleDistance())
+                            >= Math.tan(Math.toRadians(brushSettings.angleHeightDifference())))
+                    .forEach(block -> setBlock(session, block, brushSettings.randomBlock()));
         });
     }
 

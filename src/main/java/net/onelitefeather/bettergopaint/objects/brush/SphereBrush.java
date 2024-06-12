@@ -25,7 +25,7 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.List;
+import java.util.stream.Stream;
 
 public class SphereBrush extends Brush {
 
@@ -49,15 +49,15 @@ public class SphereBrush extends Brush {
     }
 
     @Override
-    public void paint(final @NotNull Location location, final @NotNull Player player, final @NotNull BrushSettings brushSettings) {
+    public void paint(
+            @NotNull Location location,
+            @NotNull Player player,
+            @NotNull BrushSettings brushSettings
+    ) {
         performEdit(player, session -> {
-            List<Block> blocks = Sphere.getBlocksInRadius(location, brushSettings.size());
-            for (Block block : blocks) {
-                if (!passesDefaultChecks(brushSettings, player, block)) {
-                    continue;
-                }
-                setBlock(session, block, brushSettings.randomBlock());
-            }
+            Stream<Block> blocks = Sphere.getBlocksInRadius(location, brushSettings.size());
+            blocks.filter(block -> passesDefaultChecks(brushSettings, player, block))
+                    .forEach(block -> setBlock(session, block, brushSettings.randomBlock()));
         });
     }
 

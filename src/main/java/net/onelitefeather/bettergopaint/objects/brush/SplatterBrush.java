@@ -25,7 +25,7 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.List;
+import java.util.stream.Stream;
 
 public class SplatterBrush extends Brush {
 
@@ -49,25 +49,26 @@ public class SplatterBrush extends Brush {
     }
 
     @Override
-    public void paint(final @NotNull Location location, final @NotNull Player player, final @NotNull BrushSettings brushSettings) {
+    public void paint(
+            @NotNull Location location,
+            @NotNull Player player,
+            @NotNull BrushSettings brushSettings
+    ) {
         performEdit(player, session -> {
-            List<Block> blocks = Sphere.getBlocksInRadius(location, brushSettings.size());
-            for (Block block : blocks) {
-                if (!passesDefaultChecks(brushSettings, player, block)) {
-                    continue;
-                }
+            Stream<Block> blocks = Sphere.getBlocksInRadius(location, brushSettings.size());
+            blocks.filter(block -> passesDefaultChecks(brushSettings, player, block))
+                    .forEach(block -> {
+                        double rate = (block.getLocation().distance(location) - ((double) brushSettings.size() / 2.0)
+                                * ((100.0 - (double) brushSettings.falloffStrength()) / 100.0))
+                                / (((double) brushSettings.size() / 2.0) - ((double) brushSettings.size() / 2.0)
+                                * ((100.0 - (double) brushSettings.falloffStrength()) / 100.0));
 
-                double rate = (block.getLocation().distance(location) - ((double) brushSettings.size() / 2.0)
-                        * ((100.0 - (double) brushSettings.falloffStrength()) / 100.0))
-                        / (((double) brushSettings.size() / 2.0) - ((double) brushSettings.size() / 2.0)
-                        * ((100.0 - (double) brushSettings.falloffStrength()) / 100.0));
+                        if (brushSettings.random().nextDouble() <= rate) {
+                            return;
+                        }
 
-                if (brushSettings.random().nextDouble() <= rate) {
-                    continue;
-                }
-
-                setBlock(session, block, brushSettings.randomBlock());
-            }
+                        setBlock(session, block, brushSettings.randomBlock());
+                    });
         });
     }
 

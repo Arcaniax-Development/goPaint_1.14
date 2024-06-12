@@ -21,54 +21,30 @@ package net.onelitefeather.bettergopaint.utils;
 import org.bukkit.Axis;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 public class Sphere {
 
-    public static List<Block> getBlocksInRadius(Location middlePoint, double radius) {
-        List<Block> blocks = new ArrayList<>();
-        for (Block block : getBlocksInRadiusWithAir(middlePoint, radius)) {
-            if (block.getChunk().isLoaded() && !block.isEmpty()) {
-                blocks.add(block);
-            }
-        }
-        return blocks;
+    public static Stream<Block> getBlocksInRadius(Location middlePoint, int radius) {
+        return getBlocksInRadius(middlePoint, radius, null).filter(block -> !block.isEmpty());
     }
 
-    public static List<Block> getBlocksInRadiusWithAir(Location middlePoint, double radius) {
+    public static Stream<Block> getBlocksInRadius(Location middlePoint, int radius, @Nullable Axis axis) {
         List<Block> blocks = new ArrayList<>();
-        Location loc1 = middlePoint.clone().add(-radius / 2, -radius / 2, -radius / 2).getBlock().getLocation();
-        Location loc2 = middlePoint.clone().add(radius / 2, radius / 2, radius / 2).getBlock().getLocation();
-        for (int x = loc1.getBlockX(); x <= loc2.getBlockX(); x++) {
-            for (int y = loc1.getBlockY(); y <= loc2.getBlockY(); y++) {
-                for (int z = loc1.getBlockZ(); z <= loc2.getBlockZ(); z++) {
-                    Location loc = new Location(loc1.getWorld(), x, y, z);
-                    if (loc.distance(middlePoint) < (radius / 2)) {
-                        blocks.add(loc.getBlock());
-                    }
-                }
-            }
-        }
-        return blocks;
-    }
-
-    public static List<Block> getBlocksInRadiusWithAxis(Location middlePoint, double radius, Axis axis) {
-        List<Block> blocks = new ArrayList<>();
-        Location loc1 = middlePoint.clone().add(-radius / 2, -radius / 2, -radius / 2).getBlock().getLocation();
-        Location loc2 = middlePoint.clone().add(radius / 2, radius / 2, radius / 2).getBlock().getLocation();
+        Location loc1 = middlePoint.clone().add(-radius / 2d, -radius / 2d, -radius / 2d).getBlock().getLocation();
+        Location loc2 = middlePoint.clone().add(radius / 2d, radius / 2d, radius / 2d).getBlock().getLocation();
 
         switch (axis) {
             case Y:
                 for (int x = loc1.getBlockX(); x <= loc2.getBlockX(); x++) {
                     for (int z = loc1.getBlockZ(); z <= loc2.getBlockZ(); z++) {
-                        Location loc = new Location(loc1.getWorld(), x, middlePoint.getBlockY(), z);
-                        if (!loc.getChunk().isLoaded() || loc.getBlock().isEmpty()) {
-                            continue;
-                        }
-                        if (loc.distance(middlePoint) < (radius / 2)) {
-                            blocks.add(loc.getBlock());
+                        Location location = new Location(loc1.getWorld(), x, middlePoint.getBlockY(), z);
+                        if (passesDefaultChecks(location, middlePoint, radius)) {
+                            blocks.add(location.getBlock());
                         }
                     }
                 }
@@ -76,12 +52,9 @@ public class Sphere {
             case X:
                 for (int y = loc1.getBlockY(); y <= loc2.getBlockY(); y++) {
                     for (int z = loc1.getBlockZ(); z <= loc2.getBlockZ(); z++) {
-                        Location loc = new Location(loc1.getWorld(), middlePoint.getBlockX(), y, z);
-                        if (!loc.getChunk().isLoaded() || loc.getBlock().isEmpty()) {
-                            continue;
-                        }
-                        if (loc.distance(middlePoint) < (radius / 2)) {
-                            blocks.add(loc.getBlock());
+                        Location location = new Location(loc1.getWorld(), middlePoint.getBlockX(), y, z);
+                        if (passesDefaultChecks(location, middlePoint, radius)) {
+                            blocks.add(location.getBlock());
                         }
                     }
                 }
@@ -89,18 +62,31 @@ public class Sphere {
             case Z:
                 for (int x = loc1.getBlockX(); x <= loc2.getBlockX(); x++) {
                     for (int y = loc1.getBlockY(); y <= loc2.getBlockY(); y++) {
-                        Location loc = new Location(loc1.getWorld(), x, y, middlePoint.getBlockZ());
-                        if (!loc.getChunk().isLoaded() || loc.getBlock().isEmpty()) {
-                            continue;
+                        Location location = new Location(loc1.getWorld(), x, y, middlePoint.getBlockZ());
+                        if (passesDefaultChecks(location, middlePoint, radius)) {
+                            blocks.add(location.getBlock());
                         }
-                        if (loc.distance(middlePoint) < (radius / 2)) {
-                            blocks.add(loc.getBlock());
+                    }
+                }
+                break;
+            case null:
+                for (int x = loc1.getBlockX(); x <= loc2.getBlockX(); x++) {
+                    for (int y = loc1.getBlockY(); y <= loc2.getBlockY(); y++) {
+                        for (int z = loc1.getBlockZ(); z <= loc2.getBlockZ(); z++) {
+                            Location location = new Location(loc1.getWorld(), x, y, z);
+                            if (passesDefaultChecks(location, middlePoint, radius)) {
+                                blocks.add(location.getBlock());
+                            }
                         }
                     }
                 }
                 break;
         }
-        return blocks;
+        return blocks.stream();
+    }
+
+    private static boolean passesDefaultChecks(Location location, Location middlePoint, int radius) {
+        return location.getChunk().isLoaded() && location.distance(middlePoint) < radius / 2d;
     }
 
 }
