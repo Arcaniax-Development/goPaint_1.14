@@ -55,7 +55,7 @@ public class SprayBrush extends Brush {
             @NotNull BrushSettings brushSettings
     ) {
         performEdit(player, session -> {
-            Stream<Block> blocks = Sphere.getBlocksInRadius(location, brushSettings.size());
+            Stream<Block> blocks = Sphere.getBlocksInRadius(location, brushSettings.size(), null, false);
             blocks.filter(block -> passesDefaultChecks(brushSettings, player, block))
                     .filter(block -> brushSettings.random().nextInt(100) < brushSettings.chance())
                     .forEach(block -> setBlock(session, block, brushSettings.randomBlock()));

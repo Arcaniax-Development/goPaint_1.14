@@ -55,7 +55,7 @@ public class DiscBrush extends Brush {
             @NotNull BrushSettings brushSettings
     ) {
         performEdit(player, session -> {
-            Stream<Block> blocks = Sphere.getBlocksInRadius(location, brushSettings.size(), brushSettings.axis());
+            Stream<Block> blocks = Sphere.getBlocksInRadius(location, brushSettings.size(), brushSettings.axis(), false);
             blocks.filter(block -> passesDefaultChecks(brushSettings, player, block))
                     .forEach(block -> setBlock(session, block, brushSettings.randomBlock()));
         });

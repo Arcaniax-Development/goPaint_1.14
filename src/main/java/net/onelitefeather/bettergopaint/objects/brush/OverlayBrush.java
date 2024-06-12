@@ -56,7 +56,7 @@ public class OverlayBrush extends Brush {
             @NotNull BrushSettings brushSettings
     ) {
         performEdit(player, session -> {
-            Stream<Block> blocks = Sphere.getBlocksInRadius(location, brushSettings.size());
+            Stream<Block> blocks = Sphere.getBlocksInRadius(location, brushSettings.size(), null, false);
             blocks.filter(block -> passesMaskCheck(brushSettings, block))
                     .filter(block -> isOverlay(block, brushSettings.thickness()))
                     .forEach(block -> setBlock(session, block, brushSettings.randomBlock()));

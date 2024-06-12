@@ -57,7 +57,7 @@ public class BucketBrush extends Brush {
             @NotNull BrushSettings brushSettings
     ) {
         performEdit(player, session -> {
-            List<Block> blocks = Sphere.getBlocksInRadius(location, brushSettings.size()).toList();
+            List<Block> blocks = Sphere.getBlocksInRadius(location, brushSettings.size(), null, false).toList();
             Stream<Block> connectedBlocks = ConnectedBlocks.getConnectedBlocks(location, blocks);
             connectedBlocks.filter(block -> passesDefaultChecks(brushSettings, player, block))
                     .forEach(block -> setBlock(session, block, brushSettings.randomBlock()));

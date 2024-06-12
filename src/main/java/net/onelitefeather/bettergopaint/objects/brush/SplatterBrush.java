@@ -55,7 +55,7 @@ public class SplatterBrush extends Brush {
             @NotNull BrushSettings brushSettings
     ) {
         performEdit(player, session -> {
-            Stream<Block> blocks = Sphere.getBlocksInRadius(location, brushSettings.size());
+            Stream<Block> blocks = Sphere.getBlocksInRadius(location, brushSettings.size(), null, false);
             blocks.filter(block -> passesDefaultChecks(brushSettings, player, block))
                     .forEach(block -> {
                         double rate = (block.getLocation().distance(location) - ((double) brushSettings.size() / 2.0)

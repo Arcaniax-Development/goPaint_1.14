@@ -56,7 +56,7 @@ public class AngleBrush extends Brush {
             @NotNull BrushSettings brushSettings
     ) {
         performEdit(player, session -> {
-            Stream<Block> blocks = Sphere.getBlocksInRadius(location, brushSettings.size());
+            Stream<Block> blocks = Sphere.getBlocksInRadius(location, brushSettings.size(), null, false);
             blocks.filter(block -> passesDefaultChecks(brushSettings, player, block))
                     .filter(block -> Height.getAverageHeightDiffAngle(block.getLocation(), 1) >= 0.1
                             && Height.getAverageHeightDiffAngle(block.getLocation(), brushSettings.angleDistance())

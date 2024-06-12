@@ -78,7 +78,7 @@ public class PaintBrush extends Brush {
 
         performEdit(player, session -> {
             Location first = locations.getFirst();
-            Stream<Block> blocks = Sphere.getBlocksInRadius(first, brushSettings.size(), brushSettings.axis());
+            Stream<Block> blocks = Sphere.getBlocksInRadius(first, brushSettings.size(), null, false);
             blocks.forEach(block -> {
                 if (Height.getAverageHeightDiffAngle(block.getLocation(), 1) >= 0.1
                         && Height.getAverageHeightDiffAngle(block.getLocation(), brushSettings.angleDistance())

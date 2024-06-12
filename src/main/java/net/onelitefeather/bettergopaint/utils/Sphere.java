@@ -29,11 +29,7 @@ import java.util.stream.Stream;
 
 public class Sphere {
 
-    public static Stream<Block> getBlocksInRadius(Location middlePoint, int radius) {
-        return getBlocksInRadius(middlePoint, radius, null).filter(block -> !block.isEmpty());
-    }
-
-    public static Stream<Block> getBlocksInRadius(Location middlePoint, int radius, @Nullable Axis axis) {
+    public static Stream<Block> getBlocksInRadius(Location middlePoint, int radius, @Nullable Axis axis, boolean air) {
         List<Block> blocks = new ArrayList<>();
         Location loc1 = middlePoint.clone().add(-radius / 2d, -radius / 2d, -radius / 2d).getBlock().getLocation();
         Location loc2 = middlePoint.clone().add(radius / 2d, radius / 2d, radius / 2d).getBlock().getLocation();
@@ -82,7 +78,8 @@ public class Sphere {
                 }
                 break;
         }
-        return blocks.stream();
+        if (air) return blocks.stream();
+        return blocks.stream().filter(block -> !block.isEmpty());
     }
 
     private static boolean passesDefaultChecks(Location location, Location middlePoint, int radius) {
