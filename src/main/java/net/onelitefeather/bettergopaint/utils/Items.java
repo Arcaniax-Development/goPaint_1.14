@@ -24,6 +24,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +32,12 @@ import java.util.UUID;
 
 public final class Items {
 
-    public static ItemStack create(Material material, int amount, String name, String lore) {
+    public static @NotNull ItemStack create(
+            @NotNull Material material,
+            int amount,
+            @NotNull String name,
+            @NotNull String lore
+    ) {
         ItemStack itemStack = new ItemStack(material);
         itemStack.setAmount(amount);
         itemStack.editMeta(itemMeta -> {
@@ -50,7 +56,12 @@ public final class Items {
         return itemStack;
     }
 
-    public static ItemStack createHead(String texture, int amount, String name, String lore) {
+    public static @NotNull ItemStack createHead(
+            @NotNull String texture,
+            int amount,
+            @NotNull String name,
+            @NotNull String lore
+    ) {
         ItemStack head = create(Material.PLAYER_HEAD, amount, name, lore);
         head.editMeta(SkullMeta.class, skullMeta -> {
             var profile = Bukkit.createProfile(UUID.randomUUID());
