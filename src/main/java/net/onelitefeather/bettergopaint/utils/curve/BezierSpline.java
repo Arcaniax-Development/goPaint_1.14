@@ -20,8 +20,6 @@ package net.onelitefeather.bettergopaint.utils.curve;
 
 
 import org.bukkit.Location;
-import org.bukkit.World;
-import org.bukkit.util.Vector;
 
 import java.util.LinkedList;
 
@@ -31,20 +29,13 @@ public class BezierSpline {
     private Location[] knots;
     private BezierSplineSegment[] segments;
     private double length;
-    private Location anchorPoint;
-
-    public BezierSpline() {
-        knotsList = new LinkedList<>();
-        segments = new BezierSplineSegment[0];
-        length = 0;
-    }
 
     public BezierSpline(LinkedList<Location> knotsList) {
         this.knotsList = knotsList;
-        recalc();
+        recalculate();
     }
 
-    private void recalc() {
+    private void recalculate() {
         knots = knotsList.toArray(new Location[0]);
         segments = new BezierSplineSegment[knots.length - 1];
         for (int i = 0; i < knots.length - 1; i++) {
@@ -52,18 +43,6 @@ public class BezierSpline {
         }
         calculateControlPoints();
         calculateLength();
-    }
-
-    public void addKnot(Location l) {
-        knotsList.add(l);
-        recalc();
-    }
-
-    public void removeKnot(int n) {
-        if (n < knots.length) {
-            knotsList.remove(n);
-            recalc();
-        }
     }
 
     public double getCurveLength() {
@@ -76,44 +55,6 @@ public class BezierSpline {
             segment.calculateCurveLength();
             length += segment.getCurveLength();
         }
-    }
-
-    public int getSegmentsCount() {
-        return segments.length;
-    }
-
-    public BezierSplineSegment getCurveSegment(int n) {
-        assert (n < segments.length);
-        return segments[n];
-    }
-
-    public double getT(double blocks) {
-        if (length == 0) {
-            calculateLength();
-        }
-
-        assert (blocks >= 0);
-        assert (blocks <= length);
-        if (blocks == 0) {
-            return 0;
-        }
-        if (blocks == length) {
-            return segments.length;
-        }
-        double current = 0;
-        int i = 0;
-
-        for (i = 0; i < segments.length; ++i) {
-            current += segments[i].getCurveLength();
-            if (current > blocks) {
-                current -= segments[i].getCurveLength();
-                break;
-            }
-        }
-        if (i >= segments.length) {
-            return segments.length;
-        }
-        return i + segments[i].getT(blocks - current);
     }
 
     public Location getPoint(double point) {
@@ -129,23 +70,6 @@ public class BezierSpline {
         assert (0 <= f && f <= 1);
         BezierSplineSegment segment = segments[n];
         return segment.getPoint(f);
-    }
-
-    public double getdTdS(double f) {
-        if (f >= segments.length) {
-            return segments[segments.length - 1].getdTdS(1);
-        } else {
-            return segments[(int) Math.floor(f)].getdTdS(f - Math.floor(f));
-        }
-    }
-
-    public double getHAngle(double f) {
-        assert (f <= segments.length);
-        if (f >= segments.length) {
-            return segments[segments.length - 1].getHAngle(1);
-        } else {
-            return segments[(int) Math.floor(f)].getHAngle(f - Math.floor(f));
-        }
     }
 
     public void calculateControlPoints() {
@@ -285,61 +209,12 @@ public class BezierSpline {
         }
     }
 
-    public void shift(Vector v) {
-        for (Location l : knotsList) {
-            l.add(v);
-        }
-        recalc();
-    }
-
-    public void scale(Double d) {
-        for (Location l : knotsList) {
-            l.subtract(anchorPoint);
-            l.multiply(d);
-            l.add(anchorPoint);
-        }
-        recalc();
-    }
-
-    public void scale(Vector v) {
-        for (Location l : knotsList) {
-            l.subtract(anchorPoint);
-            l.setX(l.getX() * v.getX());
-            l.setY(l.getY() * v.getY());
-            l.setZ(l.getZ() * v.getZ());
-            l.add(anchorPoint);
-        }
-        recalc();
-    }
-
-    public World getWorld() {
-        if (knots == null) {
-            return null;
-        }
-        if (knots.length == 0) {
-            return null;
-        }
-        return knots[0].getWorld();
-    }
-
     @Override
     public String toString() {
         if (knots == null) {
             return "0 points.";
         }
         return knots.length + " points.";
-    }
-
-    public String toName() {
-        return "Curve";
-    }
-
-    public BezierSpline emptySystem() {
-        return new BezierSpline();
-    }
-
-    public String toShorthand() {
-        return "curve";
     }
 
 }
