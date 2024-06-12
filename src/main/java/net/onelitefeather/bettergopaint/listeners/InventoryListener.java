@@ -41,6 +41,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryAction;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.inventory.meta.ItemMeta;
 
 public final class InventoryListener implements Listener {
 
@@ -214,11 +215,14 @@ public final class InventoryListener implements Listener {
 
         PlayerBrush playerBrush = plugin.getBrushManager().getBrush(player);
 
-        if (!(event.getCurrentItem().displayName() instanceof TextComponent text)) {
+        ItemMeta itemMeta = event.getCurrentItem().getItemMeta();
+
+        if (itemMeta == null || !itemMeta.hasDisplayName()) {
             return;
         }
 
-        plugin.getBrushManager().getBrushHandler(text.content()).ifPresent(brush -> {
+        //noinspection deprecation
+        plugin.getBrushManager().getBrushHandler(itemMeta.getDisplayName()).ifPresent(brush -> {
             playerBrush.setBrush(brush);
             playerBrush.updateInventory();
             player.openInventory(playerBrush.getInventory());
