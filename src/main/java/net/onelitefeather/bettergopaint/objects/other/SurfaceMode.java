@@ -1,6 +1,5 @@
 package net.onelitefeather.bettergopaint.objects.other;
 
-import net.onelitefeather.bettergopaint.brush.BrushSettings;
 import net.onelitefeather.bettergopaint.utils.Surface;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
@@ -19,7 +18,7 @@ public enum SurfaceMode {
     /**
      * This enumeration represents that surface mode is disabled.
      *
-     * @see Surface#isOnSurface(Block, BrushSettings, Location)
+     * @see Surface#isOnSurface(Block, SurfaceMode, Location)
      */
     DISABLED("Disabled"),
     /**

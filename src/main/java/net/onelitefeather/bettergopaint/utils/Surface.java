@@ -18,7 +18,7 @@
  */
 package net.onelitefeather.bettergopaint.utils;
 
-import net.onelitefeather.bettergopaint.brush.BrushSettings;
+import net.onelitefeather.bettergopaint.objects.other.SurfaceMode;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -80,6 +80,8 @@ public class Surface {
 
     public static boolean isOnSurface(Block block, BrushSettings brushSettings, Location location) {
         return switch (brushSettings.surfaceMode()) {
+    public static boolean isOnSurface(Block block, SurfaceMode surfaceMode, Location location) {
+        return switch (surfaceMode) {
             case RELATIVE -> isRelativelyOnSurface(block, location);
             case DIRECT -> isDirectlyOnSurface(block);
             case DISABLED -> true;
