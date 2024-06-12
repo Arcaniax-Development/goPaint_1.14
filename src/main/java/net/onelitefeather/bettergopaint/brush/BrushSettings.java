@@ -33,12 +33,16 @@ import java.util.Random;
 
 public interface BrushSettings {
 
+    @NotNull
     Axis axis();
 
+    @NotNull
     Brush brush();
 
+    @NotNull
     List<Material> blocks();
 
+    @NotNull
     Material mask();
 
     boolean enabled();

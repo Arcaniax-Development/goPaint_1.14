@@ -26,6 +26,7 @@ import net.onelitefeather.bettergopaint.utils.curve.BezierSpline;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -35,29 +36,29 @@ import java.util.UUID;
 
 public class PaintBrush extends Brush {
 
-    private static final String DESCRIPTION = "Paints strokes\n&8hold shift to end";
-    private static final String HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODBiM2E5ZGZhYmVmYmRkOTQ5YjIxN2JiZDRmYTlhNDg2YmQwYzNmMGNhYjBkMGI5ZGZhMjRjMzMyZGQzZTM0MiJ9fX0=";
-    private static final String NAME = "Paint Brush";
+    private static final @NotNull String DESCRIPTION = "Paints strokes\n&8hold shift to end";
+    private static final @NotNull String HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODBiM2E5ZGZhYmVmYmRkOTQ5YjIxN2JiZDRmYTlhNDg2YmQwYzNmMGNhYjBkMGI5ZGZhMjRjMzMyZGQzZTM0MiJ9fX0=";
+    private static final @NotNull String NAME = "Paint Brush";
 
     @Override
-    public String getDescription() {
+    public @NotNull String getDescription() {
         return DESCRIPTION;
     }
 
     @Override
-    public String getHead() {
+    public @NotNull String getHead() {
         return HEAD;
     }
 
     @Override
-    public String getName() {
+    public @NotNull String getName() {
         return NAME;
     }
 
     private static final HashMap<UUID, List<Location>> selectedPoints = new HashMap<>();
 
     @Override
-    public void paint(final Location target, final Player player, final BrushSettings brushSettings) {
+    public void paint(final @NotNull Location target, final @NotNull Player player, final @NotNull BrushSettings brushSettings) {
         String prefix = Settings.settings().GENERIC.PREFIX;
 
         List<Location> locations = selectedPoints.computeIfAbsent(player.getUniqueId(), ignored -> new ArrayList<>());

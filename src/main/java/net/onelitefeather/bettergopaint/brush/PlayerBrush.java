@@ -97,7 +97,7 @@ public final class PlayerBrush implements BrushSettings {
     }
 
     @Override
-    public Brush brush() {
+    public @NotNull Brush brush() {
         return brush;
     }
 
@@ -136,12 +136,12 @@ public final class PlayerBrush implements BrushSettings {
     }
 
     @Override
-    public Material mask() {
+    public @NotNull Material mask() {
         return mask;
     }
 
     @Override
-    public List<Material> blocks() {
+    public @NotNull List<Material> blocks() {
         return blocks;
     }
 
@@ -175,7 +175,7 @@ public final class PlayerBrush implements BrushSettings {
     }
 
     @Override
-    public Axis axis() {
+    public @NotNull Axis axis() {
         return axis;
     }
 

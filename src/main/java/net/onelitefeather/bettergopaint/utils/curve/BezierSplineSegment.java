@@ -19,6 +19,7 @@
 package net.onelitefeather.bettergopaint.utils.curve;
 
 import org.bukkit.Location;
+import org.jetbrains.annotations.NotNull;
 
 public class BezierSplineSegment {
 
@@ -29,7 +30,7 @@ public class BezierSplineSegment {
     private Location r;
     private double curveLength;
 
-    public BezierSplineSegment(Location p0, Location p3) {
+    public BezierSplineSegment(@NotNull Location p0, @NotNull Location p3) {
         this.p0 = p0;
         this.p3 = p3;
         lengths = new double[20];

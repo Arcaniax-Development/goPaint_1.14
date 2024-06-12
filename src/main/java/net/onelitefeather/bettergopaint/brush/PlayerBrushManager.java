@@ -58,11 +58,11 @@ public class PlayerBrushManager {
             new PaintBrush()
     );
 
-    public PlayerBrush getBrush(Player player) {
+    public PlayerBrush getBrush(@NotNull Player player) {
         return playerBrushes.computeIfAbsent(player.getUniqueId(), ignored -> new PlayerBrush(this));
     }
 
-    public String getBrushLore(Brush brush) {
+    public String getBrushLore(@NotNull Brush brush) {
         return brushes.stream().map(current -> {
             if (current.equals(brush)) {
                 return "&e" + current.getName() + "\n";
@@ -82,7 +82,7 @@ public class PlayerBrushManager {
         return brushes;
     }
 
-    public void removeBrush(Player player) {
+    public void removeBrush(@NotNull Player player) {
         playerBrushes.remove(player.getUniqueId());
     }
 

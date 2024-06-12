@@ -29,10 +29,10 @@ import java.util.List;
 import java.util.Random;
 
 public record ExportedPlayerBrush(
-        Brush brush,
+        @NotNull Brush brush,
         @Nullable Material mask,
-        List<Material> blocks,
-        Axis axis,
+        @NotNull List<Material> blocks,
+        @NotNull Axis axis,
         boolean surfaceMode,
         int size,
         int chance,
@@ -44,9 +44,9 @@ public record ExportedPlayerBrush(
         double angleHeightDifference
 ) implements BrushSettings {
 
-    private static final Random RANDOM = new Random();
+    private static final @NotNull Random RANDOM = new Random();
 
-    public ExportedPlayerBrush(Builder builder) {
+    public ExportedPlayerBrush(@NotNull Builder builder) {
         this(
                 builder.brush,
                 builder.mask,
@@ -95,7 +95,7 @@ public record ExportedPlayerBrush(
         private @Nullable Material mask;
         private @NotNull List<Material> blocks = new ArrayList<>();
 
-        private Axis axis;
+        private @NotNull Axis axis = Axis.Y; // todo: configurable default
 
         private boolean surfaceMode;
         private int size;
@@ -111,67 +111,67 @@ public record ExportedPlayerBrush(
             this.brush = brush;
         }
 
-        public Builder surfaceMode(boolean surfaceMode) {
+        public @NotNull Builder surfaceMode(boolean surfaceMode) {
             this.surfaceMode = surfaceMode;
             return this;
         }
 
-        public Builder blocks(@NotNull List<Material> blocks) {
+        public @NotNull Builder blocks(@NotNull List<Material> blocks) {
             this.blocks = blocks;
             return this;
         }
 
-        public Builder mask(@Nullable Material mask) {
+        public @NotNull Builder mask(@Nullable Material mask) {
             this.mask = mask;
             return this;
         }
 
-        public Builder size(int size) {
+        public @NotNull Builder size(int size) {
             this.size = size;
             return this;
         }
 
-        public Builder chance(int chance) {
+        public @NotNull Builder chance(int chance) {
             this.chance = chance;
             return this;
         }
 
-        public Builder thickness(int thickness) {
+        public @NotNull Builder thickness(int thickness) {
             this.thickness = thickness;
             return this;
         }
 
-        public Builder angleDistance(int angleDistance) {
+        public @NotNull Builder angleDistance(int angleDistance) {
             this.angleDistance = angleDistance;
             return this;
         }
 
-        public Builder fractureDistance(int fractureDistance) {
+        public @NotNull Builder fractureDistance(int fractureDistance) {
             this.fractureDistance = fractureDistance;
             return this;
         }
 
-        public Builder falloffStrength(int falloffStrength) {
+        public @NotNull Builder falloffStrength(int falloffStrength) {
             this.falloffStrength = falloffStrength;
             return this;
         }
 
-        public Builder mixingStrength(int mixingStrength) {
+        public @NotNull Builder mixingStrength(int mixingStrength) {
             this.mixingStrength = mixingStrength;
             return this;
         }
 
-        public Builder angleHeightDifference(double angleHeightDifference) {
+        public @NotNull Builder angleHeightDifference(double angleHeightDifference) {
             this.angleHeightDifference = angleHeightDifference;
             return this;
         }
 
-        public Builder axis(@NotNull Axis axis) {
+        public @NotNull Builder axis(@NotNull Axis axis) {
             this.axis = axis;
             return this;
         }
 
-        public ExportedPlayerBrush build() {
+        public @NotNull ExportedPlayerBrush build() {
             return new ExportedPlayerBrush(this);
         }
 

@@ -37,13 +37,17 @@ import java.util.function.Consumer;
 
 public abstract class Brush {
 
-    public abstract String getDescription();
+    public abstract @NotNull String getDescription();
 
-    public abstract String getHead();
+    public abstract @NotNull String getHead();
 
-    public abstract String getName();
+    public abstract @NotNull String getName();
 
-    public abstract void paint(Location location, Player player, BrushSettings brushSettings);
+    public abstract void paint(
+            @NotNull Location location,
+            @NotNull Player player,
+            @NotNull BrushSettings brushSettings
+    );
 
     protected void setBlock(
             @NotNull EditSession session,
@@ -73,15 +77,15 @@ public abstract class Brush {
         }
     }
 
-    protected boolean passesDefaultChecks(BrushSettings brushSettings, Player player, Block block) {
+    protected boolean passesDefaultChecks(@NotNull BrushSettings brushSettings, @NotNull Player player, @NotNull Block block) {
         return passesMaskCheck(brushSettings, block) && passesSurfaceCheck(brushSettings, player, block);
     }
 
-    protected boolean passesSurfaceCheck(BrushSettings brushSettings, Player player, Block block) {
+    protected boolean passesSurfaceCheck(@NotNull BrushSettings brushSettings, @NotNull Player player, @NotNull Block block) {
         return !brushSettings.surfaceMode() || Surface.isOnSurface(block, player.getLocation());
     }
 
-    protected boolean passesMaskCheck(BrushSettings brushSettings, Block block) {
+    protected boolean passesMaskCheck(@NotNull BrushSettings brushSettings, @NotNull Block block) {
         return block.getType().equals(brushSettings.mask());
     }
 

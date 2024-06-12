@@ -24,32 +24,33 @@ import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
 public class OverlayBrush extends Brush {
 
-    private static final String DESCRIPTION = "Only paints blocks\n&8that have air above it";
-    private static final String HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZGYzMWQ2Zjk2NTRmODc0ZWE5MDk3YWRlZWEwYzk2OTk2ZTc4ZTNmZDM3NTRmYmY5ZWJlOTYzYWRhZDliZTRjIn19fQ==";
-    private static final String NAME = "Overlay Brush";
+    private static final @NotNull String DESCRIPTION = "Only paints blocks\n&8that have air above it";
+    private static final @NotNull String HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZGYzMWQ2Zjk2NTRmODc0ZWE5MDk3YWRlZWEwYzk2OTk2ZTc4ZTNmZDM3NTRmYmY5ZWJlOTYzYWRhZDliZTRjIn19fQ==";
+    private static final @NotNull String NAME = "Overlay Brush";
 
     @Override
-    public String getDescription() {
+    public @NotNull String getDescription() {
         return DESCRIPTION;
     }
 
     @Override
-    public String getHead() {
+    public @NotNull String getHead() {
         return HEAD;
     }
 
     @Override
-    public String getName() {
+    public @NotNull String getName() {
         return NAME;
     }
 
     @Override
-    public void paint(final Location location, final Player player, final BrushSettings brushSettings) {
+    public void paint(final @NotNull Location location, final @NotNull Player player, final @NotNull BrushSettings brushSettings) {
         performEdit(player, session -> {
             List<Block> blocks = Sphere.getBlocksInRadius(location, brushSettings.size());
             for (Block block : blocks) {
