@@ -59,10 +59,12 @@ public class PlayerBrushManager {
     );
 
     public PlayerBrush getBrush(@NotNull Player player) {
+    public @NotNull PlayerBrush getBrush(@NotNull Player player) {
         return playerBrushes.computeIfAbsent(player.getUniqueId(), ignored -> new PlayerBrush(this));
     }
 
     public String getBrushLore(@NotNull Brush brush) {
+    public @NotNull String getBrushLore(@NotNull Brush brush) {
         return brushes.stream().map(current -> {
             if (current.equals(brush)) {
                 return "§e" + current.getName() + "\n";
@@ -87,6 +89,7 @@ public class PlayerBrushManager {
     }
 
     public Brush cycleForward(@Nullable Brush brush) {
+    public @NotNull Brush cycleForward(@Nullable Brush brush) {
         if (brush == null) {
             return brushes.getFirst();
         }
@@ -98,6 +101,7 @@ public class PlayerBrushManager {
     }
 
     public Brush cycleBack(@Nullable Brush brush) {
+    public @NotNull Brush cycleBack(@Nullable Brush brush) {
         if (brush == null) {
             return brushes.getFirst();
         }

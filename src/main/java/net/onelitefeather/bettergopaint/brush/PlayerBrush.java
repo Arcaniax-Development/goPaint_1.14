@@ -71,9 +71,9 @@ public final class PlayerBrush implements BrushSettings {
     private @NotNull Material mask;
     private final @NotNull List<Material> blocks = new ArrayList<>();
 
-    private final Inventory gui;
+    private final @NotNull Inventory gui;
 
-    public PlayerBrush(PlayerBrushManager brushManager) {
+    public PlayerBrush(@NotNull PlayerBrushManager brushManager) {
         this.brushManager = brushManager;
 
         surfaceMode = Settings.settings().GENERIC.SURFACE_MODE;

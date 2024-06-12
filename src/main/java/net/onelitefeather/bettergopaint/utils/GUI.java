@@ -36,18 +36,19 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.NotNull;
 
 public class GUI {
 
     private static final BetterGoPaint plugin = JavaPlugin.getPlugin(BetterGoPaint.class);
 
-    public static Inventory create(PlayerBrush pb) {
+    public static @NotNull Inventory create(PlayerBrush pb) {
         Inventory inv = Bukkit.createInventory(null, 54, Component.text("goPaint Menu", NamedTextColor.DARK_BLUE));
         update(inv, pb);
         return inv;
     }
 
-    public static Inventory generateBrushes() {
+    public static @NotNull Inventory generateBrushes() {
         Inventory inv = Bukkit.createInventory(null, 27, Component.text("goPaint Brushes", NamedTextColor.DARK_BLUE));
         // FILLER
         formatDefault(inv);
@@ -60,13 +61,13 @@ public class GUI {
         return inv;
     }
 
-    private static void formatDefault(Inventory inventory) {
+    private static void formatDefault(@NotNull Inventory inventory) {
         for (int slot = 0; slot < inventory.getSize(); slot++) {
             inventory.setItem(slot, Items.create(Material.GRAY_STAINED_GLASS_PANE, 1, "§7", ""));
         }
     }
 
-    public static void update(Inventory inv, PlayerBrush playerBrush) {
+    public static void update(@NotNull Inventory inv, @NotNull PlayerBrush playerBrush) {
         Brush brush = playerBrush.brush();
 
         // FILLER
