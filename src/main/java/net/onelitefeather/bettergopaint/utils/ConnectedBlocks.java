@@ -41,6 +41,14 @@ public class ConnectedBlocks {
             BlockFace.DOWN,
     };
 
+    /**
+     * Returns a stream of connected blocks starting from a given location, based on a list of blocks.
+     * Only blocks of the same type as the start block are considered.
+     *
+     * @param loc    the starting location
+     * @param blocks the list of blocks to check for connectivity
+     * @return a stream of connected blocks
+     */
     public static Stream<Block> getConnectedBlocks(Location loc, List<Block> blocks) {
         Block startBlock = loc.getBlock();
         Set<Block> connected = new HashSet<>();

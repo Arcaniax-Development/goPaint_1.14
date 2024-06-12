@@ -22,16 +22,17 @@ import net.onelitefeather.bettergopaint.objects.brush.Brush;
 import net.onelitefeather.bettergopaint.objects.other.SurfaceMode;
 import org.bukkit.Axis;
 import org.bukkit.Material;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
 import java.util.Random;
 
+/**
+ * The BrushSettings interface defines the configuration settings for a brush. It provides methods to retrieve information
+ * about the brush's axis, brush type, list of blocks, mask material, enabled status, surface mode, angle-height
+ * difference, angle distance, chance, falloff strength, fracture distance, mixing strength, size and thickness.
+ */
 public interface BrushSettings {
 
     /**

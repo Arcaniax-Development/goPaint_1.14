@@ -41,6 +41,9 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+/**
+ * The PlayerBrushManager class manages the brush selection for each player.
+ */
 public class PlayerBrushManager {
 
     private final @NotNull HashMap<UUID, PlayerBrush> playerBrushes = new HashMap<>();
@@ -58,12 +61,23 @@ public class PlayerBrushManager {
             new PaintBrush()
     );
 
-    public PlayerBrush getBrush(@NotNull Player player) {
+    /**
+     * Retrieves the brush for the given player.
+     *
+     * @param player The player for which to retrieve the brush.
+     * @return The brush for the specified player.
+     */
     public @NotNull PlayerBrush getBrush(@NotNull Player player) {
         return playerBrushes.computeIfAbsent(player.getUniqueId(), ignored -> new PlayerBrush(this));
     }
 
-    public String getBrushLore(@NotNull Brush brush) {
+    /**
+     * Retrieves the lore for a specific brush. Each brush name is preceded by a color code
+     * indicating whether it is the currently selected brush or not.
+     *
+     * @param brush The brush for which to retrieve the lore.
+     * @return The lore for the specified brush.
+     */
     public @NotNull String getBrushLore(@NotNull Brush brush) {
         return brushes.stream().map(current -> {
             if (current.equals(brush)) {
@@ -74,21 +88,42 @@ public class PlayerBrushManager {
         }).collect(Collectors.joining());
     }
 
+    /**
+     * Retrieves the brush handler for the given name.
+     *
+     * @param name The name of the brush to look for.
+     * @return An optional containing the brush handler, or empty if not found.
+     */
     public @NotNull Optional<Brush> getBrushHandler(String name) {
         return brushes.stream()
                 .filter(brush -> brush.getName().contains(name))
                 .findAny();
     }
 
+    /**
+     * Retrieves the list of available brushes.
+     *
+     * @return The list of available brushes.
+     */
     public @NotNull List<Brush> getBrushes() {
         return brushes;
     }
 
+    /**
+     * Removes the player from the {@link #playerBrushes} map.
+     *
+     * @param player The player who should be removed.
+     */
     public void removeBrush(@NotNull Player player) {
         playerBrushes.remove(player.getUniqueId());
     }
 
-    public Brush cycleForward(@Nullable Brush brush) {
+    /**
+     * Retrieves the next brush in the list of available brushes.
+     *
+     * @param brush The current brush, if null returns the first brush in the list.
+     * @return The next brush in the list, or the first brush if the current brush is null.
+     */
     public @NotNull Brush cycleForward(@Nullable Brush brush) {
         if (brush == null) {
             return brushes.getFirst();
@@ -100,7 +135,12 @@ public class PlayerBrushManager {
         return brushes.getFirst();
     }
 
-    public Brush cycleBack(@Nullable Brush brush) {
+    /**
+     * Retrieves the previous brush in the list of available brushes.
+     *
+     * @param brush The current brush.
+     * @return The previous brush in the list, or the first brush if the current brush is null.
+     */
     public @NotNull Brush cycleBack(@Nullable Brush brush) {
         if (brush == null) {
             return brushes.getFirst();

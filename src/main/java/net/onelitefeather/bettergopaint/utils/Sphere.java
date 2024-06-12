@@ -29,6 +29,15 @@ import java.util.stream.Stream;
 
 public class Sphere {
 
+    /**
+     * Returns a stream of blocks within a specified radius from a given middle point.
+     *
+     * @param middlePoint The middle point from which to calculate the radius.
+     * @param radius      The radius value.
+     * @param axis        The axis along which to calculate the radius (optional).
+     * @param air         Whether air blocks should be included.
+     * @return A stream of blocks within the specified radius.
+     */
     public static Stream<Block> getBlocksInRadius(Location middlePoint, int radius, @Nullable Axis axis, boolean air) {
         List<Block> blocks = new ArrayList<>();
         Location loc1 = middlePoint.clone().add(-radius / 2d, -radius / 2d, -radius / 2d).getBlock().getLocation();

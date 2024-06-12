@@ -49,6 +49,9 @@ import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
 
+/**
+ * The PlayerBrush class represents the brush settings of a player.
+ */
 public final class PlayerBrush implements BrushSettings {
 
     private final @NotNull PlayerBrushManager brushManager;
