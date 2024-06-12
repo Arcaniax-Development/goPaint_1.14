@@ -169,35 +169,32 @@ public interface BrushSettings {
                 .map(line -> line.replace("§8", ""))
                 .forEach(line -> {
                     if (line.startsWith("Size: ")) {
-                        builder.size(Integer.parseInt(line.replace("Size: ", "")));
+                        builder.size(Integer.parseInt(line.substring(6)));
                     } else if (line.startsWith("Chance: ")) {
-                        builder.chance(Integer.parseInt(line.replace("Chance: ", "").replace("%", "")));
+                        builder.chance(Integer.parseInt(line.substring(8, line.length() - 1)));
                     } else if (line.startsWith("Thickness: ")) {
-                        builder.thickness(Integer.parseInt(line.replace("Thickness: ", "")));
+                        builder.thickness(Integer.parseInt(line.substring(11)));
                     } else if (line.startsWith("Axis: ")) {
-                        builder.axis(Axis.valueOf(line.replace("Axis: ", "").toUpperCase()));
+                        builder.axis(Axis.valueOf(line.substring(6).toUpperCase()));
                     } else if (line.startsWith("FractureDistance: ")) {
-                        builder.fractureDistance(Integer.parseInt(line.replace("FractureDistance: ", "")));
+                        builder.fractureDistance(Integer.parseInt(line.substring(18)));
                     } else if (line.startsWith("AngleDistance: ")) {
-                        builder.angleDistance(Integer.parseInt(line.replace("AngleDistance: ", "")));
+                        builder.angleDistance(Integer.parseInt(line.substring(15)));
                     } else if (line.startsWith("AngleHeightDifference: ")) {
-                        builder.angleHeightDifference(Double.parseDouble(
-                                line.replace("AngleHeightDifference: ", "")
-                        ));
+                        builder.angleHeightDifference(Double.parseDouble(line.substring(23)));
                     } else if (line.startsWith("Mixing: ")) {
-                        builder.mixingStrength(Integer.parseInt(line.replace("Mixing: ", "")));
+                        builder.mixingStrength(Integer.parseInt(line.substring(8)));
                     } else if (line.startsWith("Falloff: ")) {
-                        builder.falloffStrength(Integer.parseInt(line.replace("Falloff: ", "")));
+                        builder.falloffStrength(Integer.parseInt(line.substring(9)));
                     } else if (line.startsWith("Blocks: ")) {
-                        builder.blocks(Arrays.stream(line.replace("Blocks: ", "").split(", "))
+                        builder.blocks(Arrays.stream(line.substring(8).split(", "))
                                 .map(Material::matchMaterial)
                                 .filter(Objects::nonNull)
                                 .toList());
                     } else if (line.startsWith("Mask: ")) {
-                        builder.mask(Material.matchMaterial(line.replace("Mask: ", "")));
+                        builder.mask(Material.matchMaterial(line.substring(6)));
                     } else if (line.startsWith("Surface Mode: ")) {
-                        SurfaceMode.byName(line.replace("Surface Mode: ", ""))
-                                .ifPresent(builder::surfaceMode);
+                        SurfaceMode.byName(line.substring(14)).ifPresent(builder::surfaceMode);
                     }
                 }));
         return builder.build();
