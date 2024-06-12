@@ -55,18 +55,20 @@ public class GradientBrush extends Brush {
             @NotNull BrushSettings brushSettings
     ) {
         performEdit(player, session -> {
-            double y = location.getBlockY() - ((double) brushSettings.size() / 2.0);
-            List<Block> blocks = Sphere.getBlocksInRadius(location, brushSettings.size(), null, false).toList();
-            blocks.stream().filter(block -> passesDefaultChecks(brushSettings, player, block)).filter(block -> {
-                double rate = (block.getLocation().distance(location) - ((double) brushSettings.size() / 2.0)
-                        * ((100.0 - (double) brushSettings.falloffStrength()) / 100.0))
-                        / (((double) brushSettings.size() / 2.0) - ((double) brushSettings.size() / 2.0)
-                        * ((100.0 - (double) brushSettings.falloffStrength()) / 100.0));
+            double y = location.getBlockY() - (brushSettings.size() / 2d);
+            Stream<Block> blocks = Sphere.getBlocksInRadius(location, brushSettings.size(), null, false);
+            blocks.filter(block -> passesDefaultChecks(brushSettings, player, block)).filter(block -> {
+                double rate = (block.getLocation().distance(location) - (brushSettings.size() / 2d)
+                        * ((100d - brushSettings.falloffStrength()) / 100d))
+                        / ((brushSettings.size() / 2d) - (brushSettings.size() / 2d)
+                        * ((100d - brushSettings.falloffStrength()) / 100d));
 
                 return brushSettings.random().nextDouble() > rate;
             }).forEach(block -> {
-                int random = (int) (((block.getLocation().getBlockY() - y) / (double) brushSettings.size() * blocks.size()) +
-                        (brushSettings.random().nextDouble() * 2 - 1) * ((double) brushSettings.mixingStrength() / 100.0));
+                int random = (int) (((block.getLocation().getBlockY() - y) / brushSettings.size()
+                        * brushSettings.blocks().size()) + (brushSettings.random().nextDouble() * 2 - 1)
+                        * (brushSettings.mixingStrength() / 100d));
+
                 int index = Math.clamp(random, 0, brushSettings.blocks().size() - 1);
 
                 setBlock(session, block, brushSettings.blocks().get(index));
