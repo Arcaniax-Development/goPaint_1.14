@@ -78,8 +78,14 @@ public class Surface {
         return true;
     }
 
-    public static boolean isOnSurface(Block block, BrushSettings brushSettings, Location location) {
-        return switch (brushSettings.surfaceMode()) {
+    /**
+     * Checks if a given block is on the surface based on the specified surface mode and location.
+     *
+     * @param block        the block to check
+     * @param surfaceMode  the surface mode to use for the check
+     * @param location     the location to use for the check
+     * @return true if the block is on the surface based on the surface mode and location, false otherwise
+     */
     public static boolean isOnSurface(Block block, SurfaceMode surfaceMode, Location location) {
         return switch (surfaceMode) {
             case RELATIVE -> isRelativelyOnSurface(block, location);
