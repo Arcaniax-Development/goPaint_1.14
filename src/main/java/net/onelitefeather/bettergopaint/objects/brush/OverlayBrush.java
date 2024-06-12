@@ -30,7 +30,7 @@ import java.util.stream.Stream;
 
 public class OverlayBrush extends Brush {
 
-    private static final @NotNull String DESCRIPTION = "Only paints blocks\n&8that have air above it";
+    private static final @NotNull String DESCRIPTION = "Only paints blocks\n§8that have air above it";
     private static final @NotNull String HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZGYzMWQ2Zjk2NTRmODc0ZWE5MDk3YWRlZWEwYzk2OTk2ZTc4ZTNmZDM3NTRmYmY5ZWJlOTYzYWRhZDliZTRjIn19fQ==";
     private static final @NotNull String NAME = "Overlay Brush";
 

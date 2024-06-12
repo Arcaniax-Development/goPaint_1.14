@@ -45,12 +45,12 @@ public final class Items {
                 String[] loreListArray = lore.split("\n");
                 List<Component> loreList = new ArrayList<>();
                 for (String s : loreListArray) {
-                    loreList.add(Component.text(s.replace("&", "§")));
+                    loreList.add(Component.text(s));
                 }
                 itemMeta.lore(loreList);
             }
             if (!name.isEmpty()) {
-                itemMeta.displayName(Component.text(name.replace("&", "§")));
+                itemMeta.displayName(Component.text(name));
             }
         });
         return itemStack;

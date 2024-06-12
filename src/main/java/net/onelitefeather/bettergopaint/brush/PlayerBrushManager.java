@@ -65,9 +65,9 @@ public class PlayerBrushManager {
     public String getBrushLore(@NotNull Brush brush) {
         return brushes.stream().map(current -> {
             if (current.equals(brush)) {
-                return "&e" + current.getName() + "\n";
+                return "§e" + current.getName() + "\n";
             } else {
-                return "&8" + current.getName() + "\n";
+                return "§8" + current.getName() + "\n";
             }
         }).collect(Collectors.joining());
     }

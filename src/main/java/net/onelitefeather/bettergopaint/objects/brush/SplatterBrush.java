@@ -29,7 +29,7 @@ import java.util.stream.Stream;
 
 public class SplatterBrush extends Brush {
 
-    private static final @NotNull String DESCRIPTION = "More chance when closer\n&8to the clicked point\n&8and configurable chance";
+    private static final @NotNull String DESCRIPTION = "More chance when closer\n§8to the clicked point\n§8and configurable chance";
     private static final @NotNull String HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzMzODI5MmUyZTY5ZjA5MDY5NGNlZjY3MmJiNzZmMWQ4Mzc1OGQxMjc0NGJiNmZmYzY4MzRmZGJjMWE5ODMifX19";
     private static final @NotNull String NAME = "Splatter Brush";
 
