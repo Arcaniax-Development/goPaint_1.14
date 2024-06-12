@@ -32,6 +32,7 @@ import net.onelitefeather.bettergopaint.objects.brush.PaintBrush;
 import net.onelitefeather.bettergopaint.objects.brush.SplatterBrush;
 import net.onelitefeather.bettergopaint.objects.brush.SprayBrush;
 import net.onelitefeather.bettergopaint.objects.brush.UnderlayBrush;
+import net.onelitefeather.bettergopaint.objects.other.Settings;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.inventory.Inventory;
@@ -76,13 +77,13 @@ public class GUI {
         // goPaint toggle
         if (playerBrush.enabled()) {
             inventory.setItem(1, Items.create(Material.LIME_STAINED_GLASS_PANE, 1, "§7", ""));
-            inventory.setItem(10, Items.create(Material.FEATHER, 1, "§6goPaint Brush",
+            inventory.setItem(10, Items.create(Settings.settings().GENERIC.DEFAULT_BRUSH, 1, "§6goPaint Brush",
                     "§a§lEnabled\n\n§7Left click with item to export\n§7Right click to toggle"
             ));
             inventory.setItem(19, Items.create(Material.LIME_STAINED_GLASS_PANE, 1, "§7", ""));
         } else {
             inventory.setItem(1, Items.create(Material.RED_STAINED_GLASS_PANE, 1, "§7", ""));
-            inventory.setItem(10, Items.create(Material.FEATHER, 1, "§6goPaint Brush",
+            inventory.setItem(10, Items.create(Settings.settings().GENERIC.DEFAULT_BRUSH, 1, "§6goPaint Brush",
                     "§c§lDisabled\n\n§7Left click with item to export\n§7Right click to toggle"
             ));
             inventory.setItem(19, Items.create(Material.RED_STAINED_GLASS_PANE, 1, "§7", ""));

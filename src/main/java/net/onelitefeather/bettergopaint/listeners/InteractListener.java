@@ -28,7 +28,6 @@ import net.onelitefeather.bettergopaint.objects.brush.Brush;
 import net.onelitefeather.bettergopaint.objects.other.Settings;
 import org.bukkit.FluidCollisionMode;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -62,7 +61,7 @@ public final class InteractListener implements Listener {
             return;
         }
 
-        if (event.getAction().isLeftClick() && item.getType().equals(Material.FEATHER)) {
+        if (event.getAction().isLeftClick() && item.getType().equals(Settings.settings().GENERIC.DEFAULT_BRUSH)) {
             PlayerBrush brush = plugin.getBrushManager().getBrush(player);
             player.openInventory(brush.getInventory());
             event.setCancelled(true);
@@ -86,8 +85,8 @@ public final class InteractListener implements Listener {
             return;
         }
 
-        if ((!player.hasPermission("bettergopaint.world.bypass")) && (Settings.settings().GENERIC.DISABLED_WORLDS
-                .contains(location.getWorld().getName()))) {
+        if (!player.hasPermission("bettergopaint.world.bypass") && Settings.settings().GENERIC.DISABLED_WORLDS
+                .contains(location.getWorld().getName())) {
             return;
         }
 
@@ -101,7 +100,7 @@ public final class InteractListener implements Listener {
 
             //noinspection removal
             brushSettings = brush.map(current -> ExportedPlayerBrush.parse(current, itemMeta)).orElse(null);
-        } else if (item.getType().equals(Material.FEATHER)) {
+        } else if (item.getType().equals(Settings.settings().GENERIC.DEFAULT_BRUSH)) {
             brushSettings = plugin.getBrushManager().getBrush(player);
         } else {
             return;

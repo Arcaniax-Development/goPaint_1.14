@@ -30,6 +30,7 @@ import net.onelitefeather.bettergopaint.objects.other.Settings;
 import org.bstats.bukkit.Metrics;
 import org.bstats.charts.SimplePie;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginManager;
@@ -47,6 +48,8 @@ import java.util.Objects;
 import java.util.logging.Level;
 
 public class BetterGoPaint extends JavaPlugin implements Listener {
+
+    public static final @NotNull String PAPER_DOCS = "https://jd.papermc.io/paper/1.20.6/org/bukkit/Material.html#enum-constant-summary";
 
     private final @NotNull PlayerBrushManager brushManager = new PlayerBrushManager();
     private final @NotNull Metrics metrics = new Metrics(this, 18734);
@@ -68,11 +71,18 @@ public class BetterGoPaint extends JavaPlugin implements Listener {
         if (hasOriginalGoPaint()) {
             getComponentLogger().error("BetterGoPaint is a replacement for goPaint. Please use one instead of both");
             getComponentLogger().error("This plugin is now disabling to prevent future errors");
-            this.getServer().getPluginManager().disablePlugin(this);
+            getServer().getPluginManager().disablePlugin(this);
             return;
         }
 
         reloadConfig();
+
+        Material brush = Settings.settings().GENERIC.DEFAULT_BRUSH;
+        if (!brush.isItem()) {
+            getComponentLogger().error("{} is not a valid default brush, it has to be an item", brush.name());
+            getComponentLogger().error("For more information visit {}", PAPER_DOCS);
+            getServer().getPluginManager().disablePlugin(this);
+        }
 
         //noinspection UnnecessaryUnicodeEscape
         getComponentLogger().info(MiniMessage.miniMessage().deserialize(

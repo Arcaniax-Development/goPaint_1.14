@@ -31,6 +31,7 @@ import net.onelitefeather.bettergopaint.objects.brush.PaintBrush;
 import net.onelitefeather.bettergopaint.objects.brush.SplatterBrush;
 import net.onelitefeather.bettergopaint.objects.brush.SprayBrush;
 import net.onelitefeather.bettergopaint.objects.brush.UnderlayBrush;
+import net.onelitefeather.bettergopaint.objects.other.Settings;
 import net.onelitefeather.bettergopaint.utils.GUI;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -68,7 +69,7 @@ public final class InventoryListener implements Listener {
         if (event.getRawSlot() == 10 || event.getRawSlot() == 1 || event.getRawSlot() == 19) {
             if (event.getClick().equals(ClickType.LEFT)) {
                 if (!event.getCursor().getType().isBlock()) {
-                    if (!event.getCursor().getType().equals(Material.FEATHER)) {
+                    if (!event.getCursor().getType().equals(Settings.settings().GENERIC.DEFAULT_BRUSH)) {
                         playerBrush.export(event.getCursor());
                     }
                 }

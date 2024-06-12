@@ -61,6 +61,12 @@ public final class Settings extends Config {
     @Comment("This is related to generic settings")
     public static class GENERIC {
 
+        @Comment({
+                "Default brush item",
+                "Possible values: " + BetterGoPaint.PAPER_DOCS,
+                "Only items are allowed"
+        })
+        public Material DEFAULT_BRUSH = Material.FEATHER;
         @Comment("Max size of the brush")
         public int MAX_SIZE = 100;
         @Comment("Default size for each player of the brush")
@@ -86,7 +92,7 @@ public final class Settings extends Config {
 
         @Comment({
                 "Default mask to apply",
-                "Possible values: https://jd.papermc.io/paper/1.20.6/org/bukkit/Material.html#enum-constant-summary"
+                "Possible values: " + BetterGoPaint.PAPER_DOCS
         })
         public Material DEFAULT_MASK = Material.SPONGE;
 
