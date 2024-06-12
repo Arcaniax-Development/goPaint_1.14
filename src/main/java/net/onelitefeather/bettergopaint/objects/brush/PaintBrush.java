@@ -71,20 +71,20 @@ public class PaintBrush extends Brush {
 
         performEdit(player, session -> {
             Location first = locations.getFirst();
-            List<Block> blocks = Sphere.getBlocksInRadiusWithAir(first, brushSettings.getSize());
+            List<Block> blocks = Sphere.getBlocksInRadiusWithAir(first, brushSettings.size());
             for (Block block : blocks) {
 
                 if (Height.getAverageHeightDiffAngle(block.getLocation(), 1) >= 0.1
-                        && Height.getAverageHeightDiffAngle(block.getLocation(), brushSettings.getAngleDistance())
-                        >= Math.tan(Math.toRadians(brushSettings.getAngleHeightDifference()))) {
+                        && Height.getAverageHeightDiffAngle(block.getLocation(), brushSettings.angleDistance())
+                        >= Math.tan(Math.toRadians(brushSettings.angleHeightDifference()))) {
                     continue;
                 }
 
-                double rate = (block.getLocation().distance(first) - (brushSettings.getSize() / 2.0)
-                        * ((100.0 - brushSettings.getFalloffStrength()) / 100.0)) / ((brushSettings.getSize() / 2.0)
-                        - (brushSettings.getSize() / 2.0) * ((100.0 - brushSettings.getFalloffStrength()) / 100.0));
+                double rate = (block.getLocation().distance(first) - (brushSettings.size() / 2.0)
+                        * ((100.0 - brushSettings.falloffStrength()) / 100.0)) / ((brushSettings.size() / 2.0)
+                        - (brushSettings.size() / 2.0) * ((100.0 - brushSettings.falloffStrength()) / 100.0));
 
-                if (brushSettings.getRandom().nextDouble() <= rate) {
+                if (brushSettings.random().nextDouble() <= rate) {
                     continue;
                 }
 
@@ -107,7 +107,7 @@ public class PaintBrush extends Brush {
                         continue;
                     }
 
-                    setBlock(session, point, brushSettings.getRandomBlock());
+                    setBlock(session, point, brushSettings.randomBlock());
                 }
             }
         });

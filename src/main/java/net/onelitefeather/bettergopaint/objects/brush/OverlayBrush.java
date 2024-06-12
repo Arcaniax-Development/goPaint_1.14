@@ -50,17 +50,17 @@ public class OverlayBrush extends Brush {
     @Override
     public void paint(final Location location, final Player player, final BrushSettings brushSettings) {
         performEdit(player, session -> {
-            List<Block> blocks = Sphere.getBlocksInRadius(location, brushSettings.getSize());
+            List<Block> blocks = Sphere.getBlocksInRadius(location, brushSettings.size());
             for (Block block : blocks) {
                 if (!passesDefaultChecks(brushSettings, player, block)) {
                     continue;
                 }
 
-                if (!isOverlay(block, brushSettings.getThickness())) {
+                if (!isOverlay(block, brushSettings.thickness())) {
                     continue;
                 }
 
-                setBlock(session, block, brushSettings.getRandomBlock());
+                setBlock(session, block, brushSettings.randomBlock());
             }
         });
     }

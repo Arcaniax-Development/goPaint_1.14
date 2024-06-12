@@ -75,11 +75,11 @@ public abstract class Brush {
     }
 
     protected boolean passesSurfaceCheck(BrushSettings brushSettings, Player player, Block block) {
-        return !brushSettings.isSurfaceMode() || Surface.isOnSurface(block, player.getLocation());
+        return !brushSettings.surfaceMode() || Surface.isOnSurface(block, player.getLocation());
     }
 
     protected boolean passesMaskCheck(BrushSettings brushSettings, Block block) {
-        return !brushSettings.isMask() || block.getType().equals(brushSettings.getMask());
+        return block.getType().equals(brushSettings.mask());
     }
 
 }

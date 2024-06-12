@@ -49,22 +49,22 @@ public class SplatterBrush extends Brush {
     @Override
     public void paint(final Location location, final Player player, final BrushSettings brushSettings) {
         performEdit(player, session -> {
-            List<Block> blocks = Sphere.getBlocksInRadius(location, brushSettings.getSize());
+            List<Block> blocks = Sphere.getBlocksInRadius(location, brushSettings.size());
             for (Block block : blocks) {
                 if (!passesDefaultChecks(brushSettings, player, block)) {
                     continue;
                 }
 
-                double rate = (block.getLocation().distance(location) - ((double) brushSettings.getSize() / 2.0)
-                        * ((100.0 - (double) brushSettings.getFalloffStrength()) / 100.0))
-                        / (((double) brushSettings.getSize() / 2.0) - ((double) brushSettings.getSize() / 2.0)
-                        * ((100.0 - (double) brushSettings.getFalloffStrength()) / 100.0));
+                double rate = (block.getLocation().distance(location) - ((double) brushSettings.size() / 2.0)
+                        * ((100.0 - (double) brushSettings.falloffStrength()) / 100.0))
+                        / (((double) brushSettings.size() / 2.0) - ((double) brushSettings.size() / 2.0)
+                        * ((100.0 - (double) brushSettings.falloffStrength()) / 100.0));
 
-                if (brushSettings.getRandom().nextDouble() <= rate) {
+                if (brushSettings.random().nextDouble() <= rate) {
                     continue;
                 }
 
-                setBlock(session, block, brushSettings.getRandomBlock());
+                setBlock(session, block, brushSettings.randomBlock());
             }
         });
     }

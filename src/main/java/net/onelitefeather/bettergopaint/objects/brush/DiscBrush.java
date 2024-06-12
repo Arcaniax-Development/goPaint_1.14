@@ -49,13 +49,13 @@ public class DiscBrush extends Brush {
     @Override
     public void paint(final Location location, final Player player, final BrushSettings brushSettings) {
         performEdit(player, session -> {
-            List<Block> blocks = Sphere.getBlocksInRadiusWithAxis(location, brushSettings.getSize(), brushSettings.getAxis());
+            List<Block> blocks = Sphere.getBlocksInRadiusWithAxis(location, brushSettings.size(), brushSettings.axis());
             for (Block block : blocks) {
                 if (!passesDefaultChecks(brushSettings, player, block)) {
                     continue;
                 }
 
-                setBlock(session, block, brushSettings.getRandomBlock());
+                setBlock(session, block, brushSettings.randomBlock());
             }
         });
     }

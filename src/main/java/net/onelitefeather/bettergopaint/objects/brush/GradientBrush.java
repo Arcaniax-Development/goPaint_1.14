@@ -49,27 +49,27 @@ public class GradientBrush extends Brush {
     @Override
     public void paint(final Location location, final Player player, final BrushSettings brushSettings) {
         performEdit(player, session -> {
-            double y = location.getBlockY() - ((double) brushSettings.getSize() / 2.0);
-            List<Block> blocks = Sphere.getBlocksInRadius(location, brushSettings.getSize());
+            double y = location.getBlockY() - ((double) brushSettings.size() / 2.0);
+            List<Block> blocks = Sphere.getBlocksInRadius(location, brushSettings.size());
             for (Block block : blocks) {
                 if (!passesDefaultChecks(brushSettings, player, block)) {
                     continue;
                 }
 
-                double rate = (block.getLocation().distance(location) - ((double) brushSettings.getSize() / 2.0)
-                        * ((100.0 - (double) brushSettings.getFalloffStrength()) / 100.0))
-                        / (((double) brushSettings.getSize() / 2.0) - ((double) brushSettings.getSize() / 2.0)
-                        * ((100.0 - (double) brushSettings.getFalloffStrength()) / 100.0));
+                double rate = (block.getLocation().distance(location) - ((double) brushSettings.size() / 2.0)
+                        * ((100.0 - (double) brushSettings.falloffStrength()) / 100.0))
+                        / (((double) brushSettings.size() / 2.0) - ((double) brushSettings.size() / 2.0)
+                        * ((100.0 - (double) brushSettings.falloffStrength()) / 100.0));
 
-                if (brushSettings.getRandom().nextDouble() <= rate) {
+                if (brushSettings.random().nextDouble() <= rate) {
                     continue;
                 }
 
-                int random = (int) (((block.getLocation().getBlockY() - y) / (double) brushSettings.getSize() * blocks.size()) +
-                        (brushSettings.getRandom().nextDouble() * 2 - 1) * ((double) brushSettings.getMixingStrength() / 100.0));
-                int index = Math.clamp(random, 0, brushSettings.getBlocks().size() - 1);
+                int random = (int) (((block.getLocation().getBlockY() - y) / (double) brushSettings.size() * blocks.size()) +
+                        (brushSettings.random().nextDouble() * 2 - 1) * ((double) brushSettings.mixingStrength() / 100.0));
+                int index = Math.clamp(random, 0, brushSettings.blocks().size() - 1);
 
-                setBlock(session, block, brushSettings.getBlocks().get(index));
+                setBlock(session, block, brushSettings.blocks().get(index));
             }
         });
     }
