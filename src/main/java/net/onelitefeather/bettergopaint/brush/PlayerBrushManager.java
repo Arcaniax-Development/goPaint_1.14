@@ -74,7 +74,7 @@ public class PlayerBrushManager {
 
     public @NotNull Optional<Brush> getBrushHandler(String name) {
         return brushes.stream()
-                .filter(brush -> brush.getName().equals(name))
+                .filter(brush -> brush.getName().contains(name))
                 .findAny();
     }
 
