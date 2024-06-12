@@ -96,9 +96,7 @@ public final class InteractListener implements Listener {
 
         if (itemMeta != null && itemMeta.hasLore() && itemMeta.displayName() instanceof TextComponent name) {
 
-            // itemMeta.getPersistentDataContainer().get(plugin.getBrushManager().getBrushKey(), BrushPersistentDataType.INSTANCE);
-
-            Optional<Brush> brush = plugin.getBrushManager().getBrushHandler(name.content().replace("♦", "").strip());
+            Optional<Brush> brush = plugin.getBrushManager().getBrushHandler(name.content());
 
             //noinspection removal
             brushSettings = brush.map(current -> BrushSettings.parse(current, itemMeta)).orElse(null);
