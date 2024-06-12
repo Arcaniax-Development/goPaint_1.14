@@ -43,6 +43,8 @@ public abstract class Brush {
 
     public abstract String getName();
 
+    public abstract void paint(Location location, Player player, BrushSettings brushSettings);
+
     protected void setBlock(
             @NotNull EditSession session,
             @NotNull Block block,

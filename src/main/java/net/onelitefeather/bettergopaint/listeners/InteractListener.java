@@ -22,8 +22,8 @@ import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import net.kyori.adventure.text.TextComponent;
 import net.onelitefeather.bettergopaint.BetterGoPaint;
 import net.onelitefeather.bettergopaint.brush.BrushSettings;
-import net.onelitefeather.bettergopaint.brush.ExportedPlayerBrush;
 import net.onelitefeather.bettergopaint.brush.PlayerBrush;
+import net.onelitefeather.bettergopaint.objects.brush.Brush;
 import net.onelitefeather.bettergopaint.objects.other.Settings;
 import org.bukkit.FluidCollisionMode;
 import org.bukkit.Location;
@@ -38,7 +38,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.Objects;
+import java.util.Optional;
 
 public final class InteractListener implements Listener {
 
@@ -74,13 +74,14 @@ public final class InteractListener implements Listener {
 
         Location location;
         if (event.getAction().equals(Action.RIGHT_CLICK_AIR)) {
-            Block exact = player.getTargetBlockExact(250, FluidCollisionMode.NEVER);
-            location = exact != null ? exact.getLocation().clone() : null;
+            Block targetBlock = player.getTargetBlockExact(250, FluidCollisionMode.NEVER);
+            if (targetBlock == null) {
+                return;
+            }
+            location = targetBlock.getLocation().clone();
+        } else if (event.getClickedBlock() != null) {
+            location = event.getClickedBlock().getLocation();
         } else {
-            location = event.getClickedBlock() != null ? event.getClickedBlock().getLocation() : null;
-        }
-
-        if (location == null) {
             return;
         }
 
@@ -93,21 +94,26 @@ public final class InteractListener implements Listener {
 
         ItemMeta itemMeta = item.getItemMeta();
 
-        if (itemMeta != null && itemMeta.displayName() instanceof TextComponent name
-                && name.content().startsWith(" ♦ ") && itemMeta.hasLore()) {
-            brushSettings = new ExportedPlayerBrush(plugin, name, Objects.requireNonNull(itemMeta.lore()));
+        if (itemMeta != null && itemMeta.hasLore() && itemMeta.displayName() instanceof TextComponent name) {
+
+            // itemMeta.getPersistentDataContainer().get(plugin.getBrushManager().getBrushKey(), BrushPersistentDataType.INSTANCE);
+
+            Optional<Brush> brush = plugin.getBrushManager().getBrushHandler(name.content().replace("♦", "").strip());
+
+            //noinspection removal
+            brushSettings = BrushSettings.parse(brush, itemMeta);
         } else if (item.getType().equals(Material.FEATHER)) {
             brushSettings = plugin.getBrushManager().getBrush(player);
         } else {
             return;
         }
 
-        if (brushSettings.getBlocks().isEmpty()) {
+        if (brushSettings == null || brushSettings.blocks().isEmpty()) {
             return;
         }
 
-        if (brushSettings.isEnabled()) {
-            BukkitAdapter.adapt(player).runAsyncIfFree(() -> brushSettings.getBrush().paint(location, player, brushSettings));
+        if (brushSettings.enabled()) {
+            BukkitAdapter.adapt(player).runAsyncIfFree(() -> brushSettings.brush().paint(location, player, brushSettings));
         } else {
             player.sendRichMessage(
                     Settings.settings().GENERIC.PREFIX + "<red>Your brush is disabled, left click to enable the brush."

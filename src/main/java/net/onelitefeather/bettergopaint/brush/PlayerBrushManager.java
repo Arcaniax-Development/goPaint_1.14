@@ -18,6 +18,7 @@
  */
 package net.onelitefeather.bettergopaint.brush;
 
+import com.google.common.collect.ImmutableList;
 import net.onelitefeather.bettergopaint.objects.brush.AngleBrush;
 import net.onelitefeather.bettergopaint.objects.brush.Brush;
 import net.onelitefeather.bettergopaint.objects.brush.BucketBrush;
@@ -31,70 +32,61 @@ import net.onelitefeather.bettergopaint.objects.brush.SplatterBrush;
 import net.onelitefeather.bettergopaint.objects.brush.SprayBrush;
 import net.onelitefeather.bettergopaint.objects.brush.UnderlayBrush;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+import java.util.stream.Collectors;
 
 public class PlayerBrushManager {
 
-    private final HashMap<String, PlayerBrush> playerBrushes = new HashMap<>();
-    private final List<Brush> brushes = new ArrayList<>();
-
-    public PlayerBrushManager() {
-        brushes.add(new SphereBrush());
-        brushes.add(new SprayBrush());
-        brushes.add(new SplatterBrush());
-        brushes.add(new DiscBrush());
-        brushes.add(new BucketBrush());
-        brushes.add(new AngleBrush());
-        brushes.add(new OverlayBrush());
-        brushes.add(new UnderlayBrush());
-        brushes.add(new FractureBrush());
-        brushes.add(new GradientBrush());
-        brushes.add(new PaintBrush());
-    }
+    private final @NotNull HashMap<UUID, PlayerBrush> playerBrushes = new HashMap<>();
+    private final @NotNull List<Brush> brushes = ImmutableList.of(
+            new SphereBrush(),
+            new SprayBrush(),
+            new SplatterBrush(),
+            new DiscBrush(),
+            new BucketBrush(),
+            new AngleBrush(),
+            new OverlayBrush(),
+            new UnderlayBrush(),
+            new FractureBrush(),
+            new GradientBrush(),
+            new PaintBrush()
+    );
 
     public PlayerBrush getBrush(Player player) {
-        if (playerBrushes.containsKey(player.getName())) {
-            return playerBrushes.get(player.getName());
-        } else {
-            PlayerBrush pb = new PlayerBrush(this);
-            playerBrushes.put(player.getName(), pb);
-            return pb;
-        }
+        return playerBrushes.computeIfAbsent(player.getUniqueId(), ignored -> new PlayerBrush(this));
     }
 
-    public String getBrushLore(String name) {
-        StringBuilder lore = new StringBuilder();
-        for (Brush brush : brushes) {
-            if (brush.getName().equalsIgnoreCase(name)) {
-                lore.append("&e").append(brush.getName()).append("\n");
+    public String getBrushLore(Brush brush) {
+        return brushes.stream().map(current -> {
+            if (current.equals(brush)) {
+                return "&e" + current.getName() + "\n";
             } else {
-                lore.append("&8").append(brush.getName()).append("\n");
+                return "&8" + current.getName() + "\n";
             }
-        }
-        return lore.substring(0, lore.length());
+        }).collect(Collectors.joining());
     }
 
-    public Brush getBrushHandler(String name) {
-        for (Brush brush : brushes) {
-            if (brush.getName().equalsIgnoreCase(name)) {
-                return brush;
-            }
-        }
-        return brushes.getFirst();
+    public @NotNull Optional<Brush> getBrushHandler(String name) {
+        return brushes.stream()
+                .filter(brush -> brush.getName().equals(name))
+                .findAny();
     }
 
-    public List<Brush> getBrushes() {
+    public @NotNull List<Brush> getBrushes() {
         return brushes;
     }
 
     public void removeBrush(Player player) {
-        playerBrushes.remove(player.getName());
+        playerBrushes.remove(player.getUniqueId());
     }
 
-    public Brush cycleForward(Brush brush) {
+    public Brush cycleForward(@Nullable Brush brush) {
         if (brush == null) {
             return brushes.getFirst();
         }
@@ -105,7 +97,7 @@ public class PlayerBrushManager {
         return brushes.getFirst();
     }
 
-    public Brush cycleBack(Brush brush) {
+    public Brush cycleBack(@Nullable Brush brush) {
         if (brush == null) {
             return brushes.getFirst();
         }
@@ -115,4 +107,5 @@ public class PlayerBrushManager {
         }
         return brushes.getLast();
     }
+
 }
