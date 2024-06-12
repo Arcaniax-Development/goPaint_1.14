@@ -101,7 +101,7 @@ public final class InteractListener implements Listener {
             Optional<Brush> brush = plugin.getBrushManager().getBrushHandler(name.content().replace("♦", "").strip());
 
             //noinspection removal
-            brushSettings = BrushSettings.parse(brush, itemMeta);
+            brushSettings = brush.map(current -> BrushSettings.parse(current, itemMeta)).orElse(null);
         } else if (item.getType().equals(Material.FEATHER)) {
             brushSettings = plugin.getBrushManager().getBrush(player);
         } else {

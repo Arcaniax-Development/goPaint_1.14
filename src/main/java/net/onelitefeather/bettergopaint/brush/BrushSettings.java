@@ -18,7 +18,6 @@
  */
 package net.onelitefeather.bettergopaint.brush;
 
-import net.kyori.adventure.text.TextComponent;
 import net.onelitefeather.bettergopaint.objects.brush.Brush;
 import net.onelitefeather.bettergopaint.objects.other.SurfaceMode;
 import org.bukkit.Axis;
@@ -114,49 +113,44 @@ public interface BrushSettings {
     Random random();
 
     @Deprecated(forRemoval = true)
-    static BrushSettings parse(@NotNull Optional<Brush> brush, @NotNull ItemMeta itemMeta) {
-        return brush.map(ExportedPlayerBrush::builder).map(builder -> {
-                    Optional.ofNullable(itemMeta.lore()).ifPresent(components -> components.stream()
-                            .filter(component -> component instanceof TextComponent)
-                            .map(component -> (TextComponent) component)
-                            .map(TextComponent::content)
-                            .forEach(string -> {
-                                if (string.startsWith("Size: ")) {
-                                    builder.size(Integer.parseInt(string.replace("Size: ", "")));
-                                } else if (string.startsWith("Chance: ")) {
-                                    builder.chance(Integer.parseInt(string.replace("Chance: ", "").replace("%", "")));
-                                } else if (string.startsWith("Thickness: ")) {
-                                    builder.thickness(Integer.parseInt(string.replace("Thickness: ", "")));
-                                } else if (string.startsWith("Axis: ")) {
-                                    builder.axis(Axis.valueOf(string.replace("Axis: ", "").toUpperCase()));
-                                } else if (string.startsWith("FractureDistance: ")) {
-                                    builder.fractureDistance(Integer.parseInt(string.replace("FractureDistance: ", "")));
-                                } else if (string.startsWith("AngleDistance: ")) {
-                                    builder.angleDistance(Integer.parseInt(string.replace("AngleDistance: ", "")));
-                                } else if (string.startsWith("AngleHeightDifference: ")) {
-                                    builder.angleHeightDifference(Double.parseDouble(
-                                            string.replace("AngleHeightDifference: ", "")
-                                    ));
-                                } else if (string.startsWith("Mixing: ")) {
-                                    builder.mixingStrength(Integer.parseInt(string.replace("Mixing: ", "")));
-                                } else if (string.startsWith("Falloff: ")) {
-                                    builder.falloffStrength(Integer.parseInt(string.replace("Falloff: ", "")));
-                                } else if (string.startsWith("Blocks: ")) {
-                                    builder.blocks(Arrays.stream(string.replace("Blocks: ", "").split(", "))
-                                            .map(Material::matchMaterial)
-                                            .filter(Objects::nonNull)
-                                            .toList());
-                                } else if (string.startsWith("Mask: ")) {
-                                    builder.mask(Material.matchMaterial(string.replace("Mask: ", "")));
-                                } else if (string.startsWith("Surface Mode: ")) {
-                                    SurfaceMode.byName(string.replace("Surface Mode: ", ""))
-                                            .ifPresent(builder::surfaceMode);
-                                }
-                            }));
-                    return builder;
-                })
-                .map(ExportedPlayerBrush.Builder::build)
-                .orElse(null);
+    static BrushSettings parse(@NotNull Brush brush, @NotNull ItemMeta itemMeta) {
+        ExportedPlayerBrush.Builder builder = ExportedPlayerBrush.builder(brush);
+        Optional.ofNullable(itemMeta.getLore()).ifPresent(lore -> lore.stream()
+                .map(line -> line.replace("§8", ""))
+                .forEach(line -> {
+                    if (line.startsWith("Size: ")) {
+                        builder.size(Integer.parseInt(line.replace("Size: ", "")));
+                    } else if (line.startsWith("Chance: ")) {
+                        builder.chance(Integer.parseInt(line.replace("Chance: ", "").replace("%", "")));
+                    } else if (line.startsWith("Thickness: ")) {
+                        builder.thickness(Integer.parseInt(line.replace("Thickness: ", "")));
+                    } else if (line.startsWith("Axis: ")) {
+                        builder.axis(Axis.valueOf(line.replace("Axis: ", "").toUpperCase()));
+                    } else if (line.startsWith("FractureDistance: ")) {
+                        builder.fractureDistance(Integer.parseInt(line.replace("FractureDistance: ", "")));
+                    } else if (line.startsWith("AngleDistance: ")) {
+                        builder.angleDistance(Integer.parseInt(line.replace("AngleDistance: ", "")));
+                    } else if (line.startsWith("AngleHeightDifference: ")) {
+                        builder.angleHeightDifference(Double.parseDouble(
+                                line.replace("AngleHeightDifference: ", "")
+                        ));
+                    } else if (line.startsWith("Mixing: ")) {
+                        builder.mixingStrength(Integer.parseInt(line.replace("Mixing: ", "")));
+                    } else if (line.startsWith("Falloff: ")) {
+                        builder.falloffStrength(Integer.parseInt(line.replace("Falloff: ", "")));
+                    } else if (line.startsWith("Blocks: ")) {
+                        builder.blocks(Arrays.stream(line.replace("Blocks: ", "").split(", "))
+                                .map(Material::matchMaterial)
+                                .filter(Objects::nonNull)
+                                .toList());
+                    } else if (line.startsWith("Mask: ")) {
+                        builder.mask(Material.matchMaterial(line.replace("Mask: ", "")));
+                    } else if (line.startsWith("Surface Mode: ")) {
+                        SurfaceMode.byName(line.replace("Surface Mode: ", ""))
+                                .ifPresent(builder::surfaceMode);
+                    }
+                }));
+        return builder.build();
     }
 
 }
