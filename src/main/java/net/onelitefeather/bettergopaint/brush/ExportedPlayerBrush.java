@@ -18,161 +18,163 @@
  */
 package net.onelitefeather.bettergopaint.brush;
 
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.TextComponent;
-import net.onelitefeather.bettergopaint.BetterGoPaint;
 import net.onelitefeather.bettergopaint.objects.brush.Brush;
 import org.bukkit.Axis;
 import org.bukkit.Material;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 import java.util.Random;
 
-public class ExportedPlayerBrush implements BrushSettings {
+public record ExportedPlayerBrush(
+        Brush brush,
+        @Nullable Material mask,
+        List<Material> blocks,
+        Axis axis,
+        boolean surfaceMode,
+        int size,
+        int chance,
+        int thickness,
+        int angleDistance,
+        int fractureDistance,
+        int falloffStrength,
+        int mixingStrength,
+        double angleHeightDifference
+) implements BrushSettings {
 
-    private final Random random = new Random();
+    private static final Random RANDOM = new Random();
 
-    private boolean surfaceMode;
-    private boolean maskEnabled;
-    private int size = 10;
-    private int chance = 50;
-    private int thickness = 1;
-    private int angleDistance = 2;
-    private int fractureDistance = 2;
-    private int falloffStrength = 50;
-    private int mixingStrength = 50;
-    private double angleHeightDifference = 2.5;
-    private Axis axis = Axis.Y;
-
-    private final Brush brush;
-    private Material mask;
-    private final List<Material> blocks = new ArrayList<>();
-
-    public ExportedPlayerBrush(BetterGoPaint plugin, TextComponent name, List<Component> lore) {
-        brush = plugin.getBrushManager().getBrushHandler(name.content().replace("♦", "").strip());
-        lore.stream()
-                .filter(component -> component instanceof TextComponent)
-                .map(component -> (TextComponent) component)
-                .map(TextComponent::content)
-                .forEach(string -> {
-                    if (string.startsWith("Size: ")) {
-                        size = Integer.parseInt(string.replace("Size: ", ""));
-                    } else if (string.startsWith("Chance: ")) {
-                        chance = Integer.parseInt(string.replace("Chance: ", "").replace("%", ""));
-                    } else if (string.startsWith("Thickness: ")) {
-                        thickness = Integer.parseInt(string.replace("Thickness: ", ""));
-                    } else if (string.startsWith("Axis: ")) {
-                        axis = Axis.valueOf(string.replace("Axis: ", "").toUpperCase());
-                    } else if (string.startsWith("FractureDistance: ")) {
-                        fractureDistance = Integer.parseInt(string.replace("FractureDistance: ", ""));
-                    } else if (string.startsWith("AngleDistance: ")) {
-                        angleDistance = Integer.parseInt(string.replace("AngleDistance: ", ""));
-                    } else if (string.startsWith("AngleHeightDifference: ")) {
-                        angleHeightDifference = Double.parseDouble(string.replace("AngleHeightDifference: ", ""));
-                    } else if (string.startsWith("Mixing: ")) {
-                        mixingStrength = Integer.parseInt(string.replace("Mixing: ", ""));
-                    } else if (string.startsWith("Falloff: ")) {
-                        falloffStrength = Integer.parseInt(string.replace("Falloff: ", ""));
-                    } else if (string.startsWith("Blocks: ")) {
-                        Arrays.stream(string.replace("Blocks: ", "").split(", "))
-                                .map(Material::matchMaterial)
-                                .filter(Objects::nonNull)
-                                .forEach(this.blocks::add);
-                    } else if (string.startsWith("Mask: ")) {
-                        this.mask = Material.matchMaterial(string.replace("Mask: ", ""));
-                        maskEnabled = true;
-                    } else if (string.startsWith("Surface Mode")) {
-                        surfaceMode = true;
-                    }
-                });
+    public ExportedPlayerBrush(Builder builder) {
+        this(
+                builder.brush,
+                builder.mask,
+                builder.blocks,
+                builder.axis,
+                builder.surfaceMode,
+                builder.size,
+                builder.chance,
+                builder.thickness,
+                builder.angleDistance,
+                builder.fractureDistance,
+                builder.falloffStrength,
+                builder.mixingStrength,
+                builder.angleHeightDifference
+        );
     }
 
     @Override
-    public int getThickness() {
-        return thickness;
-    }
-
-    @Override
-    public Material getRandomBlock() {
-        return getBlocks().get(random.nextInt(getBlocks().size()));
-    }
-
-    @Override
-    public Random getRandom() {
-        return random;
-    }
-
-    @Override
-    public int getFalloffStrength() {
-        return falloffStrength;
-    }
-
-    @Override
-    public int getFractureDistance() {
-        return fractureDistance;
-    }
-
-    @Override
-    public int getMixingStrength() {
-        return mixingStrength;
-    }
-
-    @Override
-    public int getSize() {
-        return size;
-    }
-
-    @Override
-    public Axis getAxis() {
-        return axis;
-    }
-
-    @Override
-    public Brush getBrush() {
-        return brush;
-    }
-
-    @Override
-    public List<Material> getBlocks() {
-        return blocks;
-    }
-
-    @Override
-    public Material getMask() {
-        return mask;
-    }
-
-    @Override
-    public boolean isEnabled() {
+    public boolean enabled() {
         return true;
     }
 
     @Override
-    public boolean isMask() {
-        return maskEnabled;
+    public boolean maskEnabled() {
+        return mask() != null;
     }
 
     @Override
-    public boolean isSurfaceMode() {
-        return surfaceMode;
+    public @NotNull Material randomBlock() {
+        return blocks().get(random().nextInt(blocks().size()));
     }
 
     @Override
-    public double getAngleHeightDifference() {
-        return angleHeightDifference;
+    public @NotNull Random random() {
+        return RANDOM;
     }
 
-    @Override
-    public int getAngleDistance() {
-        return angleDistance;
+    public static Builder builder(Brush brush) {
+        return new Builder(brush);
     }
 
-    @Override
-    public int getChance() {
-        return chance;
+    public static final class Builder {
+
+        private final @NotNull Brush brush;
+
+        private @Nullable Material mask;
+        private @NotNull List<Material> blocks = new ArrayList<>();
+
+        private Axis axis;
+
+        private boolean surfaceMode;
+        private int size;
+        private int chance;
+        private int thickness;
+        private int angleDistance;
+        private int fractureDistance;
+        private int falloffStrength;
+        private int mixingStrength;
+        private double angleHeightDifference;
+
+        private Builder(@NotNull Brush brush) {
+            this.brush = brush;
+        }
+
+        public Builder surfaceMode(boolean surfaceMode) {
+            this.surfaceMode = surfaceMode;
+            return this;
+        }
+
+        public Builder blocks(@NotNull List<Material> blocks) {
+            this.blocks = blocks;
+            return this;
+        }
+
+        public Builder mask(@Nullable Material mask) {
+            this.mask = mask;
+            return this;
+        }
+
+        public Builder size(int size) {
+            this.size = size;
+            return this;
+        }
+
+        public Builder chance(int chance) {
+            this.chance = chance;
+            return this;
+        }
+
+        public Builder thickness(int thickness) {
+            this.thickness = thickness;
+            return this;
+        }
+
+        public Builder angleDistance(int angleDistance) {
+            this.angleDistance = angleDistance;
+            return this;
+        }
+
+        public Builder fractureDistance(int fractureDistance) {
+            this.fractureDistance = fractureDistance;
+            return this;
+        }
+
+        public Builder falloffStrength(int falloffStrength) {
+            this.falloffStrength = falloffStrength;
+            return this;
+        }
+
+        public Builder mixingStrength(int mixingStrength) {
+            this.mixingStrength = mixingStrength;
+            return this;
+        }
+
+        public Builder angleHeightDifference(double angleHeightDifference) {
+            this.angleHeightDifference = angleHeightDifference;
+            return this;
+        }
+
+        public Builder axis(@NotNull Axis axis) {
+            this.axis = axis;
+            return this;
+        }
+
+        public ExportedPlayerBrush build() {
+            return new ExportedPlayerBrush(this);
+        }
+
     }
 
 }

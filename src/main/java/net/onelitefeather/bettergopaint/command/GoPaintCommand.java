@@ -66,7 +66,7 @@ public class GoPaintCommand extends Command implements PluginIdentifiableCommand
                 p.sendRichMessage(prefix + "<red>/gp size [number]");
                 return true;
             } else if (args[0].equalsIgnoreCase("toggle")) {
-                if (pb.isEnabled()) {
+                if (pb.enabled()) {
                     pb.toggle();
                     p.sendRichMessage(prefix + "<red>Disabled brush");
                 } else {
@@ -95,7 +95,7 @@ public class GoPaintCommand extends Command implements PluginIdentifiableCommand
                 try {
                     int sizeAmount = Integer.parseInt(args[1]);
                     pb.setSize(sizeAmount);
-                    p.sendRichMessage(prefix + "<gold>Size set to: <yellow>" + pb.getSize());
+                    p.sendRichMessage(prefix + "<gold>Size set to: <yellow>" + pb.size());
                     return true;
                 } catch (Exception e) {
                     p.sendRichMessage(prefix + "<red>/gb size [number]");

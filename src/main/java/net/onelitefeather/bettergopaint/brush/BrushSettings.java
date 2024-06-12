@@ -18,47 +18,100 @@
  */
 package net.onelitefeather.bettergopaint.brush;
 
+import net.kyori.adventure.text.TextComponent;
 import net.onelitefeather.bettergopaint.objects.brush.Brush;
 import org.bukkit.Axis;
 import org.bukkit.Material;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.jetbrains.annotations.NotNull;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.Random;
 
 public interface BrushSettings {
 
-    Axis getAxis();
+    Axis axis();
 
-    Brush getBrush();
+    Brush brush();
 
-    List<Material> getBlocks();
+    List<Material> blocks();
 
-    Material getMask();
+    Material mask();
 
-    boolean isEnabled();
+    boolean enabled();
 
-    boolean isMask();
+    boolean maskEnabled();
 
-    boolean isSurfaceMode();
+    boolean surfaceMode();
 
-    double getAngleHeightDifference();
+    double angleHeightDifference();
 
-    int getAngleDistance();
+    int angleDistance();
 
-    int getChance();
+    int chance();
 
-    int getFalloffStrength();
+    int falloffStrength();
 
-    int getFractureDistance();
+    int fractureDistance();
 
-    int getMixingStrength();
+    int mixingStrength();
 
-    int getSize();
+    int size();
 
-    int getThickness();
+    int thickness();
 
-    Material getRandomBlock();
+    @NotNull
+    Material randomBlock();
 
-    Random getRandom();
+    @NotNull
+    Random random();
+
+    @Deprecated(forRemoval = true)
+    static BrushSettings parse(@NotNull Optional<Brush> brush, @NotNull ItemMeta itemMeta) {
+        return brush.map(ExportedPlayerBrush::builder).map(builder -> {
+                    Optional.ofNullable(itemMeta.lore()).ifPresent(components -> components.stream()
+                            .filter(component -> component instanceof TextComponent)
+                            .map(component -> (TextComponent) component)
+                            .map(TextComponent::content)
+                            .forEach(string -> {
+                                if (string.startsWith("Size: ")) {
+                                    builder.size(Integer.parseInt(string.replace("Size: ", "")));
+                                } else if (string.startsWith("Chance: ")) {
+                                    builder.chance(Integer.parseInt(string.replace("Chance: ", "").replace("%", "")));
+                                } else if (string.startsWith("Thickness: ")) {
+                                    builder.thickness(Integer.parseInt(string.replace("Thickness: ", "")));
+                                } else if (string.startsWith("Axis: ")) {
+                                    builder.axis(Axis.valueOf(string.replace("Axis: ", "").toUpperCase()));
+                                } else if (string.startsWith("FractureDistance: ")) {
+                                    builder.fractureDistance(Integer.parseInt(string.replace("FractureDistance: ", "")));
+                                } else if (string.startsWith("AngleDistance: ")) {
+                                    builder.angleDistance(Integer.parseInt(string.replace("AngleDistance: ", "")));
+                                } else if (string.startsWith("AngleHeightDifference: ")) {
+                                    builder.angleHeightDifference(Double.parseDouble(
+                                            string.replace("AngleHeightDifference: ", "")
+                                    ));
+                                } else if (string.startsWith("Mixing: ")) {
+                                    builder.mixingStrength(Integer.parseInt(string.replace("Mixing: ", "")));
+                                } else if (string.startsWith("Falloff: ")) {
+                                    builder.falloffStrength(Integer.parseInt(string.replace("Falloff: ", "")));
+                                } else if (string.startsWith("Blocks: ")) {
+                                    builder.blocks(Arrays.stream(string.replace("Blocks: ", "").split(", "))
+                                            .map(Material::matchMaterial)
+                                            .filter(Objects::nonNull)
+                                            .toList());
+                                } else if (string.startsWith("Mask: ")) {
+                                    builder.mask(Material.matchMaterial(string.replace("Mask: ", "")));
+                                } else if (string.startsWith("Surface Mode")) {
+                                    builder.surfaceMode(true);
+                                }
+                            }));
+                    return builder;
+                })
+                .map(ExportedPlayerBrush.Builder::build)
+                .orElse(null);
+    }
 
 }

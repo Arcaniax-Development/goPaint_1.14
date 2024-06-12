@@ -40,16 +40,17 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
 
-public class PlayerBrush implements BrushSettings {
+public final class PlayerBrush implements BrushSettings {
 
-    private final PlayerBrushManager brushManager;
-    private final Random random = new Random();
+    private final @NotNull PlayerBrushManager brushManager;
+    private final @NotNull Random random = new Random();
 
     private boolean surfaceMode;
     private boolean maskEnabled;
@@ -62,11 +63,11 @@ public class PlayerBrush implements BrushSettings {
     private int falloffStrength;
     private int mixingStrength;
     private double angleHeightDifference;
-    private Axis axis;
+    private @NotNull Axis axis;
 
-    private Brush brush;
-    private Material mask;
-    private final List<Material> blocks = new ArrayList<>();
+    private @NotNull Brush brush;
+    private @NotNull Material mask;
+    private final @NotNull List<Material> blocks = new ArrayList<>();
 
     private final Inventory gui;
 
@@ -91,90 +92,90 @@ public class PlayerBrush implements BrushSettings {
         gui = GUI.create(this);
     }
 
-    public Material getRandomBlock() {
-        return getBlocks().get(random.nextInt(getBlocks().size()));
+    public @NotNull Material randomBlock() {
+        return blocks().get(random.nextInt(blocks().size()));
     }
 
     @Override
-    public Brush getBrush() {
+    public Brush brush() {
         return brush;
     }
 
-    public void setBrush(Brush brush) {
+    public void setBrush(@NotNull Brush brush) {
         this.brush = brush;
     }
 
     @Override
-    public Random getRandom() {
+    public @NotNull Random random() {
         return random;
     }
 
     @Override
-    public int getFalloffStrength() {
+    public int falloffStrength() {
         return falloffStrength;
     }
 
     @Override
-    public int getMixingStrength() {
+    public int mixingStrength() {
         return mixingStrength;
     }
 
     @Override
-    public double getAngleHeightDifference() {
+    public double angleHeightDifference() {
         return this.angleHeightDifference;
     }
 
     @Override
-    public int getAngleDistance() {
+    public int angleDistance() {
         return this.angleDistance;
     }
 
     @Override
-    public int getFractureDistance() {
+    public int fractureDistance() {
         return this.fractureDistance;
     }
 
     @Override
-    public Material getMask() {
+    public Material mask() {
         return mask;
     }
 
     @Override
-    public List<Material> getBlocks() {
+    public List<Material> blocks() {
         return blocks;
     }
 
     @Override
-    public int getSize() {
+    public int size() {
         return size;
     }
 
-    public boolean isEnabled() {
+    public boolean enabled() {
         return enabled;
     }
 
     @Override
-    public int getChance() {
-        return chance;
-    }
-
-    @Override
-    public boolean isMask() {
+    public boolean maskEnabled() {
         return maskEnabled;
     }
 
     @Override
-    public boolean isSurfaceMode() {
+    public int chance() {
+        return chance;
+    }
+
+    @Override
+    public boolean surfaceMode() {
         return surfaceMode;
     }
 
     @Override
-    public int getThickness() {
+    public int thickness() {
         return thickness;
     }
 
     @Override
-    public Axis getAxis() {
+    public Axis axis() {
         return axis;
     }
 
@@ -393,37 +394,37 @@ public class PlayerBrush implements BrushSettings {
     public void export(ItemStack itemStack) {
         List<String> lore = new ArrayList<>();
         lore.add("Size: " + size);
-        if (getBrush() instanceof SprayBrush) {
-            lore.add("Chance: " + getChance() + "%");
-        } else if (getBrush() instanceof OverlayBrush || getBrush() instanceof UnderlayBrush) {
-            lore.add("Thickness: " + getThickness());
-        } else if (getBrush() instanceof DiscBrush) {
-            lore.add("Axis: " + getAxis().name());
-        } else if (getBrush() instanceof AngleBrush) {
-            lore.add("AngleDistance: " + getAngleDistance());
-            lore.add("AngleHeightDifference: " + getAngleHeightDifference());
-        } else if (getBrush() instanceof SplatterBrush) {
-            lore.add("Falloff: " + getFalloffStrength());
-        } else if (getBrush() instanceof GradientBrush) {
-            lore.add("Mixing: " + getMixingStrength());
-            lore.add("Falloff: " + getFalloffStrength());
-        } else if (getBrush() instanceof FractureBrush) {
-            lore.add("FractureDistance: " + getFractureDistance());
+        if (brush() instanceof SprayBrush) {
+            lore.add("Chance: " + chance() + "%");
+        } else if (brush() instanceof OverlayBrush || brush() instanceof UnderlayBrush) {
+            lore.add("Thickness: " + thickness());
+        } else if (brush() instanceof DiscBrush) {
+            lore.add("Axis: " + axis().name());
+        } else if (brush() instanceof AngleBrush) {
+            lore.add("AngleDistance: " + angleDistance());
+            lore.add("AngleHeightDifference: " + angleHeightDifference());
+        } else if (brush() instanceof SplatterBrush) {
+            lore.add("Falloff: " + falloffStrength());
+        } else if (brush() instanceof GradientBrush) {
+            lore.add("Mixing: " + mixingStrength());
+            lore.add("Falloff: " + falloffStrength());
+        } else if (brush() instanceof FractureBrush) {
+            lore.add("FractureDistance: " + fractureDistance());
         }
-        lore.add("Blocks: " + (getBlocks().isEmpty() ? "none" : getBlocks().stream()
+        lore.add("Blocks: " + (blocks().isEmpty() ? "none" : blocks().stream()
                 .map(Material::getKey)
                 .map(NamespacedKey::asMinimalString)
                 .collect(Collectors.joining(", "))));
 
-        if (isMask()) {
-            lore.add("Mask: " + getMask().getKey().asMinimalString());
+        if (maskEnabled()) {
+            lore.add("Mask: " + mask().getKey().asMinimalString());
         }
-        if (isSurfaceMode()) {
+        if (surfaceMode()) {
             lore.add("Surface Mode");
         }
 
         itemStack.editMeta(itemMeta -> {
-            itemMeta.displayName(Component.text(" ♦ " + getBrush().getName() + " ♦ ", NamedTextColor.AQUA)
+            itemMeta.displayName(Component.text(" ♦ " + brush().getName() + " ♦ ", NamedTextColor.AQUA)
                     .style(Style.style(TextDecoration.ITALIC.withState(false))));
             itemMeta.lore(lore.stream().map(string -> Component.text(string).style(Style
                     .style(TextDecoration.ITALIC.withState(false))
