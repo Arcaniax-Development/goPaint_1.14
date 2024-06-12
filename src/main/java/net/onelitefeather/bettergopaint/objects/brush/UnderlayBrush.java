@@ -65,7 +65,7 @@ public class UnderlayBrush extends Brush {
 
     private boolean isUnderlay(Block block, int thickness) {
         for (int i = 1; i <= thickness; i++) {
-            if (!block.getRelative(BlockFace.UP, i).isSolid()) {
+            if (!block.isSolid() || !block.getRelative(BlockFace.UP, i).isSolid()) {
                 return false;
             }
         }
