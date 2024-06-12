@@ -61,7 +61,7 @@ public final class InteractListener implements Listener {
             return;
         }
 
-        if (event.getAction().isLeftClick() && item.getType().equals(Settings.settings().GENERIC.DEFAULT_BRUSH)) {
+        if (event.getAction().isLeftClick() && item.getType() == Settings.settings().GENERIC.DEFAULT_BRUSH) {
             PlayerBrush brush = plugin.getBrushManager().getBrush(player);
             player.openInventory(brush.getInventory());
             event.setCancelled(true);
@@ -73,7 +73,7 @@ public final class InteractListener implements Listener {
         }
 
         Location location;
-        if (event.getAction().equals(Action.RIGHT_CLICK_AIR)) {
+        if (event.getAction() == Action.RIGHT_CLICK_AIR) {
             Block targetBlock = player.getTargetBlockExact(250, FluidCollisionMode.NEVER);
             if (targetBlock == null) {
                 return;
