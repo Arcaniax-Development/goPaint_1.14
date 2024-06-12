@@ -22,6 +22,7 @@ import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import net.kyori.adventure.text.TextComponent;
 import net.onelitefeather.bettergopaint.BetterGoPaint;
 import net.onelitefeather.bettergopaint.brush.BrushSettings;
+import net.onelitefeather.bettergopaint.brush.ExportedPlayerBrush;
 import net.onelitefeather.bettergopaint.brush.PlayerBrush;
 import net.onelitefeather.bettergopaint.objects.brush.Brush;
 import net.onelitefeather.bettergopaint.objects.other.Settings;
@@ -99,7 +100,7 @@ public final class InteractListener implements Listener {
             Optional<Brush> brush = plugin.getBrushManager().getBrushHandler(name.content());
 
             //noinspection removal
-            brushSettings = brush.map(current -> BrushSettings.parse(current, itemMeta)).orElse(null);
+            brushSettings = brush.map(current -> ExportedPlayerBrush.parse(current, itemMeta)).orElse(null);
         } else if (item.getType().equals(Material.FEATHER)) {
             brushSettings = plugin.getBrushManager().getBrush(player);
         } else {

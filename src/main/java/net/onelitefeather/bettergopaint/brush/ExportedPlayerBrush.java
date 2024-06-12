@@ -184,7 +184,7 @@ public record ExportedPlayerBrush(
     }
 
     @Deprecated(forRemoval = true)
-    static ExportedPlayerBrush parse(@NotNull Brush brush, @NotNull ItemMeta itemMeta) {
+    public static ExportedPlayerBrush parse(@NotNull Brush brush, @NotNull ItemMeta itemMeta) {
         ExportedPlayerBrush.Builder builder = ExportedPlayerBrush.builder(brush);
         Optional.ofNullable(itemMeta.getLore()).ifPresent(lore -> lore.stream()
                 .map(line -> line.replace("§8", ""))
