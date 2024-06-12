@@ -90,25 +90,75 @@ public interface BrushSettings {
      */
     SurfaceMode surfaceMode();
 
+    /**
+     * Returns the angle-height difference used by the brush settings.
+     *
+     * @return The angle-height difference used by the brush settings.
+     */
     double angleHeightDifference();
 
+    /**
+     * Returns the angle distance used by the brush settings.
+     *
+     * @return The angle distance used by the brush settings.
+     */
     int angleDistance();
 
+    /**
+     * Returns the chance of the brush being applied to a block.
+     *
+     * @return The chance of the brush being applied to a block.
+     */
     int chance();
 
+    /**
+     * Returns the falloff strength used by the brush settings.
+     *
+     * @return The falloff strength used by the brush settings.
+     */
     int falloffStrength();
 
+    /**
+     * Returns the fracture distance used by the brush settings.
+     *
+     * @return The fracture distance used by the brush settings.
+     */
     int fractureDistance();
 
+    /**
+     * Returns the mixing strength used by the brush settings.
+     *
+     * @return The mixing strength used by the brush settings.
+     */
     int mixingStrength();
 
+    /**
+     * Returns the size of the brush settings.
+     *
+     * @return The size of the brush settings.
+     */
     int size();
 
+    /**
+     * Returns the thickness used by the brush settings.
+     *
+     * @return The thickness used by the brush settings.
+     */
     int thickness();
 
+    /**
+     * Picks a random block material from {@link #blocks()}.
+     *
+     * @return The randomly picked block material.
+     */
     @NotNull
     Material randomBlock();
 
+    /**
+     * The random number generator instance.
+     *
+     * @return a Random instance
+     */
     @NotNull
     Random random();
 
