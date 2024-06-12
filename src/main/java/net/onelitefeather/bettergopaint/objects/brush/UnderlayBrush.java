@@ -30,10 +30,23 @@ import java.util.List;
 public class UnderlayBrush extends Brush {
 
     private static final String HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzIzNDQ2OTkwZjU4YjY1M2FiNWYwZTdhZjNmZGM3NTYwOTEyNzVmNGMzYzJkZDQxYzdkODYyZGQzZjkyZTg0YSJ9fX0=";
+    private static final String NAME = "Underlay Brush";
+
+    @Override
+    public String getDescription() {
+        return DESCRIPTION;
+    }
+
     @Override
     public String getHead() {
         return HEAD;
     }
+
+    @Override
+    public String getName() {
+        return NAME;
+    }
+
     @Override
     public void paint(final Location location, final Player player, final BrushSettings brushSettings) {
         performEdit(player, session -> {
@@ -59,11 +72,6 @@ public class UnderlayBrush extends Brush {
             }
         }
         return true;
-    }
-
-    @Override
-    public String getName() {
-        return "Underlay Brush";
     }
 
 }

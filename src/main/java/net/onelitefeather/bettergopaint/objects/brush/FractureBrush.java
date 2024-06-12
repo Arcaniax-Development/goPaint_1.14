@@ -30,10 +30,23 @@ import java.util.List;
 public class FractureBrush extends Brush {
 
     private static final String HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMjNkZjczZWVlNjIyNGM1YzVkOTQ4ZDJhMzQ1ZGUyNWYyMDhjYmQ5YWY3MTA4Y2UxZTFiNjFhNTg2ZGU5OGIyIn19fQ==";
+    private static final String NAME = "Fracture Brush";
+
+    @Override
+    public String getDescription() {
+        return DESCRIPTION;
+    }
+
     @Override
     public String getHead() {
         return HEAD;
     }
+
+    @Override
+    public String getName() {
+        return NAME;
+    }
+
     @Override
     public void paint(final Location location, final Player player, final BrushSettings brushSettings) {
         performEdit(player, session -> {
@@ -58,11 +71,6 @@ public class FractureBrush extends Brush {
                 setBlock(session, block, brushSettings.getRandomBlock());
             }
         });
-    }
-
-    @Override
-    public String getName() {
-        return "Fracture Brush";
     }
 
 }

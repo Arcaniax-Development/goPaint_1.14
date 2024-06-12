@@ -36,10 +36,23 @@ import java.util.UUID;
 public class PaintBrush extends Brush {
 
     private static final String HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODBiM2E5ZGZhYmVmYmRkOTQ5YjIxN2JiZDRmYTlhNDg2YmQwYzNmMGNhYjBkMGI5ZGZhMjRjMzMyZGQzZTM0MiJ9fX0=";
+    private static final String NAME = "Paint Brush";
+
+    @Override
+    public String getDescription() {
+        return DESCRIPTION;
+    }
+
     @Override
     public String getHead() {
         return HEAD;
     }
+
+    @Override
+    public String getName() {
+        return NAME;
+    }
+
     private static final HashMap<UUID, List<Location>> selectedPoints = new HashMap<>();
 
     @Override
@@ -98,11 +111,6 @@ public class PaintBrush extends Brush {
                 }
             }
         });
-    }
-
-    @Override
-    public String getName() {
-        return "Paint Brush";
     }
 
 }
