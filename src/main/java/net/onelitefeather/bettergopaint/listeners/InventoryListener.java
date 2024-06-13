@@ -19,8 +19,8 @@
 package net.onelitefeather.bettergopaint.listeners;
 
 import net.kyori.adventure.text.TextComponent;
-import net.onelitefeather.bettergopaint.BetterGoPaint;
 import net.onelitefeather.bettergopaint.brush.PlayerBrush;
+import net.onelitefeather.bettergopaint.brush.PlayerBrushManager;
 import net.onelitefeather.bettergopaint.objects.brush.AngleBrush;
 import net.onelitefeather.bettergopaint.objects.brush.Brush;
 import net.onelitefeather.bettergopaint.objects.brush.DiscBrush;
@@ -45,10 +45,10 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 public final class InventoryListener implements Listener {
 
-    private final BetterGoPaint plugin;
+    private final PlayerBrushManager brushManager;
 
-    public InventoryListener(BetterGoPaint plugin) {
-        this.plugin = plugin;
+    public InventoryListener(PlayerBrushManager brushManager) {
+        this.brushManager = brushManager;
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
@@ -65,7 +65,7 @@ public final class InventoryListener implements Listener {
             }
             return;
         }
-        PlayerBrush playerBrush = plugin.getBrushManager().getBrush(player);
+        PlayerBrush playerBrush = brushManager.getBrush(player);
         if (event.getRawSlot() == 10 || event.getRawSlot() == 1 || event.getRawSlot() == 19) {
             if (event.getClick().equals(ClickType.LEFT)) {
                 if (!event.getCursor().getType().isBlock()) {
@@ -210,7 +210,7 @@ public final class InventoryListener implements Listener {
             return;
         }
 
-        PlayerBrush playerBrush = plugin.getBrushManager().getBrush(player);
+        PlayerBrush playerBrush = brushManager.getBrush(player);
 
         ItemMeta itemMeta = event.getCurrentItem().getItemMeta();
 
@@ -220,7 +220,7 @@ public final class InventoryListener implements Listener {
 
         //noinspection deprecation
         String name = itemMeta.getDisplayName().replace("§6", "");
-        plugin.getBrushManager().getBrushHandler(name).ifPresent(brush -> {
+        brushManager.getBrushHandler(name).ifPresent(brush -> {
             playerBrush.setBrush(brush);
             playerBrush.updateInventory();
             player.openInventory(playerBrush.getInventory());

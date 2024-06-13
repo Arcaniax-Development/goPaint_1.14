@@ -120,9 +120,9 @@ public class BetterGoPaint extends JavaPlugin implements Listener {
 
     private void registerListeners() {
         PluginManager pm = getServer().getPluginManager();
-        pm.registerEvents(new ConnectListener(this), this);
+        pm.registerEvents(new InventoryListener(getBrushManager()), this);
         pm.registerEvents(new InteractListener(this), this);
-        pm.registerEvents(new InventoryListener(this), this);
+        pm.registerEvents(new ConnectListener(getBrushManager()), this);
     }
 
     private boolean hasOriginalGoPaint() {

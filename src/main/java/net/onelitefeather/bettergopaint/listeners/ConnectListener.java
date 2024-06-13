@@ -18,7 +18,7 @@
  */
 package net.onelitefeather.bettergopaint.listeners;
 
-import net.onelitefeather.bettergopaint.BetterGoPaint;
+import net.onelitefeather.bettergopaint.brush.PlayerBrushManager;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -26,15 +26,15 @@ import org.bukkit.event.player.PlayerQuitEvent;
 
 public class ConnectListener implements Listener {
 
-    private final BetterGoPaint plugin;
+    private final PlayerBrushManager brushManager;
 
-    public ConnectListener(BetterGoPaint plugin) {
-        this.plugin = plugin;
+    public ConnectListener(PlayerBrushManager brushManager) {
+        this.brushManager = brushManager;
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
     public void onQuit(PlayerQuitEvent event) {
-        plugin.getBrushManager().removeBrush(event.getPlayer());
+        brushManager.removeBrush(event.getPlayer());
     }
 
 }
