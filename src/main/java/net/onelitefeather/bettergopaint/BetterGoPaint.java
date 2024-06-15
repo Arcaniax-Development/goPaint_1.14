@@ -49,15 +49,14 @@ import java.util.logging.Level;
 
 public class BetterGoPaint extends JavaPlugin implements Listener {
 
-    public static final @NotNull String PAPER_DOCS = "https://jd.papermc.io/paper/1.20.6/org/bukkit/Material.html#enum-constant-summary";
+    public static final String PAPER_DOCS = "https://jd.papermc.io/paper/1.20.6/org/bukkit/Material.html#enum-constant-summary";
+    public static final String USE_PERMISSION = "bettergopaint.use";
+    public static final String ADMIN_PERMISSION = "bettergopaint.admin";
+    public static final String RELOAD_PERMISSION = "bettergopaint.command.admin.reload";
+    public static final String WORLD_BYPASS_PERMISSION = "bettergopaint.world.bypass";
 
-    public static final @NotNull String USE_PERMISSION = "bettergopaint.use";
-    public static final @NotNull String ADMIN_PERMISSION = "bettergopaint.admin";
-    public static final @NotNull String RELOAD_PERMISSION = "bettergopaint.command.admin.reload";
-    public static final @NotNull String WORLD_BYPASS_PERMISSION = "bettergopaint.world.bypass";
-
-    private final @NotNull PlayerBrushManager brushManager = new PlayerBrushManager();
-    private final @NotNull Metrics metrics = new Metrics(this, 18734);
+    private final PlayerBrushManager brushManager = new PlayerBrushManager();
+    private final Metrics metrics = new Metrics(this, 18734);
 
     @Override
     public void onLoad() {
@@ -82,7 +81,7 @@ public class BetterGoPaint extends JavaPlugin implements Listener {
 
         reloadConfig();
 
-        Material brush = Settings.settings().GENERIC.DEFAULT_BRUSH;
+        Material brush = Settings.settings().generic.DEFAULT_BRUSH;
         if (!brush.isItem()) {
             getComponentLogger().error("{} is not a valid default brush, it has to be an item", brush.name());
             getComponentLogger().error("For more information visit {}", PAPER_DOCS);
@@ -141,8 +140,8 @@ public class BetterGoPaint extends JavaPlugin implements Listener {
             }
             return new AnnotationParser<>(commandManager, CommandSender.class);
 
-        } catch (Exception e) {
-            getLogger().log(Level.SEVERE, "Cannot init command manager");
+        } catch (Exception exception) {
+            getLogger().log(Level.SEVERE, "Cannot init command manager", exception);
             return null;
         }
     }

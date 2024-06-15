@@ -37,7 +37,9 @@ import java.util.function.Consumer;
 
 public abstract class Brush {
 
-    private final @NotNull String name, description, head;
+    private final String name;
+    private final String description;
+    private final String head;
 
     protected Brush(@NotNull String name, @NotNull String description, @NotNull String head) {
         this.description = description;
@@ -111,7 +113,7 @@ public abstract class Brush {
      * @param player The player performing the edit.
      * @param edit   A Consumer functional interface that defines the actions to be taken within the edit session.
      */
-    protected void performEdit(Player player, Consumer<EditSession> edit) {
+    protected void performEdit(@NotNull Player player, @NotNull Consumer<EditSession> edit) {
         BukkitPlayer wrapped = BukkitAdapter.adapt(player);
         LocalSession localSession = WorldEdit.getInstance().getSessionManager().get(wrapped);
         try (EditSession editsession = localSession.createEditSession(wrapped)) {

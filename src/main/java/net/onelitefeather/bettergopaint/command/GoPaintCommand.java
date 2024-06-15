@@ -49,7 +49,7 @@ public class GoPaintCommand extends Command implements PluginIdentifiableCommand
             return false;
         }
         PlayerBrush pb = plugin.getBrushManager().getBrush(p);
-        String prefix = Settings.settings().GENERIC.PREFIX;
+        String prefix = Settings.settings().generic.PREFIX;
         if (!p.hasPermission(BetterGoPaint.USE_PERMISSION)) {
             p.sendRichMessage(prefix + "<red>You are lacking the permission bettergopaint.use");
             return true;

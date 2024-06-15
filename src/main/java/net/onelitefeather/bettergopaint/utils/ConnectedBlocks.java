@@ -21,6 +21,8 @@ package net.onelitefeather.bettergopaint.utils;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -30,7 +32,7 @@ import java.util.Queue;
 import java.util.Set;
 import java.util.stream.Stream;
 
-public class ConnectedBlocks {
+public final class ConnectedBlocks {
 
     private static final BlockFace[] faces = new BlockFace[]{
             BlockFace.NORTH,
@@ -41,6 +43,10 @@ public class ConnectedBlocks {
             BlockFace.DOWN,
     };
 
+    private ConnectedBlocks() {
+        throw new UnsupportedOperationException("This class cannot be instantiated");
+    }
+
     /**
      * Returns a stream of connected blocks starting from a given location, based on a list of blocks.
      * Only blocks of the same type as the start block are considered.
@@ -49,7 +55,9 @@ public class ConnectedBlocks {
      * @param blocks the list of blocks to check for connectivity
      * @return a stream of connected blocks
      */
-    public static Stream<Block> getConnectedBlocks(Location loc, List<Block> blocks) {
+    @Contract(value = "_, _ -> new", pure = true)
+    public static @NotNull Stream<Block> getConnectedBlocks(@NotNull Location loc, @NotNull List<Block> blocks) {
+        if (blocks.isEmpty()) return Stream.empty();
         Block startBlock = loc.getBlock();
         Set<Block> connected = new HashSet<>();
         Queue<Block> toCheck = new LinkedList<>();
@@ -72,5 +80,4 @@ public class ConnectedBlocks {
 
         return connected.stream();
     }
-
 }

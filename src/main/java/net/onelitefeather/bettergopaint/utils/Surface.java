@@ -24,7 +24,11 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.jetbrains.annotations.NotNull;
 
-public class Surface {
+public final class Surface {
+
+    private Surface() {
+        throw new UnsupportedOperationException("This class cannot be instantiated");
+    }
 
     /**
      * Checks if the given block is on the surface.
@@ -94,5 +98,4 @@ public class Surface {
             case DISABLED -> true;
         };
     }
-
 }

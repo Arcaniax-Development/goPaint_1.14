@@ -21,6 +21,7 @@ package net.onelitefeather.bettergopaint.utils;
 import org.bukkit.Axis;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -28,7 +29,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
-public class Sphere {
+public final class Sphere {
+
+    private Sphere() {
+        throw new UnsupportedOperationException("This class cannot be instantiated");
+    }
 
     /**
      * Returns a stream of blocks within a specified radius from a given middle point.
@@ -39,7 +44,9 @@ public class Sphere {
      * @param air         Whether air blocks should be included.
      * @return A stream of blocks within the specified radius.
      */
-    public static Stream<Block> getBlocksInRadius(@NotNull Location middlePoint, int radius, @Nullable Axis axis, boolean air) {
+    @Contract(value = "_, _, _, _ -> new", pure = true)
+    public static @NotNull Stream<Block> getBlocksInRadius(@NotNull Location middlePoint, int radius, @Nullable Axis axis,
+                                                     boolean air) {
         List<Block> blocks = new ArrayList<>();
         Location loc1 = middlePoint.clone().add(-radius / 2d, -radius / 2d, -radius / 2d).getBlock().getLocation();
         Location loc2 = middlePoint.clone().add(radius / 2d, radius / 2d, radius / 2d).getBlock().getLocation();
@@ -95,5 +102,4 @@ public class Sphere {
     private static boolean passesDefaultChecks(@NotNull Location location, @NotNull Location middlePoint, int radius) {
         return location.distance(middlePoint) < radius / 2d;
     }
-
 }

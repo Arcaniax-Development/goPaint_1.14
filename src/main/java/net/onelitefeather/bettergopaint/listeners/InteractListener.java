@@ -61,7 +61,7 @@ public final class InteractListener implements Listener {
             return;
         }
 
-        if (event.getAction().isLeftClick() && item.getType() == Settings.settings().GENERIC.DEFAULT_BRUSH) {
+        if (event.getAction().isLeftClick() && item.getType() == Settings.settings().generic.DEFAULT_BRUSH) {
             PlayerBrush brush = plugin.getBrushManager().getBrush(player);
             player.openInventory(brush.getInventory());
             event.setCancelled(true);
@@ -85,9 +85,9 @@ public final class InteractListener implements Listener {
             return;
         }
 
-        final boolean hasNotWorldBaypassPermission = !player.hasPermission(BetterGoPaint.WORLD_BYPASS_PERMISSION);
+        final boolean hasNotWorldByePassPermission = !player.hasPermission(BetterGoPaint.WORLD_BYPASS_PERMISSION);
 
-        if (hasNotWorldBaypassPermission && Settings.settings().GENERIC.DISABLED_WORLDS
+        if (hasNotWorldByePassPermission && Settings.settings().generic.DISABLED_WORLDS
                 .contains(location.getWorld().getName())) {
             return;
         }
@@ -102,7 +102,7 @@ public final class InteractListener implements Listener {
 
             //noinspection removal
             brushSettings = brush.map(current -> ExportedPlayerBrush.parse(current, itemMeta)).orElse(null);
-        } else if (item.getType().equals(Settings.settings().GENERIC.DEFAULT_BRUSH)) {
+        } else if (item.getType().equals(Settings.settings().generic.DEFAULT_BRUSH)) {
             brushSettings = plugin.getBrushManager().getBrush(player);
         } else {
             return;
@@ -118,7 +118,7 @@ public final class InteractListener implements Listener {
             );
         } else {
             player.sendRichMessage(
-                    Settings.settings().GENERIC.PREFIX + "<red>Your brush is disabled, left click to enable the brush."
+                    Settings.settings().generic.PREFIX + "<red>Your brush is disabled, left click to enable the brush."
             );
         }
     }

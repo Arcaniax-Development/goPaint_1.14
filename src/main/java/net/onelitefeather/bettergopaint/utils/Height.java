@@ -24,6 +24,10 @@ import org.jetbrains.annotations.NotNull;
 
 public class Height {
 
+    private Height() {
+        throw new UnsupportedOperationException("This class cannot be instantiated");
+    }
+
     /**
      * Gets the height of the nearest non-empty block at a given location.
      *
@@ -109,5 +113,4 @@ public class Height {
         double height = (maxHeightDiff2 + maxHeightDiff) / 2.0;
         return height / (distance * 2d);
     }
-
 }

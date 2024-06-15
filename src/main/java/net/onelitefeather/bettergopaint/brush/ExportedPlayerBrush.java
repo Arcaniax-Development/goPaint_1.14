@@ -51,7 +51,7 @@ public record ExportedPlayerBrush(
         double angleHeightDifference
 ) implements BrushSettings {
 
-    private static final @NotNull Random RANDOM = new SecureRandom();
+    private static final Random RANDOM = new SecureRandom();
 
     public ExportedPlayerBrush(@NotNull Builder builder) {
         this(
@@ -91,19 +91,19 @@ public record ExportedPlayerBrush(
         return RANDOM;
     }
 
-    public static Builder builder(Brush brush) {
+    public static Builder builder(@NotNull Brush brush) {
         return new Builder(brush);
     }
 
     public static final class Builder {
 
-        private final @NotNull Brush brush;
+        private final Brush brush;
 
-        private @NotNull List<Material> blocks = Collections.emptyList();
-        private @NotNull Axis axis = Settings.settings().GENERIC.DEFAULT_AXIS;
-        private @NotNull SurfaceMode surfaceMode = SurfaceMode.DISABLED;
+        private List<Material> blocks = Collections.emptyList();
+        private Axis axis = Settings.settings().generic.DEFAULT_AXIS;
+        private SurfaceMode surfaceMode = SurfaceMode.DISABLED;
 
-        private @Nullable Material mask;
+        private Material mask;
 
         private int size;
         private int chance;

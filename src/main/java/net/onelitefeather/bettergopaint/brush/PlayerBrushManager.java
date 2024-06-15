@@ -18,7 +18,6 @@
  */
 package net.onelitefeather.bettergopaint.brush;
 
-import com.google.common.collect.ImmutableList;
 import net.onelitefeather.bettergopaint.objects.brush.AngleBrush;
 import net.onelitefeather.bettergopaint.objects.brush.Brush;
 import net.onelitefeather.bettergopaint.objects.brush.BucketBrush;
@@ -46,20 +45,25 @@ import java.util.stream.Collectors;
  */
 public class PlayerBrushManager {
 
-    private final @NotNull HashMap<UUID, PlayerBrush> playerBrushes = new HashMap<>();
-    private final @NotNull List<Brush> brushes = ImmutableList.of(
-            new SphereBrush(),
-            new SprayBrush(),
-            new SplatterBrush(),
-            new DiscBrush(),
-            new BucketBrush(),
-            new AngleBrush(),
-            new OverlayBrush(),
-            new UnderlayBrush(),
-            new FractureBrush(),
-            new GradientBrush(),
-            new PaintBrush()
-    );
+    private final HashMap<UUID, PlayerBrush> playerBrushes;
+    private final List<Brush> brushes;
+
+    public PlayerBrushManager() {
+        this.playerBrushes = new HashMap<>();
+        this.brushes = List.of(
+                new SphereBrush(),
+                new SprayBrush(),
+                new SplatterBrush(),
+                new DiscBrush(),
+                new BucketBrush(),
+                new AngleBrush(),
+                new OverlayBrush(),
+                new UnderlayBrush(),
+                new FractureBrush(),
+                new GradientBrush(),
+                new PaintBrush()
+        );
+    }
 
     /**
      * Retrieves the brush for the given player.
@@ -151,5 +155,4 @@ public class PlayerBrushManager {
         }
         return brushes.getLast();
     }
-
 }

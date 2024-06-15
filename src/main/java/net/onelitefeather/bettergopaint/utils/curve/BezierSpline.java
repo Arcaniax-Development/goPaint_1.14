@@ -18,7 +18,6 @@
  */
 package net.onelitefeather.bettergopaint.utils.curve;
 
-
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.util.Vector;
@@ -29,9 +28,9 @@ import java.util.LinkedList;
 
 public class BezierSpline {
 
-    private final @NotNull LinkedList<Location> knotsList;
+    private final LinkedList<Location> knotsList;
     private Location[] knots;
-    private @NotNull BezierSplineSegment[] segments;
+    private BezierSplineSegment[] segments;
     private double length = 0;
     private Location anchorPoint;
 

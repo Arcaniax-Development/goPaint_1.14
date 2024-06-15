@@ -47,19 +47,19 @@ public final class Settings extends Config {
     }
 
     @Create
-    public GENERIC GENERIC;
+    public Generic generic;
 
     @Create
-    public THICKNESS THICKNESS;
+    public Thickness thickness;
 
     @Create
-    public ANGLE ANGLE;
+    public Angle angle;
 
     @Create
-    public FRACTURE FRACTURE;
+    public Fracture fracture;
 
     @Comment("This is related to generic settings")
-    public static class GENERIC {
+    public static class Generic {
 
         @Comment({
                 "Default brush item",
@@ -102,7 +102,7 @@ public final class Settings extends Config {
     }
 
     @Comment("This is related to thickness settings")
-    public static class THICKNESS {
+    public static class Thickness {
 
         @Comment("Default thickness for some brushes")
         public int DEFAULT_THICKNESS = 1;
@@ -113,7 +113,7 @@ public final class Settings extends Config {
     }
 
     @Comment("This is related to angle settings")
-    public static class ANGLE {
+    public static class Angle {
 
         @Comment("Default angle distance for some brushes")
         public int DEFAULT_ANGLE_DISTANCE = 2;
@@ -131,7 +131,7 @@ public final class Settings extends Config {
     }
 
     @Comment("This is related to fracture settings")
-    public static class FRACTURE {
+    public static class Fracture {
 
         @Comment("Default fracture for some brushes")
         public int DEFAULT_FRACTURE_DISTANCE = 2;

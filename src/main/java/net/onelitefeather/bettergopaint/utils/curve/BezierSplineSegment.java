@@ -27,10 +27,10 @@ import java.util.Objects;
 public class BezierSplineSegment {
 
     private final double[] lengths = new double[20];
-    private @NotNull Location p0, p1, p2, p3;
+    private Location p0, p1, p2, p3;
     private float a, b, c;
-    private @Nullable Double xFlat, yFlat, zFlat;
-    private @NotNull Location r;
+    private Double xFlat, yFlat, zFlat;
+    private Location r;
     private double curveLength;
 
     public BezierSplineSegment(@NotNull Location p0, @NotNull Location p3) {

@@ -69,7 +69,7 @@ public final class InventoryListener implements Listener {
         if (event.getRawSlot() == 10 || event.getRawSlot() == 1 || event.getRawSlot() == 19) {
             if (event.getClick().equals(ClickType.LEFT)) {
                 if (!event.getCursor().getType().isBlock()) {
-                    if (!event.getCursor().getType().equals(Settings.settings().GENERIC.DEFAULT_BRUSH)) {
+                    if (!event.getCursor().getType().equals(Settings.settings().generic.DEFAULT_BRUSH)) {
                         playerBrush.export(event.getCursor());
                     }
                 }
