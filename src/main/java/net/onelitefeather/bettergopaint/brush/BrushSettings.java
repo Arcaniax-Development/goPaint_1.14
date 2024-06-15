@@ -40,24 +40,21 @@ public interface BrushSettings {
      *
      * @return the axis used by the brush settings
      */
-    @NotNull
-    Axis axis();
+    @NotNull Axis axis();
 
     /**
      * Returns the brush used by the brush settings.
      *
      * @return The brush used by the brush settings.
      */
-    @NotNull
-    Brush brush();
+    @NotNull Brush brush();
 
     /**
      * Returns the list of blocks used by the brush settings.
      *
      * @return the list of blocks used by the brush settings
      */
-    @NotNull
-    List<Material> blocks();
+    @NotNull List<Material> blocks();
 
     /**
      * Retrieves the mask material used by the brush settings.
@@ -65,10 +62,9 @@ public interface BrushSettings {
      * @return The mask material.
      * @deprecated the mask-material is going to be replaced with a WorldEdit Mask
      */
-    @NotNull
     @Deprecated(since = "1.1.0-SNAPSHOT")
     @ApiStatus.ScheduledForRemoval(inVersion = "1.2.0")
-    Material mask();
+    @NotNull Material mask();
 
     /**
      * Checks if the brush is enabled.
@@ -89,7 +85,7 @@ public interface BrushSettings {
      *
      * @return The surface mode used by the brush settings.
      */
-    SurfaceMode surfaceMode();
+    @NotNull SurfaceMode surfaceMode();
 
     /**
      * Returns the angle-height difference used by the brush settings.
@@ -152,15 +148,13 @@ public interface BrushSettings {
      *
      * @return The randomly picked block material.
      */
-    @NotNull
-    Material randomBlock();
+    @NotNull Material randomBlock();
 
     /**
      * The random number generator instance.
      *
      * @return a Random instance
      */
-    @NotNull
-    Random random();
+    @NotNull Random random();
 
 }
