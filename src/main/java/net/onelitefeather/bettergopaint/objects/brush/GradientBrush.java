@@ -18,120 +18,51 @@
  */
 package net.onelitefeather.bettergopaint.objects.brush;
 
-import com.cryptomorin.xseries.XMaterial;
-import net.onelitefeather.bettergopaint.BetterGoPaint;
-import net.onelitefeather.bettergopaint.objects.other.BlockPlace;
-import net.onelitefeather.bettergopaint.objects.other.BlockPlacer;
-import net.onelitefeather.bettergopaint.objects.other.BlockType;
-import net.onelitefeather.bettergopaint.objects.player.ExportedPlayerBrush;
+import net.onelitefeather.bettergopaint.brush.BrushSettings;
 import net.onelitefeather.bettergopaint.utils.Sphere;
-import net.onelitefeather.bettergopaint.utils.Surface;
-import net.onelitefeather.bettergopaint.objects.player.PlayerBrush;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.stream.Stream;
 
 public class GradientBrush extends Brush {
 
-    @SuppressWarnings({"deprecation"})
-    @Override
-    public void paint(Location loc, Player p) {
-        PlayerBrush pb = BetterGoPaint.getBrushManager().getPlayerBrush(p);
-        int size = pb.getBrushSize();
-        int falloff = pb.getFalloffStrength();
-        int mixing = pb.getMixingStrength();
-        List<BlockType> pbBlocks = pb.getBlocks();
-        if (pbBlocks.isEmpty()) {
-            return;
-        }
-        List<Block> blocks = Sphere.getBlocksInRadius(loc, size);
-        double y = loc.getBlockY() - ((double) size / 2.0);
-        List<BlockPlace> placedBlocks = new ArrayList<BlockPlace>();
-        for (Block b : blocks) {
-            if ((!pb.isSurfaceModeEnabled()) || Surface.isOnSurface(b.getLocation(), p.getLocation())) {
-                if ((!pb.isMaskEnabled()) || (b.getType().equals(pb
-                        .getMask()
-                        .getMaterial()) && (XMaterial.supports(13) || b.getData() == pb.getMask().getData()))) {
-                    double _y = (b.getLocation().getBlockY() - y) / (double) size * pbBlocks.size();
-                    Random r = new Random();
-                    int block = (int) (_y + (r.nextDouble() * 2 - 1) * ((double) mixing / 100.0));
-                    if (block == -1) {
-                        block = 0;
-                    }
-                    if (block == pbBlocks.size()) {
-                        block = pbBlocks.size() - 1;
-                    }
-                    double rate = (b
-                            .getLocation()
-                            .distance(loc) - ((double) size / 2.0) * ((100.0 - (double) falloff) / 100.0)) / (((double) size / 2.0) - ((double) size / 2.0) * ((100.0 - (double) falloff) / 100.0));
+    private static final @NotNull String DESCRIPTION = "Creates gradients";
+    private static final @NotNull String HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNjA2MmRhM2QzYjhmMWZkMzUzNDNjYzI3OWZiMGZlNWNmNGE1N2I1YWJjNDMxZmJiNzhhNzNiZjJhZjY3NGYifX19";
+    private static final @NotNull String NAME = "Gradient Brush";
 
-                    if (!(r.nextDouble() <= rate)) {
-                        placedBlocks.add(
-                                new BlockPlace(
-                                        b.getLocation(),
-                                        new BlockType(pbBlocks.get(block).getMaterial(), pbBlocks.get(block).getData())
-                                ));
-                    }
-                }
-            }
-
-        }
-        BlockPlacer bp = new BlockPlacer();
-        bp.placeBlocks(placedBlocks, p);
+    public GradientBrush() {
+        super(NAME, DESCRIPTION, HEAD);
     }
 
     @Override
-    public String getName() {
-        return "Gradient Brush";
-    }
+    public void paint(
+            @NotNull Location location,
+            @NotNull Player player,
+            @NotNull BrushSettings brushSettings
+    ) {
+        performEdit(player, session -> {
+            double y = location.getBlockY() - (brushSettings.size() / 2d);
+            Stream<Block> blocks = Sphere.getBlocksInRadius(location, brushSettings.size(), null, false);
+            blocks.filter(block -> passesDefaultChecks(brushSettings, player, block)).filter(block -> {
+                double rate = (block.getLocation().distance(location) - (brushSettings.size() / 2d)
+                        * ((100d - brushSettings.falloffStrength()) / 100d))
+                        / ((brushSettings.size() / 2d) - (brushSettings.size() / 2d)
+                        * ((100d - brushSettings.falloffStrength()) / 100d));
 
-    @SuppressWarnings("deprecation")
-    @Override
-    public void paint(Location loc, Player p, ExportedPlayerBrush epb) {
-        int size = epb.getBrushSize();
-        List<BlockType> epbBlocks = epb.getBlocks();
-        int falloff = epb.getFalloffStrength();
-        int mixing = epb.getMixingStrength();
-        if (epbBlocks.isEmpty()) {
-            return;
-        }
-        List<Block> blocks = Sphere.getBlocksInRadius(loc, size);
-        double y = loc.getBlockY() - ((double) size / 2.0);
-        List<BlockPlace> placedBlocks = new ArrayList<BlockPlace>();
-        for (Block b : blocks) {
-            if ((!epb.isSurfaceModeEnabled()) || Surface.isOnSurface(b.getLocation(), p.getLocation())) {
-                if ((!epb.isMaskEnabled()) || (b.getType().equals(epb
-                        .getMask()
-                        .getMaterial()) && (XMaterial.supports(13) || b.getData() == epb.getMask().getData()))) {
-                    double _y = (b.getLocation().getBlockY() - y) / (double) size * epbBlocks.size();
-                    Random r = new Random();
-                    int block = (int) (_y + (r.nextDouble() * 2 - 1) * ((double) mixing / 100.0));
-                    if (block == -1) {
-                        block = 0;
-                    }
-                    if (block == epbBlocks.size()) {
-                        block = epbBlocks.size() - 1;
-                    }
-                    double rate = (b
-                            .getLocation()
-                            .distance(loc) - ((double) size / 2.0) * ((100.0 - (double) falloff) / 100.0)) / (((double) size / 2.0) - ((double) size / 2.0) * ((100.0 - (double) falloff) / 100.0));
+                return brushSettings.random().nextDouble() > rate;
+            }).forEach(block -> {
+                int random = (int) (((block.getLocation().getBlockY() - y) / brushSettings.size()
+                        * brushSettings.blocks().size()) + (brushSettings.random().nextDouble() * 2 - 1)
+                        * (brushSettings.mixingStrength() / 100d));
 
-                    if (!(r.nextDouble() <= rate)) {
-                        placedBlocks.add(
-                                new BlockPlace(
-                                        b.getLocation(),
-                                        new BlockType(epbBlocks.get(block).getMaterial(), epbBlocks.get(block).getData())
-                                ));
-                    }
-                }
-            }
-        }
-        BlockPlacer bp = new BlockPlacer();
-        bp.placeBlocks(placedBlocks, p);
+                int index = Math.clamp(random, 0, brushSettings.blocks().size() - 1);
+
+                setBlock(session, block, brushSettings.blocks().get(index));
+            });
+        });
     }
 
 }

@@ -19,15 +19,32 @@
 package net.onelitefeather.bettergopaint.objects.other;
 
 import com.fastasyncworldedit.core.configuration.Config;
+import net.onelitefeather.bettergopaint.BetterGoPaint;
+import org.bukkit.Axis;
+import org.bukkit.Material;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 public final class Settings extends Config {
 
     @Ignore
-    static Settings INSTANCE = new Settings();
+    private static final Settings settings = new Settings();
+
+    public void reload(BetterGoPaint plugin, File file) {
+        try {
+            if (file.isFile() || file.createNewFile()) {
+                load(file);
+                save(file);
+            } else {
+                plugin.getComponentLogger().error("Failed to create file {}", file.getName());
+            }
+        } catch (IOException e) {
+            plugin.getComponentLogger().error("Failed to create file {}", file.getName(), e);
+        }
+    }
 
     @Create
     public GENERIC GENERIC;
@@ -44,12 +61,24 @@ public final class Settings extends Config {
     @Comment("This is related to generic settings")
     public static class GENERIC {
 
+        @Comment({
+                "Default brush item",
+                "Possible values: " + BetterGoPaint.PAPER_DOCS,
+                "Only items are allowed"
+        })
+        public Material DEFAULT_BRUSH = Material.FEATHER;
         @Comment("Max size of the brush")
         public int MAX_SIZE = 100;
         @Comment("Default size for each player of the brush")
         public int DEFAULT_SIZE = 10;
         @Comment("Default chance for some brushes")
         public int DEFAULT_CHANCE = 50;
+        @Comment({"Default axis for disc brush", "Possible values: X, Y, Z"})
+        public Axis DEFAULT_AXIS = Axis.Y;
+        @Comment("Default paint falloff strength")
+        public int DEFAULT_FALLOFF_STRENGTH = 50;
+        @Comment("Default paint mixing strength")
+        public int DEFAULT_MIXING_STRENGTH = 50;
         @Comment("Prefix of the plugin")
         public String PREFIX = "<aqua>BetterGoPaint > </aqua>";
         @Comment("World there are disabled to used brushes")
@@ -61,8 +90,15 @@ public final class Settings extends Config {
         @Comment("Enables mask usage by default")
         public boolean MASK_ENABLED = true;
 
-        @Comment("Enables surface mode usage by default")
-        public boolean SURFACE_MODE = true;
+        @Comment({
+                "Default mask to apply",
+                "Possible values: " + BetterGoPaint.PAPER_DOCS
+        })
+        public Material DEFAULT_MASK = Material.SPONGE;
+
+        @Comment({"Direct surface mode usage by default", "Possible values: DIRECT, DISABLED, RELATIVE"})
+        public SurfaceMode SURFACE_MODE = SurfaceMode.DIRECT;
+
     }
 
     @Comment("This is related to thickness settings")
@@ -105,18 +141,7 @@ public final class Settings extends Config {
     }
 
     public static Settings settings() {
-        return INSTANCE;
+        return settings;
     }
-
-
-    public void reload(File file) {
-        load(file);
-        save(file);
-    }
-
-    private Settings() {
-        INSTANCE = this;
-    }
-
 
 }

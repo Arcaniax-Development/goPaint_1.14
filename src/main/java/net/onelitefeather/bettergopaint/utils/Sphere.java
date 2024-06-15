@@ -18,41 +18,82 @@
  */
 package net.onelitefeather.bettergopaint.utils;
 
-import com.cryptomorin.xseries.XMaterial;
+import org.bukkit.Axis;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 public class Sphere {
 
-    public static List<Block> getBlocksInRadius(Location middlePoint, double d) {
+    /**
+     * Returns a stream of blocks within a specified radius from a given middle point.
+     *
+     * @param middlePoint The middle point from which to calculate the radius.
+     * @param radius      The radius value.
+     * @param axis        The axis along which to calculate the radius (optional).
+     * @param air         Whether air blocks should be included.
+     * @return A stream of blocks within the specified radius.
+     */
+    public static Stream<Block> getBlocksInRadius(@NotNull Location middlePoint, int radius, @Nullable Axis axis, boolean air) {
         List<Block> blocks = new ArrayList<>();
-        for (Block b : getBlocksInRadiusWithAir(middlePoint, d)) {
-            if (BlockUtils.isLoaded(b.getLocation()) && (!b.getType()
-                    .equals(XMaterial.AIR.parseMaterial()))) {
-                blocks.add(b);
-            }
-        }
-        return blocks;
-    }
+        Location loc1 = middlePoint.clone().add(-radius / 2d, -radius / 2d, -radius / 2d).getBlock().getLocation();
+        Location loc2 = middlePoint.clone().add(radius / 2d, radius / 2d, radius / 2d).getBlock().getLocation();
 
-    public static List<Block> getBlocksInRadiusWithAir(Location middlePoint, double d) {
-        List<Block> blocks = new ArrayList<>();
-        Location loc1 = middlePoint.clone().add(-d / 2, -d / 2, -d / 2).getBlock().getLocation();
-        Location loc2 = middlePoint.clone().add(+d / 2, +d / 2, +d / 2).getBlock().getLocation();
-        for (double x = loc1.getX(); x <= loc2.getX(); x++) {
-            for (double y = loc1.getY(); y <= loc2.getY(); y++) {
-                for (double z = loc1.getZ(); z <= loc2.getZ(); z++) {
-                    Location loc = new Location(loc1.getWorld(), x, y, z);
-                    if (loc.distance(middlePoint) < (d / 2)) {
-                        blocks.add(loc.getBlock());
+        switch (axis) {
+            case Y:
+                for (int x = loc1.getBlockX(); x <= loc2.getBlockX(); x++) {
+                    for (int z = loc1.getBlockZ(); z <= loc2.getBlockZ(); z++) {
+                        Location location = new Location(loc1.getWorld(), x, middlePoint.getBlockY(), z);
+                        if (passesDefaultChecks(location, middlePoint, radius)) {
+                            blocks.add(location.getBlock());
+                        }
                     }
                 }
-            }
+                break;
+            case X:
+                for (int y = loc1.getBlockY(); y <= loc2.getBlockY(); y++) {
+                    for (int z = loc1.getBlockZ(); z <= loc2.getBlockZ(); z++) {
+                        Location location = new Location(loc1.getWorld(), middlePoint.getBlockX(), y, z);
+                        if (passesDefaultChecks(location, middlePoint, radius)) {
+                            blocks.add(location.getBlock());
+                        }
+                    }
+                }
+                break;
+            case Z:
+                for (int x = loc1.getBlockX(); x <= loc2.getBlockX(); x++) {
+                    for (int y = loc1.getBlockY(); y <= loc2.getBlockY(); y++) {
+                        Location location = new Location(loc1.getWorld(), x, y, middlePoint.getBlockZ());
+                        if (passesDefaultChecks(location, middlePoint, radius)) {
+                            blocks.add(location.getBlock());
+                        }
+                    }
+                }
+                break;
+            case null:
+                for (int x = loc1.getBlockX(); x <= loc2.getBlockX(); x++) {
+                    for (int y = loc1.getBlockY(); y <= loc2.getBlockY(); y++) {
+                        for (int z = loc1.getBlockZ(); z <= loc2.getBlockZ(); z++) {
+                            Location location = new Location(loc1.getWorld(), x, y, z);
+                            if (passesDefaultChecks(location, middlePoint, radius)) {
+                                blocks.add(location.getBlock());
+                            }
+                        }
+                    }
+                }
+                break;
         }
-        return blocks;
+        if (air) return blocks.stream();
+        return blocks.stream().filter(block -> !block.isEmpty());
+    }
+
+    private static boolean passesDefaultChecks(@NotNull Location location, @NotNull Location middlePoint, int radius) {
+        return location.distance(middlePoint) < radius / 2d;
     }
 
 }

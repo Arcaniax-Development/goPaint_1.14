@@ -19,20 +19,23 @@
 package net.onelitefeather.bettergopaint.utils.curve;
 
 import org.bukkit.Location;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.Objects;
 
 public class BezierSplineSegment {
 
-    private final double[] lengths;
-    private Location p0, p1, p2, p3;
+    private final double[] lengths = new double[20];
+    private @NotNull Location p0, p1, p2, p3;
     private float a, b, c;
-    private Double xFlat, yFlat, zFlat;
-    private Location r;
+    private @Nullable Double xFlat, yFlat, zFlat;
+    private @NotNull Location r;
     private double curveLength;
 
-    public BezierSplineSegment(Location p0, Location p3) {
+    public BezierSplineSegment(@NotNull Location p0, @NotNull Location p3) {
         this.p0 = p0;
         this.p3 = p3;
-        lengths = new double[20];
         p1 = new Location(p0.getWorld(), 0, 0, 0);
         p2 = new Location(p0.getWorld(), 0, 0, 0);
         r = new Location(p0.getWorld(), 0, 0, 0);
@@ -42,7 +45,7 @@ public class BezierSplineSegment {
         return curveLength;
     }
 
-    public void setX(Double xflat2) {
+    public void setX(double xflat2) {
         p0.setX(xflat2);
         p1.setX(xflat2);
         p2.setX(xflat2);
@@ -50,7 +53,7 @@ public class BezierSplineSegment {
         xFlat = xflat2;
     }
 
-    public void setY(Double yflat2) {
+    public void setY(double yflat2) {
         p0.setY(yflat2);
         p1.setY(yflat2);
         p2.setY(yflat2);
@@ -58,7 +61,7 @@ public class BezierSplineSegment {
         yFlat = yflat2;
     }
 
-    public void setZ(Double zflat2) {
+    public void setZ(double zflat2) {
         p0.setZ(zflat2);
         p1.setZ(zflat2);
         p2.setZ(zflat2);
@@ -137,7 +140,7 @@ public class BezierSplineSegment {
         int i = 0;
         for (i = 0; i < 20; i++) {
             if (d == lengths[i]) {
-                return i / 19;
+                return i / 19d;
             }
             if (d < lengths[i]) {
                 break;
@@ -148,27 +151,15 @@ public class BezierSplineSegment {
 
     public Location getPoint(double f) {
         Location result = new Location(p0.getWorld(), 0, 0, 0);
-        if (xFlat == null) {
-            result.setX((Math.pow(1 - f, 3) * p0.getX())
-                    + (3 * Math.pow(1 - f, 2) * f * p1.getX())
-                    + (3 * (1 - f) * f * f * p2.getX()) + (Math.pow(f, 3) * p3.getX()));
-        } else {
-            result.setX(xFlat);
-        }
-        if (yFlat == null) {
-            result.setY((Math.pow(1 - f, 3) * p0.getY())
-                    + (3 * Math.pow(1 - f, 2) * f * p1.getY())
-                    + (3 * (1 - f) * f * f * p2.getY()) + (Math.pow(f, 3) * p3.getY()));
-        } else {
-            result.setY(yFlat);
-        }
-        if (zFlat == null) {
-            result.setZ((Math.pow(1 - f, 3) * p0.getZ())
-                    + (3 * Math.pow(1 - f, 2) * f * p1.getZ())
-                    + (3 * (1 - f) * f * f * p2.getZ()) + (Math.pow(f, 3) * p3.getZ()));
-        } else {
-            result.setZ(zFlat);
-        }
+        result.setX(Objects.requireNonNullElseGet(xFlat, () -> (Math.pow(1 - f, 3) * p0.getX())
+                + (3 * Math.pow(1 - f, 2) * f * p1.getX())
+                + (3 * (1 - f) * f * f * p2.getX()) + (Math.pow(f, 3) * p3.getX())));
+        result.setY(Objects.requireNonNullElseGet(yFlat, () -> (Math.pow(1 - f, 3) * p0.getY())
+                + (3 * Math.pow(1 - f, 2) * f * p1.getY())
+                + (3 * (1 - f) * f * f * p2.getY()) + (Math.pow(f, 3) * p3.getY())));
+        result.setZ(Objects.requireNonNullElseGet(zFlat, () -> (Math.pow(1 - f, 3) * p0.getZ())
+                + (3 * Math.pow(1 - f, 2) * f * p1.getZ())
+                + (3 * (1 - f) * f * f * p2.getZ()) + (Math.pow(f, 3) * p3.getZ())));
         return result;
     }
 
@@ -176,35 +167,35 @@ public class BezierSplineSegment {
         return p0.distance(p3);
     }
 
-    public Location getP0() {
+    public @NotNull Location getP0() {
         return p0;
     }
 
-    public void setP0(Location p0) {
+    public void setP0(@NotNull Location p0) {
         this.p0 = p0;
     }
 
-    public Location getP1() {
+    public @NotNull Location getP1() {
         return p1;
     }
 
-    public void setP1(Location p1) {
+    public void setP1(@NotNull Location p1) {
         this.p1 = p1;
     }
 
-    public Location getP2() {
+    public @NotNull Location getP2() {
         return p2;
     }
 
-    public void setP2(Location p2) {
+    public void setP2(@NotNull Location p2) {
         this.p2 = p2;
     }
 
-    public Location getP3() {
+    public @NotNull Location getP3() {
         return p3;
     }
 
-    public void setP3(Location p3) {
+    public void setP3(@NotNull Location p3) {
         this.p3 = p3;
     }
 
@@ -232,13 +223,12 @@ public class BezierSplineSegment {
         this.c = c;
     }
 
-    public Location getR() {
+    public @NotNull Location getR() {
         return r;
     }
 
-    public void setR(Location r) {
+    public void setR(@NotNull Location r) {
         this.r = r;
     }
 
 }
-

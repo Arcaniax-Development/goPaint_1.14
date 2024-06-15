@@ -58,8 +58,6 @@ dependencies {
     // Utils
     implementation(libs.serverlib)
     implementation(libs.paperlib)
-    // Material Utils
-    implementation(libs.xseries) { isTransitive = false }
     // Stats
     implementation(libs.bstats)
     // Commands
@@ -105,7 +103,6 @@ paper {
 spotless {
     java {
         licenseHeaderFile(rootProject.file("HEADER.txt"))
-        targetExclude("**/XMaterial.java")
         target("**/*.java")
     }
 }

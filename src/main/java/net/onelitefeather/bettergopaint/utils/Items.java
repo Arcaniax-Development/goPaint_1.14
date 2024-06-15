@@ -18,71 +18,57 @@
  */
 package net.onelitefeather.bettergopaint.utils;
 
-import com.cryptomorin.xseries.XMaterial;
 import com.destroystokyo.paper.profile.ProfileProperty;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class Items {
+public final class Items {
 
-    public Items() {
+    public static @NotNull ItemStack create(
+            @NotNull Material material,
+            int amount,
+            @NotNull String name,
+            @NotNull String lore
+    ) {
+        ItemStack itemStack = new ItemStack(material);
+        itemStack.setAmount(amount);
+        itemStack.editMeta(itemMeta -> {
+            if (!lore.isEmpty()) {
+                String[] loreListArray = lore.split("\n");
+                List<Component> loreList = new ArrayList<>();
+                for (String s : loreListArray) {
+                    loreList.add(Component.text(s));
+                }
+                itemMeta.lore(loreList);
+            }
+            if (!name.isEmpty()) {
+                itemMeta.displayName(Component.text(name));
+            }
+        });
+        return itemStack;
     }
 
-    public ItemStack create(Material mat, short data, int amount, String name, String lore) {
-        ItemStack is = new ItemStack(mat);
-        is.setAmount(amount);
-        ItemMeta meta = is.getItemMeta();
-        if (!lore.equals("")) {
-            String[] loreListArray = lore.split("___");
-            List<String> loreList = new ArrayList<String>();
-            for (String s : loreListArray) {
-                loreList.add(s.replace("&", "§"));
-            }
-            meta.setLore(loreList);
-        }
-        if (!name.equals("")) {
-            meta.setDisplayName(name.replace("&", "§"));
-        }
-        is.setItemMeta(meta);
-        is.setDurability(data);
-        return is;
-    }
-
-    public ItemStack createHead(String data, int amount, String name, String lore) {
-        ItemStack item;
-        if (XMaterial.supports(13)) {
-            item = XMaterial.PLAYER_HEAD.parseItem();
-        } else {
-            item = new ItemStack(Material.getMaterial("SKULL_ITEM"));
-            item.setDurability((short) 3);
-        }
-        item.setAmount(amount);
-        ItemMeta meta = item.getItemMeta();
-        if (lore != "") {
-            String[] loreListArray = lore.split("___");
-            List<String> loreList = new ArrayList<String>();
-            for (String s : loreListArray) {
-                loreList.add(s.replace("&", "§"));
-            }
-            meta.setLore(loreList);
-        }
-        if (!name.equals("")) {
-            meta.setDisplayName(name.replace("&", "§"));
-        }
-        item.setItemMeta(meta);
-        if (item.getItemMeta() instanceof SkullMeta headMeta) {
+    public static @NotNull ItemStack createHead(
+            @NotNull String texture,
+            int amount,
+            @NotNull String name,
+            @NotNull String lore
+    ) {
+        ItemStack head = create(Material.PLAYER_HEAD, amount, name, lore);
+        head.editMeta(SkullMeta.class, skullMeta -> {
             var profile = Bukkit.createProfile(UUID.randomUUID());
-            profile.setProperty(new ProfileProperty("textures", data));
-            headMeta.setPlayerProfile(profile);
-            item.setItemMeta(headMeta);
-        }
-        return item;
+            profile.setProperty(new ProfileProperty("textures", texture));
+            skullMeta.setPlayerProfile(profile);
+        });
+        return head;
     }
 
 }

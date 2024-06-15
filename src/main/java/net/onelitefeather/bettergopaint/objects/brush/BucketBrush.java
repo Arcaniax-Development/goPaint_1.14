@@ -18,96 +18,39 @@
  */
 package net.onelitefeather.bettergopaint.objects.brush;
 
-import com.cryptomorin.xseries.XMaterial;
-import net.onelitefeather.bettergopaint.BetterGoPaint;
-import net.onelitefeather.bettergopaint.objects.other.BlockPlace;
-import net.onelitefeather.bettergopaint.objects.other.BlockPlacer;
-import net.onelitefeather.bettergopaint.objects.other.BlockType;
-import net.onelitefeather.bettergopaint.objects.player.ExportedPlayerBrush;
+import net.onelitefeather.bettergopaint.brush.BrushSettings;
 import net.onelitefeather.bettergopaint.utils.ConnectedBlocks;
 import net.onelitefeather.bettergopaint.utils.Sphere;
-import net.onelitefeather.bettergopaint.utils.Surface;
-import net.onelitefeather.bettergopaint.objects.player.PlayerBrush;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
+import java.util.stream.Stream;
 
 public class BucketBrush extends Brush {
 
-    @SuppressWarnings("deprecation")
-    @Override
-    public void paint(Location loc, Player p) {
-        PlayerBrush pb = BetterGoPaint.getBrushManager().getPlayerBrush(p);
-        int size = pb.getBrushSize();
-        List<BlockType> pbBlocks = pb.getBlocks();
-        if (pbBlocks.isEmpty()) {
-            return;
-        }
-        List<Block> blocks = Sphere.getBlocksInRadius(loc, size);
-        List<Block> connectedBlocks = ConnectedBlocks.getConnectedBlocks(loc, blocks);
-        List<BlockPlace> placedBlocks = new ArrayList<BlockPlace>();
-        for (Block b : connectedBlocks) {
-            if ((!pb.isSurfaceModeEnabled()) || Surface.isOnSurface(b.getLocation(), p.getLocation())) {
-                if ((!pb.isMaskEnabled()) || (b.getType().equals(pb
-                        .getMask()
-                        .getMaterial()) && (XMaterial.supports(13) || b.getData() == pb.getMask().getData()))) {
-                    Random r = new Random();
-                    int random = r.nextInt(pbBlocks.size());
-                    placedBlocks.add(
-                            new BlockPlace(
-                                    b.getLocation(),
-                                    new BlockType(pbBlocks.get(random).getMaterial(), pbBlocks.get(random).getData())
-                            ));
-                }
-            }
+    private static final @NotNull String DESCRIPTION = "Paints connected blocks\n§8with the same block type";
+    private static final @NotNull String HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTAxOGI0NTc0OTM5Nzg4YTJhZDU1NTJiOTEyZDY3ODEwNjk4ODhjNTEyMzRhNGExM2VhZGI3ZDRjOTc5YzkzIn19fQ==";
+    private static final @NotNull String NAME = "Bucket Brush";
 
-        }
-        BlockPlacer bp = new BlockPlacer();
-        bp.placeBlocks(placedBlocks, p);
+    public BucketBrush() {
+        super(NAME, DESCRIPTION, HEAD);
     }
 
     @Override
-    public String getName() {
-        return "Bucket Brush";
-    }
-
-    @SuppressWarnings("deprecation")
-    @Override
-    public void paint(Location loc, Player p, ExportedPlayerBrush epb) {
-        int size = epb.getBrushSize();
-        List<BlockType> epbBlocks = epb.getBlocks();
-        if (epbBlocks.isEmpty()) {
-            return;
-        }
-        List<Block> blocks = Sphere.getBlocksInRadius(loc, size);
-        List<Block> connectedBlocks = ConnectedBlocks.getConnectedBlocks(loc, blocks);
-        List<BlockPlace> placedBlocks = new ArrayList<BlockPlace>();
-        for (Block b : connectedBlocks) {
-            if ((!epb.isSurfaceModeEnabled()) || Surface.isOnSurface(b.getLocation(), p.getLocation())) {
-                if ((!epb.isMaskEnabled()) || (b.getType().equals(epb
-                        .getMask()
-                        .getMaterial()) && (XMaterial.supports(13) || b.getData() == epb.getMask().getData()))) {
-                    Random r = new Random();
-                    int random = r.nextInt(epbBlocks.size());
-                    placedBlocks.add(
-                            new BlockPlace(
-                                    b.getLocation(),
-                                    new BlockType(
-                                            epb.getBlocks().get(random).getMaterial(),
-                                            epb.getBlocks().get(random).getData()
-                                    )
-                            ));
-
-                }
-            }
-        }
-        BlockPlacer bp = new BlockPlacer();
-        bp.placeBlocks(placedBlocks, p);
-
+    public void paint(
+            @NotNull Location location,
+            @NotNull Player player,
+            @NotNull BrushSettings brushSettings
+    ) {
+        performEdit(player, session -> {
+            List<Block> blocks = Sphere.getBlocksInRadius(location, brushSettings.size(), null, false).toList();
+            Stream<Block> connectedBlocks = ConnectedBlocks.getConnectedBlocks(location, blocks);
+            connectedBlocks.filter(block -> passesDefaultChecks(brushSettings, player, block))
+                    .forEach(block -> setBlock(session, block, brushSettings.randomBlock()));
+        });
     }
 
 }

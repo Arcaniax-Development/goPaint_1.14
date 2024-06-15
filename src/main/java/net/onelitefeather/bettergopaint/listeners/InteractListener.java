@@ -18,97 +18,108 @@
  */
 package net.onelitefeather.bettergopaint.listeners;
 
-import com.cryptomorin.xseries.XMaterial;
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
+import net.kyori.adventure.text.TextComponent;
 import net.onelitefeather.bettergopaint.BetterGoPaint;
+import net.onelitefeather.bettergopaint.brush.BrushSettings;
+import net.onelitefeather.bettergopaint.brush.ExportedPlayerBrush;
+import net.onelitefeather.bettergopaint.brush.PlayerBrush;
+import net.onelitefeather.bettergopaint.objects.brush.Brush;
 import net.onelitefeather.bettergopaint.objects.other.Settings;
-import net.onelitefeather.bettergopaint.objects.player.ExportedPlayerBrush;
-import net.onelitefeather.bettergopaint.objects.player.PlayerBrush;
-import net.kyori.adventure.text.minimessage.MiniMessage;
+import org.bukkit.FluidCollisionMode;
 import org.bukkit.Location;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.inventory.EquipmentSlot;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+
+import java.util.Optional;
 
 public final class InteractListener implements Listener {
 
-    public BetterGoPaint plugin;
+    private final BetterGoPaint plugin;
 
-    public InteractListener(BetterGoPaint main) {
-        plugin = main;
+    public InteractListener(BetterGoPaint plugin) {
+        this.plugin = plugin;
     }
 
-    @SuppressWarnings("deprecation")
     @EventHandler(priority = EventPriority.LOWEST)
-    public void onClick(PlayerInteractEvent e) {
-        if (XMaterial.supports(19)) {
-            if (e.getHand() == EquipmentSlot.OFF_HAND) {
-                return;
-            }
-        }
-        if (!e.getPlayer().hasPermission("bettergopaint.use")) {
+    public void onClick(PlayerInteractEvent event) {
+        Player player = event.getPlayer();
+
+        if (!player.hasPermission(BetterGoPaint.USE_PERMISSION)) {
             return;
         }
-        if ((e.getAction().equals(Action.RIGHT_CLICK_AIR) || e.getAction().equals(Action.RIGHT_CLICK_BLOCK))) {
-            if (e.getPlayer().getItemInHand().hasItemMeta() && e.getPlayer().getItemInHand().getItemMeta().hasDisplayName() && e
-                    .getPlayer()
-                    .getItemInHand()
-                    .getItemMeta()
-                    .getDisplayName()
-                    .startsWith(" <aqua>♦ ") && e.getPlayer().getItemInHand().getItemMeta().hasLore()) {
-                final ExportedPlayerBrush epb = new ExportedPlayerBrush(e
-                        .getPlayer()
-                        .getItemInHand()
-                        .getItemMeta()
-                        .getDisplayName(), e.getPlayer().getItemInHand().getItemMeta().getLore());
-                final Player p = e.getPlayer();
-                final Location loc;
-                if (e.getAction().equals(Action.RIGHT_CLICK_AIR)) {
-                    loc = p.getTargetBlock(null, 250).getLocation().clone();
-                } else {
-                    loc = e.getClickedBlock().getLocation().clone();
-                }
-                BukkitAdapter.adapt(p).runAsyncIfFree(() ->epb.getBrush().paint(loc, p, epb));
-            }
-        }
-        if (e.getPlayer().getItemInHand().getType() == XMaterial.FEATHER.parseMaterial() && (e
-                .getAction()
-                .equals(Action.RIGHT_CLICK_AIR) || e.getAction().equals(Action.RIGHT_CLICK_BLOCK))) {
-            e.setCancelled(true);
-            final Player p = e.getPlayer();
-            final Location loc;
-            if (e.getAction().equals(Action.RIGHT_CLICK_AIR)) {
-                loc = p.getTargetBlock(null, 250).getLocation().clone();
-            } else {
-                loc = e.getClickedBlock().getLocation().clone();
-            }
-            if ((!e.getPlayer().hasPermission("bettergopaint.world.bypass")) && (Settings.settings().GENERIC.DISABLED_WORLDS
-                    .contains(loc.getWorld().getName()))) {
-                return;
-            }
-            if (loc.getBlock().getType().equals(XMaterial.AIR.parseMaterial())) {
-                return;
-            }
-            final PlayerBrush pb = BetterGoPaint.getBrushManager().getPlayerBrush(p);
 
-            if (pb.isEnabled()) {
-                BukkitAdapter.adapt(p).runAsyncIfFree(() -> pb.getBrush().paint(loc, p));
-            } else {
-                p.sendMessage(MiniMessage.miniMessage().deserialize(Settings.settings().GENERIC.PREFIX + "<red>Your brush is " +
-                        "disabled, left click to enable the brush."));
-            }
+        ItemStack item = event.getItem();
+        if (item == null) {
+            return;
         }
-        if (e.getPlayer().getItemInHand().getType() == XMaterial.FEATHER.parseMaterial() && (e
-                .getAction()
-                .equals(Action.LEFT_CLICK_AIR) || e.getAction().equals(Action.LEFT_CLICK_BLOCK))) {
-            e.setCancelled(true);
-            Player p = e.getPlayer();
-            PlayerBrush pb = BetterGoPaint.getBrushManager().getPlayerBrush(p);
-            p.openInventory(pb.getInventory());
+
+        if (event.getAction().isLeftClick() && item.getType() == Settings.settings().GENERIC.DEFAULT_BRUSH) {
+            PlayerBrush brush = plugin.getBrushManager().getBrush(player);
+            player.openInventory(brush.getInventory());
+            event.setCancelled(true);
+            return;
+        }
+
+        if (!event.getAction().isRightClick()) {
+            return;
+        }
+
+        Location location;
+        if (event.getAction() == Action.RIGHT_CLICK_AIR) {
+            Block targetBlock = player.getTargetBlockExact(250, FluidCollisionMode.NEVER);
+            if (targetBlock == null) {
+                return;
+            }
+            location = targetBlock.getLocation().clone();
+        } else if (event.getClickedBlock() != null) {
+            location = event.getClickedBlock().getLocation();
+        } else {
+            return;
+        }
+
+        final boolean hasNotWorldBaypassPermission = !player.hasPermission(BetterGoPaint.WORLD_BYPASS_PERMISSION);
+
+        if (hasNotWorldBaypassPermission && Settings.settings().GENERIC.DISABLED_WORLDS
+                .contains(location.getWorld().getName())) {
+            return;
+        }
+
+        BrushSettings brushSettings;
+
+        ItemMeta itemMeta = item.getItemMeta();
+
+        if (itemMeta != null && itemMeta.hasLore() && itemMeta.displayName() instanceof TextComponent name) {
+
+            Optional<Brush> brush = plugin.getBrushManager().getBrushHandler(name.content());
+
+            //noinspection removal
+            brushSettings = brush.map(current -> ExportedPlayerBrush.parse(current, itemMeta)).orElse(null);
+        } else if (item.getType().equals(Settings.settings().GENERIC.DEFAULT_BRUSH)) {
+            brushSettings = plugin.getBrushManager().getBrush(player);
+        } else {
+            return;
+        }
+
+        if (brushSettings == null || brushSettings.blocks().isEmpty()) {
+            return;
+        }
+
+        if (brushSettings.enabled()) {
+            BukkitAdapter.adapt(player).runAction(
+                    () -> brushSettings.brush().paint(location, player, brushSettings), false, true
+            );
+        } else {
+            player.sendRichMessage(
+                    Settings.settings().GENERIC.PREFIX + "<red>Your brush is disabled, left click to enable the brush."
+            );
         }
     }
 

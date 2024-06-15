@@ -18,102 +18,36 @@
  */
 package net.onelitefeather.bettergopaint.objects.brush;
 
-import com.cryptomorin.xseries.XMaterial;
-import net.onelitefeather.bettergopaint.BetterGoPaint;
-import net.onelitefeather.bettergopaint.objects.other.BlockPlace;
-import net.onelitefeather.bettergopaint.objects.other.BlockPlacer;
-import net.onelitefeather.bettergopaint.objects.other.BlockType;
-import net.onelitefeather.bettergopaint.objects.player.ExportedPlayerBrush;
-import net.onelitefeather.bettergopaint.objects.player.PlayerBrush;
+import net.onelitefeather.bettergopaint.brush.BrushSettings;
 import net.onelitefeather.bettergopaint.utils.Sphere;
-import net.onelitefeather.bettergopaint.utils.Surface;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.stream.Stream;
 
 public class DiscBrush extends Brush {
 
-    @SuppressWarnings("deprecation")
-    @Override
-    public void paint(Location loc, Player p) {
-        PlayerBrush pb = BetterGoPaint.getBrushManager().getPlayerBrush(p);
-        int size = pb.getBrushSize();
-        List<BlockType> pbBlocks = pb.getBlocks();
-        if (pbBlocks.isEmpty()) {
-            return;
-        }
-        List<Block> blocks = Sphere.getBlocksInRadius(loc, size);
-        List<BlockPlace> placedBlocks = new ArrayList<BlockPlace>();
-        for (Block b : blocks) {
-            if ((pb.getAxis().equals("y") && b.getLocation().getBlockY() == loc.getBlockY()) || (pb.getAxis().equals("x") && b
-                    .getLocation()
-                    .getBlockX() == loc.getBlockX()) || (pb.getAxis().equals("z") && b
-                    .getLocation()
-                    .getBlockZ() == loc.getBlockZ())) {
-                if ((!pb.isSurfaceModeEnabled()) || Surface.isOnSurface(b.getLocation(), p.getLocation())) {
-                    if ((!pb.isMaskEnabled()) || (b.getType().equals(pb
-                            .getMask()
-                            .getMaterial()) && (XMaterial.supports(13) || b.getData() == pb.getMask().getData()))) {
-                        Random r = new Random();
-                        int random = r.nextInt(pbBlocks.size());
-                        placedBlocks.add(
-                                new BlockPlace(
-                                        b.getLocation(),
-                                        new BlockType(pbBlocks.get(random).getMaterial(), pbBlocks.get(random).getData())
-                                ));
-                    }
-                }
-            }
-        }
-        BlockPlacer bp = new BlockPlacer();
-        bp.placeBlocks(placedBlocks, p);
+    private static final @NotNull String DESCRIPTION = "Paints blocks in the\n§8same selected axis\n§8from the block you clicked";
+    private static final @NotNull String HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjFmMjgyNTBkMWU0MjBhNjUxMWIwMzk2NDg2OGZjYTJmNTYzN2UzYWJhNzlmNGExNjNmNGE4ZDYxM2JlIn19fQ==";
+    private static final @NotNull String NAME = "Disc Brush";
+
+    public DiscBrush() {
+        super(NAME, DESCRIPTION, HEAD);
     }
 
     @Override
-    public String getName() {
-        return "Disc Brush";
-    }
-
-    @SuppressWarnings("deprecation")
-    @Override
-    public void paint(Location loc, Player p, ExportedPlayerBrush epb) {
-        int size = epb.getBrushSize();
-        List<BlockType> epbBlocks = epb.getBlocks();
-        if (epbBlocks.isEmpty()) {
-            return;
-        }
-        List<Block> blocks = Sphere.getBlocksInRadius(loc, size);
-        List<BlockPlace> placedBlocks = new ArrayList<BlockPlace>();
-        for (Block b : blocks) {
-            if ((epb.getAxis().equals("y") && b.getLocation().getBlockY() == loc.getBlockY()) || (epb.getAxis().equals("x") && b
-                    .getLocation()
-                    .getBlockX() == loc.getBlockX()) || (epb.getAxis().equals("z") && b
-                    .getLocation()
-                    .getBlockZ() == loc.getBlockZ())) {
-                if ((!epb.isSurfaceModeEnabled()) || Surface.isOnSurface(b.getLocation(), p.getLocation())) {
-                    if ((!epb.isMaskEnabled()) || (b.getType().equals(epb
-                            .getMask()
-                            .getMaterial()) && (XMaterial.supports(13) || b.getData() == epb.getMask().getData()))) {
-                        Random r = new Random();
-                        int random = r.nextInt(epbBlocks.size());
-                        placedBlocks.add(
-                                new BlockPlace(
-                                        b.getLocation(),
-                                        new BlockType(
-                                                epb.getBlocks().get(random).getMaterial(),
-                                                epb.getBlocks().get(random).getData()
-                                        )
-                                ));
-                    }
-                }
-            }
-        }
-        BlockPlacer bp = new BlockPlacer();
-        bp.placeBlocks(placedBlocks, p);
+    public void paint(
+            @NotNull Location location,
+            @NotNull Player player,
+            @NotNull BrushSettings brushSettings
+    ) {
+        performEdit(player, session -> {
+            Stream<Block> blocks = Sphere.getBlocksInRadius(location, brushSettings.size(), brushSettings.axis(), false);
+            blocks.filter(block -> passesDefaultChecks(brushSettings, player, block))
+                    .forEach(block -> setBlock(session, block, brushSettings.randomBlock()));
+        });
     }
 
 }

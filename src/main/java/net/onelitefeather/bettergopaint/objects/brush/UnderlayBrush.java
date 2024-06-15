@@ -28,13 +28,13 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.stream.Stream;
 
-public class OverlayBrush extends Brush {
+public class UnderlayBrush extends Brush {
 
-    private static final @NotNull String DESCRIPTION = "Only paints blocks\n§8that have air above it";
-    private static final @NotNull String HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZGYzMWQ2Zjk2NTRmODc0ZWE5MDk3YWRlZWEwYzk2OTk2ZTc4ZTNmZDM3NTRmYmY5ZWJlOTYzYWRhZDliZTRjIn19fQ==";
-    private static final @NotNull String NAME = "Overlay Brush";
+    private static final @NotNull String DESCRIPTION = "Only paints blocks\n§8that have no air above it";
+    private static final @NotNull String HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzIzNDQ2OTkwZjU4YjY1M2FiNWYwZTdhZjNmZGM3NTYwOTEyNzVmNGMzYzJkZDQxYzdkODYyZGQzZjkyZTg0YSJ9fX0=";
+    private static final @NotNull String NAME = "Underlay Brush";
 
-    public OverlayBrush() {
+    public UnderlayBrush() {
         super(NAME, DESCRIPTION, HEAD);
     }
 
@@ -47,18 +47,18 @@ public class OverlayBrush extends Brush {
         performEdit(player, session -> {
             Stream<Block> blocks = Sphere.getBlocksInRadius(location, brushSettings.size(), null, false);
             blocks.filter(block -> passesMaskCheck(brushSettings, block))
-                    .filter(block -> isOverlay(block, brushSettings.thickness()))
+                    .filter(block -> isUnderlay(block, brushSettings.thickness()))
                     .forEach(block -> setBlock(session, block, brushSettings.randomBlock()));
         });
     }
 
-    private boolean isOverlay(Block block, int thickness) {
+    private boolean isUnderlay(Block block, int thickness) {
         for (int i = 1; i <= thickness; i++) {
-            if (block.isSolid() && !block.getRelative(BlockFace.UP, i).isSolid()) {
-                return true;
+            if (!block.isSolid() || !block.getRelative(BlockFace.UP, i).isSolid()) {
+                return false;
             }
         }
-        return false;
+        return true;
     }
 
 }

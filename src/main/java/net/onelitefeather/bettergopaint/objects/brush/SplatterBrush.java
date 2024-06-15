@@ -18,106 +18,47 @@
  */
 package net.onelitefeather.bettergopaint.objects.brush;
 
-import com.cryptomorin.xseries.XMaterial;
-import net.onelitefeather.bettergopaint.BetterGoPaint;
-import net.onelitefeather.bettergopaint.objects.other.BlockPlace;
-import net.onelitefeather.bettergopaint.objects.other.BlockPlacer;
-import net.onelitefeather.bettergopaint.objects.other.BlockType;
-import net.onelitefeather.bettergopaint.objects.player.ExportedPlayerBrush;
-import net.onelitefeather.bettergopaint.objects.player.PlayerBrush;
+import net.onelitefeather.bettergopaint.brush.BrushSettings;
 import net.onelitefeather.bettergopaint.utils.Sphere;
-import net.onelitefeather.bettergopaint.utils.Surface;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.stream.Stream;
 
 public class SplatterBrush extends Brush {
 
-    @SuppressWarnings("deprecation")
-    @Override
-    public void paint(Location loc, Player p) {
-        PlayerBrush pb = BetterGoPaint.getBrushManager().getPlayerBrush(p);
-        int size = pb.getBrushSize();
-        int falloff = pb.getFalloffStrength();
-        List<BlockType> pbBlocks = pb.getBlocks();
-        if (pbBlocks.isEmpty()) {
-            return;
-        }
-        List<Block> blocks = Sphere.getBlocksInRadius(loc, size);
-        List<BlockPlace> placedBlocks = new ArrayList<BlockPlace>();
-        for (Block b : blocks) {
-            if ((!pb.isSurfaceModeEnabled()) || Surface.isOnSurface(b.getLocation(), p.getLocation())) {
-                if ((!pb.isMaskEnabled()) || (b.getType().equals(pb
-                        .getMask()
-                        .getMaterial()) && (XMaterial.supports(13) || b.getData() == pb.getMask().getData()))) {
-                    Random r = new Random();
-                    double rate = (b
-                            .getLocation()
-                            .distance(loc) - ((double) size / 2.0) * ((100.0 - (double) falloff) / 100.0)) / (((double) size / 2.0) - ((double) size / 2.0) * ((100.0 - (double) falloff) / 100.0));
-                    if (!(r.nextDouble() <= rate)) {
-                        int random = r.nextInt(pbBlocks.size());
-                        placedBlocks.add(
-                                new BlockPlace(
-                                        b.getLocation(),
-                                        new BlockType(
-                                                pb.getBlocks().get(random).getMaterial(),
-                                                pb.getBlocks().get(random).getData()
-                                        )
-                                ));
-                    }
-                }
-            }
-        }
-        BlockPlacer bp = new BlockPlacer();
-        bp.placeBlocks(placedBlocks, p);
+    private static final @NotNull String DESCRIPTION = "More chance when closer\n§8to the clicked point\n§8and configurable chance";
+    private static final @NotNull String HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzMzODI5MmUyZTY5ZjA5MDY5NGNlZjY3MmJiNzZmMWQ4Mzc1OGQxMjc0NGJiNmZmYzY4MzRmZGJjMWE5ODMifX19";
+    private static final @NotNull String NAME = "Splatter Brush";
+
+    public SplatterBrush() {
+        super(NAME, DESCRIPTION, HEAD);
     }
 
     @Override
-    public String getName() {
-        return "Splatter Brush";
-    }
+    public void paint(
+            @NotNull Location location,
+            @NotNull Player player,
+            @NotNull BrushSettings brushSettings
+    ) {
+        performEdit(player, session -> {
+            Stream<Block> blocks = Sphere.getBlocksInRadius(location, brushSettings.size(), null, false);
+            blocks.filter(block -> passesDefaultChecks(brushSettings, player, block))
+                    .forEach(block -> {
+                        double rate = (block.getLocation().distance(location) - ((double) brushSettings.size() / 2.0)
+                                * ((100.0 - (double) brushSettings.falloffStrength()) / 100.0))
+                                / (((double) brushSettings.size() / 2.0) - ((double) brushSettings.size() / 2.0)
+                                * ((100.0 - (double) brushSettings.falloffStrength()) / 100.0));
 
-    @SuppressWarnings("deprecation")
-    @Override
-    public void paint(Location loc, Player p, ExportedPlayerBrush epb) {
-        int size = epb.getBrushSize();
-        int falloff = epb.getFalloffStrength();
-        List<BlockType> epbBlocks = epb.getBlocks();
-        if (epbBlocks.isEmpty()) {
-            return;
-        }
-        List<Block> blocks = Sphere.getBlocksInRadius(loc, size);
-        List<BlockPlace> placedBlocks = new ArrayList<>();
-        for (Block b : blocks) {
-            if ((!epb.isSurfaceModeEnabled()) || Surface.isOnSurface(b.getLocation(), p.getLocation())) {
-                if ((!epb.isMaskEnabled()) || (b.getType().equals(epb
-                        .getMask()
-                        .getMaterial()) && (XMaterial.supports(13) || b.getData() == epb.getMask().getData()))) {
-                    Random r = new Random();
-                    double rate = (b
-                            .getLocation()
-                            .distance(loc) - ((double) size / 2.0) * ((100.0 - (double) falloff) / 100.0)) / (((double) size / 2.0) - ((double) size / 2.0) * ((100.0 - (double) falloff) / 100.0));
-                    if (!(r.nextDouble() <= rate)) {
-                        int random = r.nextInt(epbBlocks.size());
-                        placedBlocks.add(
-                                new BlockPlace(
-                                        b.getLocation(),
-                                        new BlockType(
-                                                epb.getBlocks().get(random).getMaterial(),
-                                                epb.getBlocks().get(random).getData()
-                                        )
-                                ));
-                    }
-                }
-            }
-        }
-        BlockPlacer bp = new BlockPlacer();
-        bp.placeBlocks(placedBlocks, p);
+                        if (brushSettings.random().nextDouble() <= rate) {
+                            return;
+                        }
 
+                        setBlock(session, block, brushSettings.randomBlock());
+                    });
+        });
     }
 
 }

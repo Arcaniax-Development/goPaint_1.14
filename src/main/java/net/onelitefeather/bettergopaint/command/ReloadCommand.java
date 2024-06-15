@@ -32,9 +32,8 @@ public final class ReloadCommand {
     }
 
     @Command("bgp|gp reload")
-    @Permission("bettergopaint.command.admin.reload")
+    @Permission(BetterGoPaint.RELOAD_PERMISSION)
     public void onReload(Player player) {
-        betterGoPaint.reload();
+        betterGoPaint.reloadConfig();
     }
-
 }
