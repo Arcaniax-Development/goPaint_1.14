@@ -23,7 +23,6 @@ import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Arrays;
 import java.util.Optional;
 
 public enum SurfaceMode {
@@ -46,19 +45,36 @@ public enum SurfaceMode {
      */
     RELATIVE("Relative");
 
+    private static final SurfaceMode[] VALUES = values();
+
     private final @NotNull String name;
 
+    /**
+     * Constructs a new surface mode entry with the given name.
+     * @param name the name of the surface mode
+     */
     SurfaceMode(@NotNull String name) {
         this.name = name;
     }
 
+    /**
+     * Gets the name of the surface mode.
+     * @return the name from the surface mode
+     */
     public @NotNull String getName() {
         return name;
     }
 
+    /**
+     * Returns the {@link SurfaceMode} enum entry by the given name.
+     * @param name the name of the surface mode
+     * @return the surface mode by the given name wrapped in an {@link Optional}
+     */
     public static @NotNull Optional<SurfaceMode> byName(@NotNull String name) {
-        return Arrays.stream(values())
-                .filter(surfaceMode -> surfaceMode.getName().equals(name))
-                .findAny();
+        SurfaceMode surfaceMode = null;
+        for (int i = 0; i < VALUES.length && surfaceMode == null; i++) {
+            surfaceMode = VALUES[i].getName().equals(name) ? VALUES[i] : null;
+        }
+        return Optional.ofNullable(surfaceMode);
     }
 }
