@@ -23,7 +23,6 @@ import net.arcaniax.gopaint.objects.player.ExportedPlayerBrush;
 import net.arcaniax.gopaint.objects.player.PlayerBrush;
 import net.arcaniax.gopaint.utils.XMaterial;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -31,8 +30,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
-
-import java.util.Set;
 
 public class InteractListener implements Listener {
 
@@ -45,10 +42,8 @@ public class InteractListener implements Listener {
     @SuppressWarnings("deprecation")
     @EventHandler(priority = EventPriority.LOWEST)
     public void onClick(PlayerInteractEvent e) {
-        if (GoPaintPlugin.nmsManager.isAtLeastVersion(1, 9, 0)) {
-            if (e.getHand() == EquipmentSlot.OFF_HAND) {
-                return;
-            }
+        if (e.getHand() == EquipmentSlot.OFF_HAND) {
+            return;
         }
         if (!e.getPlayer().hasPermission("gopaint.use")) {
             return;

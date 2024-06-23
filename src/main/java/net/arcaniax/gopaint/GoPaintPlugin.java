@@ -23,7 +23,6 @@ import net.arcaniax.gopaint.command.Handler;
 import net.arcaniax.gopaint.listeners.ConnectListener;
 import net.arcaniax.gopaint.listeners.InteractListener;
 import net.arcaniax.gopaint.listeners.InventoryListener;
-import net.arcaniax.gopaint.objects.other.NmsManager;
 import net.arcaniax.gopaint.objects.other.Settings;
 import net.arcaniax.gopaint.objects.player.PlayerBrushManager;
 import net.arcaniax.gopaint.utils.DisabledBlocks;
@@ -40,7 +39,6 @@ public class GoPaintPlugin extends JavaPlugin implements Listener {
 
     private static final int BSTATS_ID = 10557;
     public static boolean plotSquaredEnabled;
-    public static NmsManager nmsManager;
     private static PlayerBrushManager manager;
     private static GoPaintPlugin goPaintPlugin;
     private static Settings settings;
@@ -88,7 +86,6 @@ public class GoPaintPlugin extends JavaPlugin implements Listener {
         pm.registerEvents(inventoryListener, this);
         pm.registerEvents(cmdHandler, this);
         getCommand("gopaint").setExecutor(cmdHandler);
-        nmsManager = new NmsManager();
         DisabledBlocks.addBlocks();
         // Check if we are in a safe environment
         ServerLib.checkUnsafeForks();
