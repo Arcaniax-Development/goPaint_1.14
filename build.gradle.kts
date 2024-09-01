@@ -55,7 +55,7 @@ dependencies {
     compileOnlyApi("com.fastasyncworldedit:FastAsyncWorldEdit-Bukkit")
     implementation("dev.notmyfault.serverlib:ServerLib")
     implementation("org.bstats:bstats-bukkit:3.0.2")
-    implementation("org.bstats:bstats-base:3.0.2")
+    implementation("org.bstats:bstats-base:3.0.3")
     implementation("io.papermc:paperlib")
 }
 
