@@ -36,18 +36,17 @@ public class Items {
     }
 
     public ItemStack create(Material mat, short data, int amount, String name, String lore) {
-        ItemStack is = new ItemStack(mat);
-        is.setAmount(amount);
+        ItemStack is = new ItemStack(mat, amount);
         ItemMeta meta = is.getItemMeta();
-        if (!lore.equals("")) {
+        if (!lore.isEmpty()) {
             String[] loreListArray = lore.split("___");
-            List<String> loreList = new ArrayList<String>();
+            List<String> loreList = new ArrayList<>();
             for (String s : loreListArray) {
                 loreList.add(s.replace("&", "§"));
             }
             meta.setLore(loreList);
         }
-        if (!name.equals("")) {
+        if (!name.isEmpty()) {
             meta.setDisplayName(name.replace("&", "§"));
         }
         is.setItemMeta(meta);
@@ -65,15 +64,15 @@ public class Items {
         }
         item.setAmount(amount);
         ItemMeta meta = item.getItemMeta();
-        if (lore != "") {
+        if (!lore.isEmpty()) {
             String[] loreListArray = lore.split("___");
-            List<String> loreList = new ArrayList<String>();
+            List<String> loreList = new ArrayList<>();
             for (String s : loreListArray) {
                 loreList.add(s.replace("&", "§"));
             }
             meta.setLore(loreList);
         }
-        if (!name.equals("")) {
+        if (!name.isEmpty()) {
             meta.setDisplayName(name.replace("&", "§"));
         }
         item.setItemMeta(meta);
@@ -81,11 +80,15 @@ public class Items {
             SkullMeta headMeta = (SkullMeta) item.getItemMeta();
             GameProfile profile = new GameProfile(UUID.randomUUID(), "goPaint");
             profile.getProperties().put("textures", new Property("textures", data));
-            Field profileField = null;
             try {
-                profileField = headMeta.getClass().getDeclaredField("profile");
+                Field profileField = headMeta.getClass().getDeclaredField("profile");
                 profileField.setAccessible(true);
-                profileField.set(headMeta, profile);
+                if (profileField.getType() == GameProfile.class) {
+                    profileField.set(headMeta, profile);
+                } else {
+                    Class<?> resolvableProfileClass = Class.forName("net.minecraft.world.item.component.ResolvableProfile");
+                    profileField.set(headMeta, resolvableProfileClass.getConstructor(GameProfile.class).newInstance(profile));
+                }
             } catch (Exception ignored) {
             }
             item.setItemMeta(headMeta);
