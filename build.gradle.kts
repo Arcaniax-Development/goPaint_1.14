@@ -46,6 +46,7 @@ repositories {
         name = "S01 Sonatype"
         url = uri("https://s01.oss.sonatype.org/content/repositories/snapshots/")
     }
+    maven { url = uri("https://repo.papermc.io/repository/maven-public/") }
 }
 
 dependencies {
