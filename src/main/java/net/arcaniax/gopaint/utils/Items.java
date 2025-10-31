@@ -24,10 +24,18 @@ import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
+import org.bukkit.profile.PlayerProfile;
+import org.bukkit.profile.PlayerTextures;
+import org.bukkit.Material;
+import org.bukkit.Bukkit;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 import java.util.UUID;
 
 public class Items {
@@ -57,9 +65,6 @@ public class Items {
     public ItemStack createHead(String data, int amount, String name, String lore) {
         ItemStack item = new ItemStack(Material.PLAYER_HEAD, amount);
         SkullMeta headMeta = (SkullMeta) item.getItemMeta();
-        GameProfile profile = new GameProfile(id, "Arceon");
-        item.setAmount(amount);
-        profile.getProperties().put("textures", new Property("textures", String.valueOf(data)));
         try {
                 PlayerProfile playerProfile = Bukkit.getServer().createPlayerProfile(UUID.randomUUID(), "goPaint");
                 PlayerTextures texture = playerProfile.getTextures();
