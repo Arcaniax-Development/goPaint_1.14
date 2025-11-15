@@ -80,11 +80,14 @@ public class Items {
             }
         List<String> loreList = new ArrayList<>();
         if (!lore.isEmpty()) {
-            loreList.add(lore);
+			String[] loreListArray = lore.split("___");
+			for (String s : loreListArray) {
+                loreList.add(s.replace("&", "§"));
+            }
         }
         headMeta.setLore(loreList);
         if (!name.isEmpty()) {
-            headMeta.setDisplayName(name);
+            headMeta.setDisplayName(name.replace("&", "§"));
         }
         item.setItemMeta(headMeta);
         return item;
