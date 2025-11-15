@@ -54,7 +54,7 @@ dependencies {
     compileOnlyApi("io.papermc.paper:paper-api:1.19.3-R0.1-SNAPSHOT")
     compileOnly("com.mojang:authlib:1.5.25")
     compileOnlyApi("com.fastasyncworldedit:FastAsyncWorldEdit-Bukkit")
-    implementation("dev.notmyfault.serverlib:ServerLib")
+    implementation("dev.notmyfault.serverlib:ServerLib:2.3.7")
     implementation("org.bstats:bstats-bukkit:3.1.0")
     implementation("org.bstats:bstats-base:3.1.0")
     implementation("io.papermc:paperlib")
