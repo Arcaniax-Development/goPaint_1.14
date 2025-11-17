@@ -20,6 +20,7 @@ package net.arcaniax.gopaint.utils;
 
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -78,13 +79,19 @@ public class Items {
                 headMeta.setOwnerProfile(playerProfile);
             } catch (Exception ignored) {
             }
-        List<String> loreList = new ArrayList<>();
         if (!lore.isEmpty()) {
-            loreList.add(lore);
+            String[] loreListArray = lore.split("___");
+            List<String> loreList = new ArrayList<String>();
+            String[] arrayOfString1;
+            int j = (arrayOfString1 = loreListArray).length;
+            for (int i = 0; i < j; i++) {
+                String s = arrayOfString1[i];
+                loreList.add(ChatColor.translateAlternateColorCodes('&', s));
+            }
+            headMeta.setLore(loreList);
         }
-        headMeta.setLore(loreList);
         if (!name.isEmpty()) {
-            headMeta.setDisplayName(name);
+            headMeta.setDisplayName(ChatColor.translateAlternateColorCodes('&', name));
         }
         item.setItemMeta(headMeta);
         return item;
