@@ -32,7 +32,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.incendo.serverlib.ServerLib;
 
 
 public class GoPaintPlugin extends JavaPlugin implements Listener {
@@ -87,9 +86,6 @@ public class GoPaintPlugin extends JavaPlugin implements Listener {
         pm.registerEvents(cmdHandler, this);
         getCommand("gopaint").setExecutor(cmdHandler);
         DisabledBlocks.addBlocks();
-        // Check if we are in a safe environment
-        ServerLib.checkUnsafeForks();
-        ServerLib.isJavaSixteen();
         PaperLib.suggestPaper(this);
 
         Metrics metrics = new Metrics(this, BSTATS_ID);
