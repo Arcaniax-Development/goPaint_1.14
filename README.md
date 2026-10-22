@@ -11,7 +11,7 @@ but with a revolutionary Surface Mode which lets you paint only the viewable blo
 ## Links
 
 * [Download](https://www.spigotmc.org/resources/gopaint.27717/)
-* [Development Builds](https://ci.athion.net/job/goPaint-1.14+/)
+* Development builds are available on each commit
 * [Discord](https://discord.gg/jpRVrjd)
 * [Issues](https://github.com/Brennian/goPaint_1.14/issues)
 

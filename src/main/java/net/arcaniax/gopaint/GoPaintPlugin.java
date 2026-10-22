@@ -18,7 +18,6 @@
  */
 package net.arcaniax.gopaint;
 
-import io.papermc.lib.PaperLib;
 import net.arcaniax.gopaint.command.Handler;
 import net.arcaniax.gopaint.listeners.ConnectListener;
 import net.arcaniax.gopaint.listeners.InteractListener;
@@ -86,7 +85,6 @@ public class GoPaintPlugin extends JavaPlugin implements Listener {
         pm.registerEvents(cmdHandler, this);
         getCommand("gopaint").setExecutor(cmdHandler);
         DisabledBlocks.addBlocks();
-        PaperLib.suggestPaper(this);
 
         Metrics metrics = new Metrics(this, BSTATS_ID);
 
