@@ -6,7 +6,7 @@ plugins {
     java
     `java-library`
 
-    id("com.diffplug.spotless") version "8.10.1"
+    id("com.diffplug.spotless") version "8.10.4"
     id("com.gradleup.shadow") version "9.6.1"
     id("de.eldoria.plugin-yml.bukkit") version "0.9.0"
 
